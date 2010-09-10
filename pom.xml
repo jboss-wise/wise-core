@@ -84,7 +84,6 @@
 
 	<modules>
 		<module>core</module>
-		<module>integration</module>
 	</modules>
 	
 	<dependencyManagement>
@@ -540,7 +539,6 @@
           </activation>
           <modules>
             <module>core-native</module>
-            <module>integration-native</module>
           </modules>
           <dependencies>
           	<dependency>
@@ -567,6 +565,19 @@
             </dependency>
           </dependencies>
         </profile>
+
+        <profile>
+          <id>integration-testsuite</id>
+          <activation>
+            <property>
+              <name>jboss.bind.address</name>
+            </property>
+          </activation>
+          <modules>
+            <module>integration-testsuite</module>
+          </modules>
+        </profile>
+
     </profiles>
 
 

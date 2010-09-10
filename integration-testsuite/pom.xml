@@ -1,0 +1,197 @@
+	<!--
+		Licensed to the Apache Software Foundation (ASF) under one or more
+		contributor license agreements. See the NOTICE file distributed with
+		this work for additional information regarding copyright ownership.
+		The ASF licenses this file to you under the Apache License, Version
+		2.0 (the "License"); you may not use this file except in compliance
+		with the License. You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>Wise Integration Test</name>
+	<artifactId>wise-integration-testsuite</artifactId>
+        <packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.jboss.wise</groupId>
+		<artifactId>wise</artifactId>
+		<version>1.2.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+        <modules>
+		<module>common</module>
+        </modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>ejb-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.wise</groupId>
+			<artifactId>wise-core</artifactId>
+			<version>${version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>jboss</groupId>
+			<artifactId>jbossall-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>unit-tests</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<excludes>
+								<exclude>**/*Test.java</exclude>
+								<exclude>**/*StressTest.java</exclude>
+								<exclude>**/*$*.java</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>integration-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<excludes>
+								<exclude>**/*StressTest.java</exclude>
+								<exclude>**/*$*.java</exclude>
+							</excludes>
+							<includes>
+								<include>**/*Integration*Test.java</include>
+							</includes>
+							<systemProperties>
+								<property>
+									<name>log4j.configuration</name>
+									<value>integration-test-log4j.xml</value>
+								</property>
+							</systemProperties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<profiles>
+		<profile>
+			<id>native</id>
+			<activation>
+				<property>
+					<name>!cxf.stack</name>
+				</property>
+			</activation>
+			<modules>
+				<module>native</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>use.endorsed.dir</id>
+			<activation>
+				<property>
+					<name>endorsed.dir</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<argLine>-Djava.endorsed.dirs=${endorsed.dir}</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>stress.tests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>integration-tests</id>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<systemProperties>
+										<property>
+											<name>wise.stress.threads</name>
+											<value>300</value>
+										</property>
+										<property>
+											<name>wise.stress.threadPoolSize</name>
+											<value>50</value>
+										</property>
+										<property>
+											<name>wise.stress.expensive.threads</name>
+											<value>30</value>
+										</property>
+										<property>
+											<name>wise.stress.expensive.threadPoolSize</name>
+											<value>5</value>
+										</property>
+									</systemProperties>
+									<excludes>
+										<exclude>**/*Integration*Test.java</exclude>
+										<exclude>**/*$*.java</exclude>
+									</excludes>
+									<includes>
+										<include>**/*StressTest.java</include>
+									</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
