@@ -1,0 +1,573 @@
+
+	<!--
+		Licensed to the Apache Software Foundation (ASF) under one or more
+		contributor license agreements. See the NOTICE file distributed with
+		this work for additional information regarding copyright ownership.
+		The ASF licenses this file to you under the Apache License, Version
+		2.0 (the "License"); you may not use this file except in compliance
+		with the License. You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jboss.wise</groupId>
+	<artifactId>wise</artifactId>
+	<version>1.2.0-SNAPSHOT</version>
+	<name>Wise</name>
+	<url>http://www.jboss.org/wise</url>
+
+	<packaging>pom</packaging>
+
+	<scm>
+		<connection>scm:svn:http://anonsvn.jboss.org/repos/wise/core/trunk</connection>
+		<developerConnection>scm:svn:https://svn.jboss.org/repos/wise/core/trunk</developerConnection>
+		<url>http://fisheye.jboss.org/viewrep/Wise/core/trunk</url>
+	</scm>
+
+	<issueManagement>
+		<system>jira</system>
+		<url>https://jira.jboss.org/jira/browse/WISE</url>
+	</issueManagement>
+
+	<!--
+		<prerequisites> <maven>2.1.0</maven> </prerequisites>
+	-->
+
+    <properties>
+        <surefire.fork.mode>once</surefire.fork.mode>
+        <surefire.format>brief</surefire.format>
+        <surefire.usefile>false</surefire.usefile>
+        <compile.flags>-Xlint:unchecked,deprecation,fallthrough,finally</compile.flags>
+        <checkstyle.extension />
+        <cxf.version>2.2</cxf.version>
+		<compiler.fork>false</compiler.fork>
+	</properties>
+	
+    <!-- DistributionManagement -->
+    <distributionManagement>
+      <repository>
+        <id>jboss-releases-repository</id>
+        <name>JBoss Releases Repository</name>
+        <url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</url>
+      </repository>
+      <snapshotRepository>
+        <id>jboss-snapshots-repository</id>
+        <name>JBoss Snapshots Repository</name>
+        <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+      </snapshotRepository>
+    </distributionManagement>
+
+	<inceptionYear>2008</inceptionYear>
+	<mailingLists>
+		<mailingList>
+		</mailingList>
+	</mailingLists>
+	<ciManagement>
+	</ciManagement>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, v. 2.1</name>
+		</license>
+	</licenses>
+	<organization>
+		<name>JBoss.org</name>
+		<url>www.jboss.org</url>
+	</organization>
+
+	<modules>
+		<module>core</module>
+		<module>integration</module>
+	</modules>
+	
+	<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.6</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-plugin-api</artifactId>
+                <version>2.0.4</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-project</artifactId>
+                <version>2.0.4</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-artifact</artifactId>
+                <scope>provided</scope>
+                <version>2.0.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-core</artifactId>
+                <scope>provided</scope>
+                <version>2.0.4</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>1.6.5</version>
+            </dependency>
+            <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant-nodeps</artifactId>
+                <version>1.6.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-container</artifactId>
+                <version>2.0.0.Beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging-log4j</artifactId>
+                <version>2.2.0.CR1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging-spi</artifactId>
+                <version>2.2.0.CR1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-kernel</artifactId>
+                <version>2.0.0.Beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.ws</groupId>
+                <artifactId>jbossws-common</artifactId>
+                <version>1.3.0.GA</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.ws</groupId>
+                <artifactId>jbossws-spi</artifactId>
+                <version>1.3.0.GA</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.ws.native</groupId>
+                <artifactId>jbossws-native-client</artifactId>
+                <version>3.3.1.GA</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.ws.cxf</groupId>
+                <artifactId>jbossws-cxf-client</artifactId>
+                <version>3.3.1.GA</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.milyn</groupId>
+                <artifactId>milyn-smooks-core</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+
+             <dependency>
+                <groupId>org.milyn</groupId>
+                <artifactId>milyn-smooks-validation</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.milyn</groupId>
+                <artifactId>milyn-commons</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.milyn</groupId>
+                <artifactId>milyn-smooks-javabean</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>wsdl4j</groupId>
+                <artifactId>wsdl4j</artifactId>
+                <version>1.6.2</version>
+            </dependency>
+
+
+        <dependency>
+             <groupId>xalan</groupId>
+             <artifactId>xalan</artifactId>
+             <version>2.7.1</version>
+         </dependency> 
+
+         <dependency>
+             <groupId>org.mockito</groupId>
+             <artifactId>mockito-all</artifactId>
+             <version>1.8.0</version>
+         </dependency> 
+
+           <dependency>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest-all</artifactId>
+              <version>1.1</version>
+           </dependency>
+
+            <dependency>
+		 <groupId>javax.ejb</groupId>
+		 <artifactId>ejb-api</artifactId>
+		 <version>3.0</version>
+	     </dependency>
+
+	     <dependency>
+		<groupId>jboss</groupId>
+		<artifactId>jbossall-client</artifactId>
+		<version>4.2.2.GA</version>
+	      </dependency>
+
+        <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http</artifactId>
+		<version>${cxf.version}</version>
+                <scope>test</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http-jetty</artifactId>
+		<version>${cxf.version}</version>
+                <scope>test</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-testutils</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+       </dependencies>
+    </dependencyManagement>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+           
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.2</version>
+					<configuration>
+						<attach>true</attach>
+						<quiet>true</quiet>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.4.3</version>
+					<configuration>
+	                     <includes>
+	                         <include>**/*Test.java</include>
+	                         <include>**/*TestCase.java</include>
+	                         <include>**/*TestCases.java</include>
+	                     </includes>
+	                     <!-- do not exclude **/Abstract*Test.java **/Abstract*TestCase.java -->
+	                     <excludes>
+	                         <exclude>**/*$*</exclude>
+	                     </excludes>
+	                     <reportFormat>${surefire.format}</reportFormat>
+	                     <useFile>${surefire.usefile}</useFile>
+	                     <forkMode>${surefire.fork.mode}</forkMode>
+	                     <childDelegation>false</childDelegation>
+	                     <argLine>-ea</argLine>
+						<systemProperties>
+                         <property>
+                             <name>java.awt.headless</name>
+                             <value>${java.awt.headless}</value>
+                         </property>
+                         <property>
+                             <name>java.util.logging.config.file</name>
+                             <value>${basedir}/target/test-classes/logging.properties</value>
+                         </property>
+							<property>
+								<name>log4j.configuration</name>
+								<value>test-log4j.xml</value>
+							</property>
+						</systemProperties>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.0.2</version>
+					<configuration>
+						<source>1.5</source>
+						<target>1.5</target>
+						<maxmem>256M</maxmem>
+						<fork>${compiler.fork}</fork>
+						<debug>true</debug>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.2</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Specification-Title>${name}</Specification-Title>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.2-beta-2</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.0.2</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>2.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>2.3-SNAPSHOT</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>project-team</report>
+							<report>mailing-list</report>
+							<report>summary</report>
+							<report>issue-tracking</report>
+							<report>license</report>
+							<report>summary</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<!--
+					Is this a bug in site plugin , the version is needed to be defined
+					duplicate ???
+				-->
+				<version>2.2</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>distro</id>
+			<modules>
+				<module>distribution</module>
+			</modules>
+		</profile>
+		<!--
+			Name: hudson Descr: Ignore test failures on hudson
+		-->
+		<profile>
+			<id>hudson</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<testFailureIgnore>true</testFailureIgnore>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+        <profile>
+          <id>native</id>
+          <activation>
+            <property>
+              <name>!cxf.stack</name>
+            </property>
+          </activation>
+          <modules>
+            <module>core-native</module>
+            <module>integration-native</module>
+          </modules>
+          <dependencies>
+          	<dependency>
+				<groupId>org.jboss.ws.native</groupId>
+				<artifactId>jbossws-native-client</artifactId>
+			</dependency>
+          </dependencies>
+        </profile>
+        
+        <profile>
+          <id>cxf</id>
+          <activation>
+            <property>
+              <name>cxf.stack</name>
+            </property>
+          </activation>
+          <modules>
+            <module>core-cxf</module>
+          </modules>
+          <dependencies>
+            <dependency>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-client</artifactId>
+            </dependency>
+          </dependencies>
+        </profile>
+    </profiles>
+
+
+</project>

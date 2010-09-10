@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+
+  <servlet>
+    <servlet-name>SchemaAndWsdlImportProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.SchemaAndWsdlImportProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SchemaAndWsdlImportProvider</servlet-name>
+    <url-pattern>/SchemaAndWsdlImport</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>WsdlImportProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.WsdlImportProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WsdlImportProvider</servlet-name>
+    <url-pattern>/WsdlImport</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SchemaImportProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.SchemaImportProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SchemaImportProvider</servlet-name>
+    <url-pattern>/SchemaImport</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SimpleWsdlProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.SimpleWsdlProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SimpleWsdlProvider</servlet-name>
+    <url-pattern>/SimpleWsdl</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ProtectedSchemaAndWsdlImportProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.ProtectedSchemaAndWsdlImportProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProtectedSchemaAndWsdlImportProvider</servlet-name>
+    <url-pattern>/ProtectedSchemaAndWsdlImport</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ProtectedSchemaImportProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.ProtectedSchemaImportProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProtectedSchemaImportProvider</servlet-name>
+    <url-pattern>/ProtectedSchemaImport</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ProtectedWsdlImportProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.ProtectedWsdlImportProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProtectedWsdlImportProvider</servlet-name>
+    <url-pattern>/ProtectedWsdlImport</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ProtectedSimpleWsdlProvider</servlet-name>
+    <servlet-class>org.jboss.wise.test.integration.wsdlResolver.ProtectedSimpleWsdlProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProtectedSimpleWsdlProvider</servlet-name>
+    <url-pattern>/ProtectedSimpleWsdl</url-pattern>
+  </servlet-mapping>
+
+  <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>ProtectedSchemaAndWsdlImportProvider</web-resource-name>
+       <url-pattern>/ProtectedSchemaAndWsdlImport/*</url-pattern>
+       <http-method>GET</http-method>
+       <http-method>POST</http-method>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>friend</role-name>
+     </auth-constraint>
+   </security-constraint>
+   
+   <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>ProtectedSchemaImportProvider</web-resource-name>
+       <url-pattern>/ProtectedSchemaImport/*</url-pattern>
+       <http-method>GET</http-method>
+       <http-method>POST</http-method>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>friend</role-name>
+     </auth-constraint>
+   </security-constraint>
+   
+   <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>ProtectedWsdlImportProvider</web-resource-name>
+       <url-pattern>/ProtectedWsdlImport/*</url-pattern>
+       <http-method>GET</http-method>
+       <http-method>POST</http-method>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>friend</role-name>
+     </auth-constraint>
+   </security-constraint>
+   
+   <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>ProtectedSimpleWsdlProvider</web-resource-name>
+       <url-pattern>/ProtectedSimpleWsdl/*</url-pattern>
+       <http-method>GET</http-method>
+       <http-method>POST</http-method>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>friend</role-name>
+     </auth-constraint>
+   </security-constraint>
+
+   <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>JBossWS</realm-name>
+   </login-config>
+
+   <security-role>
+      <role-name>friend</role-name>
+   </security-role>
+
+</web-app>
+

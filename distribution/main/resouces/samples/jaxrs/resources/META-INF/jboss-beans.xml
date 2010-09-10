@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
+	xmlns="urn:jboss:bean-deployer">
+
+	<bean name="WiseKernelLocator"
+		class="org.jboss.wise.core.jbossmc.KernelUtil">
+		<property name="kernel">
+			<inject bean="jboss.kernel:service=Kernel" />
+		</property>
+	</bean>
+
+	<bean name="WiseClientConfiguration" class="org.jboss.wise.core.jbossmc.beans.WiseClientConfiguration" >
+        <property name="defaultUserName">foo</property>
+        <property name="defaultPassword">pwd</property>
+        <property name="defaultTmpDeployDir">/home/oracle/temp</property>
+        <property name="logConfig">resources/META-INF/wise-log4j.xml</property>
+    </bean>
+    
+ 	<bean name="WSDynamicClientFactory" class="org.jboss.wise.core.jbossmc.beans.ReflectionWSDynamicClientFactory">
+		<property name="config"><inject bean="WiseClientConfiguration"></inject> </property>
+	</bean>
+	
+	<bean name="WSConsumer" class="org.jboss.wise.core.consumer.impl.jbosswsnative.WSImportImpl">
+        <property name="keepSource">true</property>
+        <property name="verbose">true</property>
+    </bean>
+ 	
+	
+</deployment>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WsdlWithWsdlImport"  targetNamespace="http://duke.example.org" xmlns:tns="http://duke.example.org"
+    xmlns:innerSchema="http://duke.example.org/schemaImport"
+    xmlns:tu="http://tempuri.org/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <import namespace="http://tempuri.org/" location="Bindings.wsdl"/>
+	<types>
+      <xsd:schema targetNamespace="http://duke.example.org/schemaImport">
+        <xsd:complexType name="addNumbersResponse">
+        	<xsd:sequence>
+           	 <xsd:element name="return" type="xsd:int" />
+     	   </xsd:sequence>
+   		</xsd:complexType>
+    	<xsd:element name="addNumbersResponse" type="innerSchema:addNumbersResponse" />
+
+   		<xsd:complexType name="addNumbers">
+        	<xsd:sequence>
+            	<xsd:element name="arg0" type="xsd:int" />
+            	<xsd:element name="arg1" type="xsd:int" />
+        	</xsd:sequence>
+    	</xsd:complexType>
+    	<xsd:element name="addNumbers" type="innerSchema:addNumbers" />
+
+    	<xsd:element name="AddNumbersFault" type="innerSchema:AddNumbersFault" />
+    	<xsd:complexType name="AddNumbersFault">
+        	<xsd:sequence>
+            	<xsd:element name="faultInfo" type="xsd:string" />
+            	<xsd:element name="message" type="xsd:string" />
+        	</xsd:sequence>
+    	</xsd:complexType>
+    	<xsd:complexType name="oneWayInt">
+        	<xsd:sequence>
+            	<xsd:element name="arg0" type="xsd:int" />
+        	</xsd:sequence>
+    	</xsd:complexType>
+    	<xsd:element name="oneWayInt" type="innerSchema:oneWayInt" />
+      </xsd:schema>
+	</types>
+	<message name="addNumbers">
+            <part name="parameters" element="innerSchema:addNumbers" />
+	</message>
+	<message name="addNumbersResponse">
+            <part name="result" element="innerSchema:addNumbersResponse" />
+	</message>
+	<message name="addNumbersFault">
+            <part name="AddNumbersFault" element="innerSchema:AddNumbersFault" />
+	</message>
+	<message name="oneWayInt">
+            <part name="parameters" element="innerSchema:oneWayInt" />
+	</message>
+	<portType name="AddNumbersPortType">
+            <operation name="addNumbers">
+                <input message="tns:addNumbers" name="add"/>
+                <output message="tns:addNumbersResponse" name="addResponse"/>
+                <fault name="addNumbersFault" message="tns:addNumbersFault"/>
+            </operation>
+            <operation name="oneWayInt">
+                <input message="tns:oneWayInt" />
+            </operation>
+	</portType>
+	
+	<service name="AddNumbersService">
+            <port name="AddNumbersPort" binding="tu:AddNumbersBinding">
+                <soap:address location="http://localhost:9090" />
+            </port>
+	</service>
+</definitions>

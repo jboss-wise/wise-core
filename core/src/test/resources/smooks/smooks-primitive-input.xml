@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+    <params>
+        <param name="stream.filter.type">SAX</param>
+    </params>
+    <jb:bean beanId="primitiveInputs"
+        class="java.util.HashMap"
+        createOnElement="org.jboss.wise.core.mapper.mappingObject.InternalObject">
+        <jb:value property="textInput" data="text" />
+        <jb:value property="intInput" decoder="Integer" data="number">
+        </jb:value>
+    </jb:bean>
+    
+
+</smooks-resource-list>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+    <params>
+        <param name="stream.filter.type">SAX</param>
+    </params>
+    <jb:bean beanId="complexObject"
+        class="org.jboss.wise.core.mapper.mappingObject.ComplexObject"
+        createOnElement="org.jboss.wise.core.mapper.mappingObject.ExternalObject">
+        <jb:value property="numberField" data="internal/number" />
+        <jb:value property="textField" data="internal/text">
+        </jb:value>
+    </jb:bean>
+    
+
+</smooks-resource-list>

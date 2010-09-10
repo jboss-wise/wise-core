@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     29 Sep 2008 16:36:29                                                        
+                                                          
+     ====================================================================== -->
+<project name="HelloWorld" default="compile" basedir=".">
+
+	<property name="server.classes.additional.dir" value="classes/client" />
+	<property name="includeWiseInWar" value="true" />
+	
+	<property file="${basedir}/build.properties" />
+	
+	<import file="${basedir}/../ant/build.xml" />
+
+	<target name="servletWar" depends="compile">
+		
+		<war webxml="./resources/WEB-INF-servlet/web.xml" jarfile="${build.server.dir}/${ant.project.name}-servlet.war">
+			<classes dir="${server.classes.additional.dir}" />
+			<webinf dir="./resources/WEB-INF-servlet">
+			    <include name="*"/>
+			</webinf>
+			<lib dir="${lib.dir}">
+			    <include name="commons-io-*.jar" if="includeWiseInWar"/>
+			    <include name="commons-lang-*.jar" if="includeWiseInWar"/>
+		            <include name="milyn*.jar" if="includeWiseInWar"/>
+  			    <include name="jaxws-tools*.jar" if="includeWiseInWar"/>
+			    <include name="*.jar" if="includeWiseInWar"/>
+  			</lib>
+
+		</war>
+	</target>
+
+	<target name="deployServlet" depends="servletWar" description="Deploys the server side archive of the current test">
+		<copy todir="${JBossHome}/server/${ServerConfig}/deploy/" file="${build.server.dir}/${ant.project.name}-servlet.war" />
+	</target>
+	
+</project>

@@ -1,0 +1,13 @@
+<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://duke.example.org/additionalSchema"
+            elementFormDefault="qualified" targetNamespace="http://duke.example.org/additionalSchema">
+    <xsd:complexType name="fooRequest">
+        <xsd:sequence>
+            <xsd:element name="return" type="xsd:int" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="fooRequest" type="tns:fooRequest" />
+    
+    <xsd:import schemaLocation="../AnotherSchema.xsd" namespace="http://duke.example.org/anotherSchema"/>
+</xsd:schema>

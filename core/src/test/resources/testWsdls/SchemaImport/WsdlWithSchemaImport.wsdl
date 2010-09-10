@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WsdlWithSchemaImport"  targetNamespace="http://duke.example.org" xmlns:tns="http://duke.example.org"
+    xmlns:externalSchema="http://duke.example.org/schemaImport"
+    xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<types>
+      <xsd:schema targetNamespace="http://duke.example.org">
+        <xsd:import schemaLocation="SchemaImport.xsd" namespace="http://duke.example.org/schemaImport"/>
+      </xsd:schema>
+	</types>
+	<message name="addNumbers">
+            <part name="parameters" element="externalSchema:addNumbers" />
+	</message>
+	<message name="addNumbersResponse">
+            <part name="result" element="externalSchema:addNumbersResponse" />
+	</message>
+	<message name="addNumbersFault">
+            <part name="AddNumbersFault" element="externalSchema:AddNumbersFault" />
+	</message>
+	<message name="oneWayInt">
+            <part name="parameters" element="externalSchema:oneWayInt" />
+	</message>
+	<portType name="AddNumbersPortType">
+            <operation name="addNumbers">
+                <input message="tns:addNumbers" name="add"/>
+                <output message="tns:addNumbersResponse" name="addResponse"/>
+                <fault name="addNumbersFault" message="tns:addNumbersFault"/>
+            </operation>
+            <operation name="oneWayInt">
+                <input message="tns:oneWayInt" />
+            </operation>
+	</portType>
+	<binding name="AddNumbersBinding" type="tns:AddNumbersPortType">
+            <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+            <operation name="addNumbers">
+                <soap:operation soapAction="" />
+                <input>
+                    <soap:body use="literal" />
+                </input>
+                <output>
+                    <soap:body use="literal" />
+                </output>
+                <fault name="addNumbersFault">
+                    <soap:fault name="addNumbersFault" use="literal" />
+                </fault>
+            </operation>
+            <operation name="oneWayInt">
+                <soap:operation soapAction="" />
+                <input>
+                    <soap:body use="literal" />
+                </input>
+            </operation>
+	</binding>
+	<service name="AddNumbersService">
+            <port name="AddNumbersPort" binding="tns:AddNumbersBinding">
+                <soap:address location="http://localhost:9090" />
+            </port>
+	</service>
+</definitions>

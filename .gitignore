@@ -1,0 +1,37 @@
+
+# /
+/smook
+/temp
+/test-output
+/build
+/classes
+**/.settings
+.settings
+.project
+**/.project
+/target
+/cobertura.ser
+/bin
+.classpath
+
+
+# /docs/
+/docs/api
+
+# /samples/
+distribution/main/resouces/samples/*/classes
+distribution/main/resouces/samples/*/build
+# /samples/MTOMSample/
+/samples/*/build
+/samples/*/classes
+/samples/*/log
+
+
+#taget
+*/target
+
+#.ext file of smooks plugin for eclipse
+*.ext
+
+#*test.log
+*test.log

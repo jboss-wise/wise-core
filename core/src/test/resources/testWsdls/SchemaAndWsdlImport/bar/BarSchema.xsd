@@ -1,0 +1,11 @@
+<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://duke.example.org/barSchema"
+            elementFormDefault="qualified" targetNamespace="http://duke.example.org/barSchema">
+    <xsd:complexType name="barRequest">
+        <xsd:sequence>
+            <xsd:element name="return" type="xsd:int" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="barrRequest" type="tns:barRequest" />
+</xsd:schema>

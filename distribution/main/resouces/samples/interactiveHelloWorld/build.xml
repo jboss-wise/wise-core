@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     29 Sep 2008 16:36:29                                                        
+                                                          
+     ====================================================================== -->
+<project name="InteractiveHelloWorld" default="compile" basedir=".">
+
+
+	<property name="MainClass" value="org.jboss.wise.samples.InteractiveHelloWorldClient">
+	</property>
+	<property file="${basedir}/build.properties" />
+	
+	
+	<import file="${basedir}/../ant/build.xml" />
+</project>

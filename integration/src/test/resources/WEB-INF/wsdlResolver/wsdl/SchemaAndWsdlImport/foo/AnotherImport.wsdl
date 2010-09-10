@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Bindings"  targetNamespace="http://tempuri.org/useless" xmlns:tns="http://duke.example.org"
+    xmlns:externalSchema="http://duke.example.org/schemaImport"
+    xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+	<import namespace="http://tempuri.org/useless2" location="../bar/BarImport.wsdl"/>
+	<types>
+      <xsd:schema targetNamespace="http://tempuri.org/useless">
+        <xsd:import schemaLocation="../bar/BarSchema.xsd" namespace="http://duke.example.org/barSchema"/>
+      </xsd:schema>
+	</types>
+
+	<binding name="UselessAddNumbersBinding" type="tns:AddNumbersPortType">
+            <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+            <operation name="addNumbers">
+                <soap:operation soapAction="" />
+                <input>
+                    <soap:body use="literal" />
+                </input>
+                <output>
+                    <soap:body use="literal" />
+                </output>
+                <fault name="addNumbersFault">
+                    <soap:fault name="addNumbersFault" use="literal" />
+                </fault>
+            </operation>
+            <operation name="oneWayInt">
+                <soap:operation soapAction="" />
+                <input>
+                    <soap:body use="literal" />
+                </input>
+            </operation>
+	</binding>
+	
+</definitions>
