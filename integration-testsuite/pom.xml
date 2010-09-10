@@ -118,6 +118,9 @@
 	</build>
 	
 	<profiles>
+		<!--
+			Enable submodules depending on the ws stack and add test dependency on the proper client stack artifact 
+		-->
 		<profile>
 			<id>native</id>
 			<activation>

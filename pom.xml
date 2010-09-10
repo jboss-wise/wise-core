@@ -507,12 +507,16 @@
 	</reporting>
 
 	<profiles>
+		<!--
+			Enable distribution module 
+		-->
 		<profile>
 			<id>distro</id>
 			<modules>
 				<module>distribution</module>
 			</modules>
 		</profile>
+		
 		<!--
 			Name: hudson Descr: Ignore test failures on hudson
 		-->
@@ -530,7 +534,10 @@
 			</build>
 		</profile>
 		
-        <profile>
+		<!--
+			Enable core-native module 
+		-->
+		<profile>
           <id>native</id>
           <activation>
             <property>
@@ -540,14 +547,11 @@
           <modules>
             <module>core-native</module>
           </modules>
-          <dependencies>
-          	<dependency>
-				<groupId>org.jboss.ws.native</groupId>
-				<artifactId>jbossws-native-client</artifactId>
-			</dependency>
-          </dependencies>
         </profile>
         
+		<!--
+			Enable core-cxf module
+		-->
         <profile>
           <id>cxf</id>
           <activation>
@@ -558,14 +562,11 @@
           <modules>
             <module>core-cxf</module>
           </modules>
-          <dependencies>
-            <dependency>
-              <groupId>org.jboss.ws.cxf</groupId>
-              <artifactId>jbossws-cxf-client</artifactId>
-            </dependency>
-          </dependencies>
         </profile>
 
+		<!--
+			Enable integration-testsuite module 
+		-->
         <profile>
           <id>integration-testsuite</id>
           <activation>
