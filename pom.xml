@@ -47,7 +47,7 @@
         <surefire.usefile>false</surefire.usefile>
         <compile.flags>-Xlint:unchecked,deprecation,fallthrough,finally</compile.flags>
         <checkstyle.extension />
-        <cxf.version>2.2</cxf.version>
+        <cxf.version>2.2.9</cxf.version> <!-- This should stay in synch with the one used within the jbossws-cxf being pulled in wise-core-cxf -->
 		<compiler.fork>false</compiler.fork>
 	</properties>
 	
