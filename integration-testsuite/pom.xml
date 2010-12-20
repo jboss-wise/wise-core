@@ -19,7 +19,11 @@
 
 	<name>Wise Integration Test</name>
 	<artifactId>wise-integration-testsuite</artifactId>
-        <packaging>pom</packaging>
+    <packaging>pom</packaging>
+    
+    <properties>
+    	<jboss-as-server.version>5.1.0.GA</jboss-as-server.version>
+    </properties>
 
 	<parent>
 		<groupId>org.jboss.wise</groupId>
@@ -55,13 +59,45 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jbossall-client</artifactId>
+			<groupId>org.jboss.jbossas</groupId>
+			<artifactId>jboss-as-server</artifactId>
+			<version>${jboss-as-server.version}</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>sun-jaxb</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.jpa</groupId>
+					<artifactId>jboss-jpa-deployers</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.metadata</groupId>
+					<artifactId>jboss-metadata</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.javaee</groupId>
+					<artifactId>jboss-ejb-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.ws.native</groupId>
+					<artifactId>jbossws-native-saaj</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.ws.native</groupId>
+					<artifactId>jbossws-native-jaxws</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.jcip</groupId>
+			<artifactId>jcip-annotations</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
