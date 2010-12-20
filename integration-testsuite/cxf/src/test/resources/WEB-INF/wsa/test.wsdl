@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="HelloService" targetNamespace="http://org.jboss/wise/wsa" xmlns:ns1="http://org.jboss/wise/wsaddressing" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://org.jboss/wise/wsa" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="Hello.wsdl" namespace="http://org.jboss/wise/wsaddressing"/>
+  <wsdl:service name="HelloService">
+
+    <wsdl:port binding="ns1:HelloBinding" name="HelloImplPort">
+      <soap:address location="http://localhost:8080/wsa/Hello" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

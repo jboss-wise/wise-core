@@ -182,6 +182,9 @@
 					<name>cxf.stack</name>
 				</property>
 			</activation>
+			<modules>
+				<module>cxf</module>
+			</modules>
 			<dependencies>
 				<dependency>
 					<groupId>org.jboss.ws.cxf</groupId>

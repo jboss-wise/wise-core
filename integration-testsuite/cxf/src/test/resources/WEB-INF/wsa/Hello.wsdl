@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions name='HelloService' targetNamespace='http://org.jboss/wise/wsaddressing' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://org.jboss/wise/wsaddressing' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss/wise/wsa' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types></types>
+ <message name='Hello_echoUserType'>
+  <part name='user' type='xsd:string'></part>
+ </message>
+ <message name='Hello_echoUserTypeResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <portType name='Hello'>
+
+  <operation name='echoUserType' parameterOrder='user'>
+   <input message='ns1:Hello_echoUserType'></input>
+   <output message='ns1:Hello_echoUserTypeResponse'></output>
+  </operation>
+ </portType>
+ <binding name='HelloBinding' type='ns1:Hello'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echoUserType'>
+   <soap:operation soapAction=''/>
+
+   <input>
+    <soap:body namespace='http://org.jboss/wise/wsa' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss/wise/wsa' use='literal'/>
+   </output>
+  </operation>
+ </binding>
+</definitions>
