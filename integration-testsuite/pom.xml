@@ -21,10 +21,6 @@
 	<artifactId>wise-integration-testsuite</artifactId>
     <packaging>pom</packaging>
     
-    <properties>
-    	<jboss-as-server.version>5.1.0.GA</jboss-as-server.version>
-    </properties>
-
 	<parent>
 		<groupId>org.jboss.wise</groupId>
 		<artifactId>wise</artifactId>
@@ -32,9 +28,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-        <modules>
+    <modules>
 		<module>common</module>
-        </modules>
+    </modules>
 
 	<dependencies>
 		<dependency>
@@ -58,38 +54,7 @@
 			<version>${version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.jbossas</groupId>
-			<artifactId>jboss-as-server</artifactId>
-			<version>${jboss-as-server.version}</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>sun-jaxb</groupId>
-					<artifactId>jaxb-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.jpa</groupId>
-					<artifactId>jboss-jpa-deployers</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.metadata</groupId>
-					<artifactId>jboss-metadata</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.javaee</groupId>
-					<artifactId>jboss-ejb-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.ws.native</groupId>
-					<artifactId>jbossws-native-saaj</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.ws.native</groupId>
-					<artifactId>jbossws-native-jaxws</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+
 		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
@@ -190,6 +155,90 @@
 					<groupId>org.jboss.ws.cxf</groupId>
 					<artifactId>jbossws-cxf-client</artifactId>
 					<scope>runtime</scope> <!-- runtime scope to avoid having the dependency while compiling -->
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jboss5</id>
+			<activation>
+				<property>
+					<name>!jboss6</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.jbossas</groupId>
+					<artifactId>jboss-as-server</artifactId>
+					<version>5.1.0.GA</version>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>sun-jaxb</groupId>
+							<artifactId>jaxb-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.jpa</groupId>
+							<artifactId>jboss-jpa-deployers</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.metadata</groupId>
+							<artifactId>jboss-metadata</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.javaee</groupId>
+							<artifactId>jboss-ejb-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.ws.native</groupId>
+							<artifactId>jbossws-native-saaj</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.ws.native</groupId>
+							<artifactId>jbossws-native-jaxws</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jboss6</id>
+			<activation>
+				<property>
+					<name>jboss6</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.jbossas</groupId>
+					<artifactId>jboss-as-server</artifactId>
+					<version>6.0.0.20101110-CR1</version>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>sun-jaxb</groupId>
+							<artifactId>jaxb-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.jpa</groupId>
+							<artifactId>jboss-jpa-deployers</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.metadata</groupId>
+							<artifactId>jboss-metadata</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.javaee</groupId>
+							<artifactId>jboss-ejb-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.ws.native</groupId>
+							<artifactId>jbossws-native-saaj</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.ws.native</groupId>
+							<artifactId>jbossws-native-jaxws</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>
