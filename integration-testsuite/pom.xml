@@ -24,7 +24,7 @@
 	<parent>
 		<groupId>org.jboss.wise</groupId>
 		<artifactId>wise</artifactId>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -39,11 +39,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>javax.ejb</groupId>
 			<artifactId>ejb-api</artifactId>
 			<scope>test</scope>
@@ -51,7 +46,7 @@
 		<dependency>
 			<groupId>org.jboss.wise</groupId>
 			<artifactId>wise-core</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -119,32 +114,11 @@
 	</build>
 	
 	<profiles>
-		<!--
-			Enable submodules depending on the ws stack and add test dependency on the proper client stack artifact 
-		-->
-		<profile>
-			<id>native</id>
-			<activation>
-				<property>
-					<name>!cxf.stack</name>
-				</property>
-			</activation>
-			<modules>
-				<module>native</module>
-			</modules>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.ws.native</groupId>
-					<artifactId>jbossws-native-client</artifactId>
-					<scope>runtime</scope> <!-- runtime scope to avoid having the dependency while compiling -->
-				</dependency>
-			</dependencies>
-		</profile>
 		<profile>
 			<id>cxf</id>
 			<activation>
 				<property>
-					<name>cxf.stack</name>
+					<name>!no-cxf.stack</name>
 				</property>
 			</activation>
 			<modules>
