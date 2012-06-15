@@ -27,7 +27,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.management.ObjectName;
 import org.apache.log4j.Logger;
-import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
  * Wise test base class. Subclass can use the methods in this class to 
@@ -46,8 +45,9 @@ public class WiseTest {
      * @param url url for webservice war 
      * @throws Exception if the deployment is failed
      */
-    public void deployWS(URL url) throws Exception {      
-        JBossWSTestHelper.getServer().invoke(new ObjectName(MAIN_DEPLOYER), "deploy", new Object[] { url }, new String[] { "java.net.URL" });       
+    public void deployWS(URL url) throws Exception {
+	throw new Exception("TODO");
+//        JBossWSTestHelper.getServer().invoke(new ObjectName(MAIN_DEPLOYER), "deploy", new Object[] { url }, new String[] { "java.net.URL" });       
     }
     
     /**Undeploy a webservice
@@ -55,7 +55,8 @@ public class WiseTest {
      * @throws Exception if undeployment is failed
      */
     public void undeployWS(URL url) throws Exception {
-        JBossWSTestHelper.getServer().invoke(new ObjectName(MAIN_DEPLOYER), "undeploy", new Object[] { url }, new String[] { "java.net.URL" });       
+	throw new Exception("TODO");
+//        JBossWSTestHelper.getServer().invoke(new ObjectName(MAIN_DEPLOYER), "undeploy", new Object[] { url }, new String[] { "java.net.URL" });       
     }
     
     /**Get the URL path for a given webservice archive. It will find this war file under ${baseDir}/build/test-ws-archive
@@ -81,16 +82,19 @@ public class WiseTest {
      * @return http://server-hostname:port
      */
     public String getServerHostAndPort() {
-        return "http://" + JBossWSTestHelper.getServerHost() + ":" + getServerPort();
+	Logger.getLogger(this.getClass()).warn("TODO!! implement getServerHostAndPort()");
+        //return "http://" + JBossWSTestHelper.getServerHost() + ":" + getServerPort();
+	return null;
     }
     
     /**Get the web service server port
      * @return webservice server configured port
      */
     public String getServerPort() {
-        
+	Logger.getLogger(this.getClass()).warn("TODO!! implement getServerPort()");
         try {
-             return JBossWSTestHelper.getServer().getAttribute(new ObjectName(WS_SERVER_CONFIG), "WebServicePort").toString();
+//             return JBossWSTestHelper.getServer().getAttribute(new ObjectName(WS_SERVER_CONFIG), "WebServicePort").toString();
+            return "8080";
          } catch (Exception e) {
              logger.warn("WARNING: Failed to get server port; using default 8080");
              return "8080";

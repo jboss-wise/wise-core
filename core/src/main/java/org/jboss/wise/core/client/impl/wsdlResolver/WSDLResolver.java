@@ -46,10 +46,10 @@ import javax.wsdl.xml.WSDLReader;
 
 import org.jboss.logging.Logger;
 import org.jboss.wise.core.utils.IDGenerator;
-import org.jboss.ws.Constants;
-import org.jboss.wsf.common.DOMUtils;
-import org.jboss.wsf.common.DOMWriter;
-import org.jboss.wsf.common.IOUtils;
+import org.jboss.ws.common.Constants;
+import org.jboss.ws.common.DOMUtils;
+import org.jboss.ws.common.DOMWriter;
+import org.jboss.ws.common.IOUtils;
 import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
 

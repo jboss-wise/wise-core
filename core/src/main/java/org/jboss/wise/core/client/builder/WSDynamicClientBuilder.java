@@ -28,7 +28,6 @@ import java.net.ConnectException;
 import java.util.List;
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.tools.ant.taskdefs.Length.When;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.exception.WiseRuntimeException;

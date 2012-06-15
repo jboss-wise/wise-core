@@ -25,15 +25,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-
-import sun.misc.BASE64Encoder;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.wise.core.exception.WiseRuntimeException;
-import org.jboss.ws.core.utils.JarUrlConnection;
+import org.jboss.ws.common.utils.JarUrlConnection;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * 

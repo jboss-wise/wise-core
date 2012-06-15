@@ -32,7 +32,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.apache.log4j.Logger;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;
-import org.jboss.wsf.spi.tools.WSContractConsumer;
+import org.jboss.ws.api.tools.WSContractConsumer;
 
 /**
  * @author alessio.soldano@jboss.com
