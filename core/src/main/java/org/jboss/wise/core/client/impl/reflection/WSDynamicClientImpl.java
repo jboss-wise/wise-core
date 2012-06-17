@@ -92,6 +92,8 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     private static WSConsumer createConsumer(WSDynamicClientBuilder builder) {
 	WSConsumer consumer = (WSConsumer) SpiLoader
 		.loadService("org.jboss.wise.consumer.WSConsumer", "org.jboss.wise.core.consumer.impl.jbossws.DefaultWSImportImpl");
+	consumer.setVerbose(builder.isVerbose());
+	consumer.setKeepSource(builder.isKeepSource());
 	return consumer;
     }
 
