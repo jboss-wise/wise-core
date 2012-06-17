@@ -48,7 +48,7 @@
         <compile.flags>-Xlint:unchecked,deprecation,fallthrough,finally</compile.flags>
         <checkstyle.extension />
         <cxf.version>2.4.6</cxf.version> <!-- This should stay in synch with the one used within the jbossws-cxf being pulled in wise-core-cxf -->
-		<compiler.fork>false</compiler.fork>
+	<compiler.fork>false</compiler.fork>
 	</properties>
 	
     <!-- DistributionManagement -->

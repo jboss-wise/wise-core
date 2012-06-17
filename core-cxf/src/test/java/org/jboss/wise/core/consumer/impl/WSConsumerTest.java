@@ -86,6 +86,8 @@ public class WSConsumerTest {
     }
 
     private WSConsumer newConsumer() {
-	return (WSConsumer) SpiLoader.loadService("org.jboss.wise.consumer.WSConsumer", "org.jboss.wise.core.consumer.impl.jbossws.DefaultWSImportImpl");
+	WSConsumer consumer = (WSConsumer) SpiLoader.loadService("org.jboss.wise.consumer.WSConsumer", "org.jboss.wise.core.consumer.impl.jbossws.DefaultWSImportImpl");
+	consumer.setKeepSource(true); //workaround for [JBWS-3519] to avoid generating in the Wise source tree instead of target/test-classes
+	return consumer;
     }
 }
