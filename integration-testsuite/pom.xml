@@ -133,86 +133,18 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jboss5</id>
+			<id>jboss711</id>
 			<activation>
-				<property>
-					<name>!jboss6</name>
-				</property>
+			  <property>
+				<name>!no-jboss711.stack</name>
+			  </property>
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.jboss.jbossas</groupId>
-					<artifactId>jboss-as-server</artifactId>
-					<version>5.1.0.GA</version>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-webservices-tests-integration</artifactId>
+					<version>7.1.1.Final</version>
 					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>sun-jaxb</groupId>
-							<artifactId>jaxb-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.jpa</groupId>
-							<artifactId>jboss-jpa-deployers</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.metadata</groupId>
-							<artifactId>jboss-metadata</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.javaee</groupId>
-							<artifactId>jboss-ejb-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.ws.native</groupId>
-							<artifactId>jbossws-native-saaj</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.ws.native</groupId>
-							<artifactId>jbossws-native-jaxws</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>jboss6</id>
-			<activation>
-				<property>
-					<name>jboss6</name>
-				</property>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.jbossas</groupId>
-					<artifactId>jboss-as-server</artifactId>
-					<version>6.0.0.20101110-CR1</version>
-					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>sun-jaxb</groupId>
-							<artifactId>jaxb-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.jpa</groupId>
-							<artifactId>jboss-jpa-deployers</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.metadata</groupId>
-							<artifactId>jboss-metadata</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.javaee</groupId>
-							<artifactId>jboss-ejb-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.ws.native</groupId>
-							<artifactId>jbossws-native-saaj</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.ws.native</groupId>
-							<artifactId>jbossws-native-jaxws</artifactId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>

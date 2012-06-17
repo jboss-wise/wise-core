@@ -23,31 +23,48 @@
 package org.jboss.wise.core.test;
 
 import java.io.File;
+import java.net.Inet6Address;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.management.ObjectName;
-import org.apache.log4j.Logger;
+import java.net.UnknownHostException;
+
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.deployer.Deployer;
 
 /**
  * Wise test base class. Subclass can use the methods in this class to 
- * deploy and undeploy a web service war in JBossAS  
+ * deploy and undeploy a web service war in JBossAS
+ *   
  * @author ema@redhat.com
+ * @author alessio.soldano@jboss.com
  *
  */
 public class WiseTest {
-    private static final Logger logger = Logger.getLogger(WiseTest.class);
-    private static final String MAIN_DEPLOYER = "jboss.system:service=MainDeployer";
-    private static final String WS_SERVER_CONFIG = "jboss.ws:service=ServerConfig";
     private static final String TEST_WS_ARCHIVE_DIR = "test-ws-archive";
+    private static final String SYSPROP_JBOSS_BIND_ADDRESS = "jboss.bind.address";
+    private static final String SYSPROP_JBOSS_HTTP_PORT = "jboss.http.port";
+    private static Deployer DEPLOYER;
     
+    private static synchronized Deployer getDeployer()
+    {
+       //lazy loading of deployer
+       if (DEPLOYER == null)
+       {
+          SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+          DEPLOYER = spiProvider.getSPI(Deployer.class);
+       }
+       return DEPLOYER;
+    }
+
     /**
      * Deploy the webservice war in JBoss server
      * @param url url for webservice war 
      * @throws Exception if the deployment is failed
      */
     public void deployWS(URL url) throws Exception {
-	throw new Exception("TODO");
-//        JBossWSTestHelper.getServer().invoke(new ObjectName(MAIN_DEPLOYER), "deploy", new Object[] { url }, new String[] { "java.net.URL" });       
+	getDeployer().deploy(url);
     }
     
     /**Undeploy a webservice
@@ -55,8 +72,7 @@ public class WiseTest {
      * @throws Exception if undeployment is failed
      */
     public void undeployWS(URL url) throws Exception {
-	throw new Exception("TODO");
-//        JBossWSTestHelper.getServer().invoke(new ObjectName(MAIN_DEPLOYER), "undeploy", new Object[] { url }, new String[] { "java.net.URL" });       
+	getDeployer().undeploy(url);       
     }
     
     /**Get the URL path for a given webservice archive. It will find this war file under ${baseDir}/build/test-ws-archive
@@ -69,7 +85,7 @@ public class WiseTest {
          File file = new File(dirURL.getFile(), ".." + File.separator + TEST_WS_ARCHIVE_DIR + File.separator + archiveName);
          if (file.exists()) {
              try {
-                 warUrl = file.getAbsoluteFile().toURL();
+                 warUrl = file.getAbsoluteFile().toURI().toURL();
              } catch (MalformedURLException e) {
                  return null;
              }
@@ -78,28 +94,37 @@ public class WiseTest {
 
      }
     
-    /**Get the jboss webservice server side hostname and port 
+    /**
+     * Get the jboss webservice server side hostname and port
+     * 
      * @return http://server-hostname:port
      */
     public String getServerHostAndPort() {
-	Logger.getLogger(this.getClass()).warn("TODO!! implement getServerHostAndPort()");
-        //return "http://" + JBossWSTestHelper.getServerHost() + ":" + getServerPort();
-	return null;
-    }
-    
-    /**Get the web service server port
-     * @return webservice server configured port
-     */
-    public String getServerPort() {
-	Logger.getLogger(this.getClass()).warn("TODO!! implement getServerPort()");
-        try {
-//             return JBossWSTestHelper.getServer().getAttribute(new ObjectName(WS_SERVER_CONFIG), "WebServicePort").toString();
-            return "8080";
-         } catch (Exception e) {
-             logger.warn("WARNING: Failed to get server port; using default 8080");
-             return "8080";
-         } 
+	final String host = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
+	final String port = System.getProperty(SYSPROP_JBOSS_HTTP_PORT, "8080");
+	final StringBuilder sb = new StringBuilder("http://");
+	sb.append(toIPv6URLFormat(host)).append(":").append(port);
+	return sb.toString();
     }
 
-
+    private static String toIPv6URLFormat(final String host) {
+	try {
+	    if (host.startsWith(":")) {
+		throw new IllegalArgumentException("JBossWS test suite requires IPv6 addresses to be wrapped with [] brackets. Expected format is: [" + host + "]");
+	    }
+	    if (host.startsWith("[")) {
+		if (System.getProperty("java.net.preferIPv4Stack") == null) {
+		    throw new IllegalStateException("always provide java.net.preferIPv4Stack JVM property when using IPv6 address format");
+		}
+		if (System.getProperty("java.net.preferIPv6Addresses") == null) {
+		    throw new IllegalStateException("always provide java.net.preferIPv6Addresses JVM property when using IPv6 address format");
+		}
+	    }
+	    final boolean isIPv6Address = InetAddress.getByName(host) instanceof Inet6Address;
+	    final boolean isIPv6Formatted = isIPv6Address && host.startsWith("[");
+	    return isIPv6Address && !isIPv6Formatted ? "[" + host + "]" : host;
+	} catch (final UnknownHostException e) {
+	    throw new RuntimeException(e);
+	}
+    }
  }
