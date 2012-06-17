@@ -22,14 +22,10 @@
 package org.jboss.wise.core.client;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.Properties;
 
 /**
  * @author stefano.maestri@javalinux.it
@@ -83,7 +79,7 @@ public class SpiLoader {
     public static Object loadFromServices(String propertyName) {
 	Object factory = null;
 	String factoryName = null;
-	ClassLoader loader = Thread.currentThread().getContextClassLoader();
+	ClassLoader loader = getContextClassLoader();
 
 	// Use the Services API (as detailed in the JAR specification), if
 	// available, to determine the classname.
@@ -95,7 +91,7 @@ public class SpiLoader {
 		factoryName = br.readLine();
 		br.close();
 		if (factoryName != null) {
-		    Class factoryClass = loader.loadClass(factoryName);
+		    Class<?> factoryClass = loader.loadClass(factoryName);
 		    factory = factoryClass.newInstance();
 		}
 	    } catch (Throwable t) {
@@ -114,15 +110,12 @@ public class SpiLoader {
      */
     public static Object loadFromSystemProperty(String propertyName) {
 	Object factory = null;
-	ClassLoader loader = Thread.currentThread().getContextClassLoader();
+	ClassLoader loader = getContextClassLoader();
 
-	PrivilegedAction action = new PropertyAccessAction(propertyName);
-	String factoryName = (String) AccessController.doPrivileged(action);
+	String factoryName = AccessController.doPrivileged(new PropertyAccessAction(propertyName));
 	if (factoryName != null) {
 	    try {
-		// if(log.isDebugEnabled())
-		// log.debug("Load from system property: " + factoryName);
-		Class factoryClass = loader.loadClass(factoryName);
+		Class<?> factoryClass = loader.loadClass(factoryName);
 		factory = factoryClass.newInstance();
 	    } catch (Throwable t) {
 		throw new IllegalStateException("Failed to load " + propertyName + ": " + factoryName, t);
@@ -134,14 +127,12 @@ public class SpiLoader {
 
     private static Object loadDefault(String defaultFactory) {
 	Object factory = null;
-	ClassLoader loader = Thread.currentThread().getContextClassLoader();
+	ClassLoader loader = getContextClassLoader();
 
 	// Use the default factory implementation class.
 	if (defaultFactory != null) {
 	    try {
-		// if(log.isDebugEnabled()) log.debug("Load from default: " +
-		// factoryName);
-		Class factoryClass = loader.loadClass(defaultFactory);
+		Class<?> factoryClass = loader.loadClass(defaultFactory);
 		factory = factoryClass.newInstance();
 	    } catch (Throwable t) {
 		throw new IllegalStateException("Failed to load: " + defaultFactory, t);
@@ -151,7 +142,7 @@ public class SpiLoader {
 	return factory;
     }
 
-    private static class PropertyAccessAction implements PrivilegedAction {
+    private static class PropertyAccessAction implements PrivilegedAction<String> {
 
 	private final String name;
 
@@ -159,29 +150,26 @@ public class SpiLoader {
 	    this.name = name;
 	}
 
-	public Object run() {
+	public String run() {
 	    return System.getProperty(name);
 	}
     }
-
-    private static class PropertyFileAccessAction implements PrivilegedAction {
-
-	private final String filename;
-
-	PropertyFileAccessAction(String filename) {
-	    this.filename = filename;
-	}
-
-	public Object run() {
-	    try {
-		InputStream inStream = new FileInputStream(filename);
-		Properties props = new Properties();
-		props.load(inStream);
-		return props;
-	    } catch (IOException ex) {
-		throw new SecurityException("Cannot load properties: " + filename, ex);
-	    }
-	}
+    
+    private static ClassLoader getContextClassLoader()
+    {
+       SecurityManager sm = System.getSecurityManager();
+       if (sm == null)
+       {
+          return Thread.currentThread().getContextClassLoader();
+       }
+       else
+       {
+          return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+             public ClassLoader run()
+             {
+                return Thread.currentThread().getContextClassLoader();
+             }
+          });
+       }
     }
-
 }

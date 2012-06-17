@@ -23,7 +23,10 @@
 package org.jboss.wise.core.mapper;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -41,7 +44,6 @@ import org.milyn.cdr.SmooksResourceConfiguration;
 import org.milyn.cdr.SmooksResourceConfigurationList;
 import org.milyn.cdr.XMLConfigDigester;
 import org.milyn.container.ExecutionContext;
-import org.milyn.container.plugin.PayloadProcessor;
 import org.milyn.event.report.HtmlReportGenerator;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.JavaSource;
@@ -70,10 +72,10 @@ public class SmooksMapper implements WiseMapper {
     }
 
     public SmooksMapper(String smooksResource, String smooksReport, WSDynamicClient client) {
-	ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+	ClassLoader oldLoader = getContextClassLoader();
 
 	try {
-	    Thread.currentThread().setContextClassLoader(client.getClassLoader());
+	    setContextClassLoader(client.getClassLoader());
 
 	    smooks = client.getSmooksInstance();
 	    try {
@@ -102,7 +104,7 @@ public class SmooksMapper implements WiseMapper {
 	    throw new WiseRuntimeException("failde to create SmooksMapper", e);
 	} finally {
 	    // restore the original classloader
-	    Thread.currentThread().setContextClassLoader(oldLoader);
+	    setContextClassLoader(oldLoader);
 	}
     }
 
@@ -136,12 +138,13 @@ public class SmooksMapper implements WiseMapper {
      *         wsdl/wsconsume generated classes
      * @throws MappingException
      */
+    @SuppressWarnings("unchecked")
     public Map<String, Object> applyMapping(Object originalObjects) throws MappingException {
 	ExecutionContext executionContext = initExecutionContext(smooksReport);
 	Source source = new JavaSource(originalObjects);
 	JavaResult result = new JavaResult();
 
-	smooks.filter(source, result, executionContext);
+	smooks.filterSource(executionContext, source, result);
 
 	Map<String, Object> returnMap = result.getResultMap();
 
@@ -153,6 +156,69 @@ public class SmooksMapper implements WiseMapper {
 	}
 	return returnMap;
 
+    }
+    
+    private static ClassLoader getContextClassLoader()
+    {
+       SecurityManager sm = System.getSecurityManager();
+       if (sm == null)
+       {
+          return Thread.currentThread().getContextClassLoader();
+       }
+       else
+       {
+          return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+             public ClassLoader run()
+             {
+                return Thread.currentThread().getContextClassLoader();
+             }
+          });
+       }
+    }
+    
+    private static ClassLoader setContextClassLoader(final ClassLoader cl)
+    {
+       if (System.getSecurityManager() == null)
+       {
+          ClassLoader result = Thread.currentThread().getContextClassLoader();
+          if (cl != null)
+             Thread.currentThread().setContextClassLoader(cl);
+          return result;
+       }
+       else
+       {
+          try
+          {
+             return AccessController.doPrivileged(new PrivilegedExceptionAction<ClassLoader>() {
+                public ClassLoader run() throws Exception
+                {
+                   try
+                   {
+                      ClassLoader result = Thread.currentThread().getContextClassLoader();
+                      if (cl != null)
+                         Thread.currentThread().setContextClassLoader(cl);
+                      return result;
+                   }
+                   catch (Exception e)
+                   {
+                      throw e;
+                   }
+                   catch (Error e)
+                   {
+                      throw e;
+                   }
+                   catch (Throwable e)
+                   {
+                      throw new RuntimeException("ERROR_SETTING_CONTEXT_CLASSLOADER",  e);
+                   }
+                }
+             });
+          }
+          catch (PrivilegedActionException e)
+          {
+             throw new RuntimeException("ERROR_RUNNING_PRIVILEGED_ACTION",  e.getCause());
+          }
+       }
     }
 
 }

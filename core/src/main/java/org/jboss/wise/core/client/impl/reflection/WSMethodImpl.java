@@ -23,7 +23,6 @@
 package org.jboss.wise.core.client.impl.reflection;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -33,7 +32,6 @@ import java.util.Map;
 import java.util.concurrent.Future;
 import javax.jws.Oneway;
 import javax.jws.WebParam;
-import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.client.InvocationResult;
@@ -71,7 +69,7 @@ public class WSMethodImpl implements WSMethod {
     /*
      * Invokes this method with the provided arguments
      * 
-     * @param args @return @throws WiseException If an unknowtn exception is
+     * @param args @return @throws WiseException If an unknown exception is
      * received
      */
     InvocationResultImpl invoke(Map<String, Object> args) throws InvocationException, IllegalArgumentException {
@@ -123,18 +121,18 @@ public class WSMethodImpl implements WSMethod {
      * @throws IllegalArgumentException
      * @throws MappingException
      */
+    @SuppressWarnings("unchecked")
     public InvocationResultImpl invoke(Object args, WiseMapper mapper) throws InvocationException, IllegalArgumentException, MappingException {
 	if (mapper == null) {
 	    return this.invoke((Map<String, Object>) args);
 	}
-	ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+	ClassLoader oldLoader = SecurityActions.getContextClassLoader();
 	Map<String, Object> mappingResults;
 	try {
-	    Thread.currentThread().setContextClassLoader(this.getEndpoint().getClassLoader());
+	    SecurityActions.setContextClassLoader(this.getEndpoint().getClassLoader());
 	    mappingResults = mapper.applyMapping(args);
 	} finally {
-	    // restore the original classloader
-	    Thread.currentThread().setContextClassLoader(oldLoader);
+	    SecurityActions.setContextClassLoader(oldLoader);
 	}
 	return this.invoke(mappingResults);
 

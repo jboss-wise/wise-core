@@ -28,6 +28,7 @@ public class JAXBElementDecoderTest {
         decorator.setConfiguration(config);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void shouldReturnJAXBElementAccordingConfig() {
         JAXBElementDecoder decorator = new JAXBElementDecoder();

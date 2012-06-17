@@ -89,7 +89,7 @@ public class WSDLResolver {
 
 	    Definition def = getWsdlDefinition(wsdlURL);
 
-	    URL savedWsdlURL = wsdlFile.toURL();
+	    URL savedWsdlURL = wsdlFile.toURI().toURL();
 	    log.info("WSDL saved to: " + savedWsdlURL);
 
 	    // Process the wsdl imports
@@ -98,7 +98,7 @@ public class WSDLResolver {
 
 	    // Publish XMLSchema imports
 	    for (Element documentElement : getSchemaElements(def)) {
-		saveSchemaImports(wsdlFile.toURL(), documentElement, saved, wsdlURL);
+		saveSchemaImports(wsdlFile.toURI().toURL(), documentElement, saved, wsdlURL);
 	    }
 
 	    // save modified file
@@ -141,7 +141,7 @@ public class WSDLResolver {
 	Types types = definition.getTypes();
 	List<Element> result = new LinkedList<Element>();
 	if (types != null && types.getExtensibilityElements().size() > 0) {
-	    List extElements = types.getExtensibilityElements();
+	    List<?> extElements = types.getExtensibilityElements();
 	    int len = extElements.size();
 	    for (int i = 0; i < len; i++) {
 		ExtensibilityElement extElement = (ExtensibilityElement) extElements.get(i);
@@ -172,7 +172,7 @@ public class WSDLResolver {
     private void saveWsdlImports(URL parentURL, Definition parentDefinition, Map<String, String> saved, URL wsdlURL) throws Exception {
 	String baseURI = parentURL.toExternalForm();
 
-	Iterator it = parentDefinition.getImports().values().iterator();
+	Iterator<?> it = parentDefinition.getImports().values().iterator();
 	while (it.hasNext()) {
 	    for (Import wsdlImport : (List<Import>) it.next()) {
 		String locationURI = wsdlImport.getLocationURI();

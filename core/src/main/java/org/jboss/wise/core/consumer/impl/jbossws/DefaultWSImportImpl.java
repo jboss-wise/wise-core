@@ -24,6 +24,8 @@ package org.jboss.wise.core.consumer.impl.jbossws;
 import java.io.File;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class DefaultWSImportImpl extends WSConsumer {
 
     @Override
     public synchronized List<String> importObjectFromWsdl(String wsdlURL, File outputDir, File sourceDir, String targetPackage, List<File> bindingFiles, PrintStream messageStream, File catelog) throws MalformedURLException, WiseRuntimeException {
-	WSContractConsumer wsImporter = WSContractConsumer.newInstance(Thread.currentThread().getContextClassLoader());
+	WSContractConsumer wsImporter = WSContractConsumer.newInstance(getContextClassLoader());
 
 	if (targetPackage != null && targetPackage.trim().length() > 0) {
 	    wsImporter.setTargetPackage(targetPackage);
@@ -102,12 +104,30 @@ public class DefaultWSImportImpl extends WSConsumer {
 	List<String> cp = new LinkedList<String>();
 	for (String jar : neededClasses) {
 	    try {
-		cp.add(Thread.currentThread().getContextClassLoader().getResource(jar).getPath().split("!")[0]);
+		cp.add(getContextClassLoader().getResource(jar).getPath().split("!")[0]);
 	    } catch (NullPointerException npe) {
-		Logger.getLogger(this.getClass()).debug("Didnt't find jar needed by wsImport API:" + jar);
+		Logger.getLogger(this.getClass()).debug("Did not find jar needed by wsImport API:" + jar);
 	    }
 
 	}
 	return cp;
+    }
+    
+    private static ClassLoader getContextClassLoader()
+    {
+       SecurityManager sm = System.getSecurityManager();
+       if (sm == null)
+       {
+          return Thread.currentThread().getContextClassLoader();
+       }
+       else
+       {
+          return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+             public ClassLoader run()
+             {
+                return Thread.currentThread().getContextClassLoader();
+             }
+          });
+       }
     }
 }

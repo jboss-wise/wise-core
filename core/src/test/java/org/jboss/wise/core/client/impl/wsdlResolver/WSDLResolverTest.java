@@ -42,22 +42,22 @@ public class WSDLResolverTest {
     
     @Test
     public void shouldSaveSimpleWsdl() throws Exception {
-        performTest(tmpDir.getAbsolutePath() + File.separator + "SimpleWsdl", new File("./src/test/resources/testWsdls/Simple/SimpleWsdl.wsdl").toURL());
+        performTest(tmpDir.getAbsolutePath() + File.separator + "SimpleWsdl", new File("./src/test/resources/testWsdls/Simple/SimpleWsdl.wsdl").toURI().toURL());
     }
     
     @Test
     public void shouldSaveWsdlWithWsdlImport() throws Exception {
-	performTest(tmpDir.getAbsolutePath() + File.separator + "WsdlWsdl", new File("./src/test/resources/testWsdls/WsdlImport/WsdlWithWsdlImport.wsdl").toURL());
+	performTest(tmpDir.getAbsolutePath() + File.separator + "WsdlWsdl", new File("./src/test/resources/testWsdls/WsdlImport/WsdlWithWsdlImport.wsdl").toURI().toURL());
     }
     
     @Test
     public void shouldSaveWsdlWithSchemaImport() throws Exception {
-	performTest(tmpDir.getAbsolutePath() + File.separator + "SchemaWsdl", new File("./src/test/resources/testWsdls/SchemaImport/WsdlWithSchemaImport.wsdl").toURL());
+	performTest(tmpDir.getAbsolutePath() + File.separator + "SchemaWsdl", new File("./src/test/resources/testWsdls/SchemaImport/WsdlWithSchemaImport.wsdl").toURI().toURL());
     }
     
     @Test
     public void shouldSaveWsdlWithSchemaAndWsdlImports() throws Exception {
-	performTest(tmpDir.getAbsolutePath() + File.separator + "SchemaAndWsdlWsdl", new File("./src/test/resources/testWsdls/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl").toURL());
+	performTest(tmpDir.getAbsolutePath() + File.separator + "SchemaAndWsdlWsdl", new File("./src/test/resources/testWsdls/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl").toURI().toURL());
     }
     
     private void performTest(String testTempDir, URL wsdlURL) throws Exception {
@@ -70,7 +70,6 @@ public class WSDLResolverTest {
     @Before
     public void createTmpDir() throws IOException
     {
-	System.out.println("Creating tmp dir: " + tmpDir.getPath());
 	if (tmpDir.exists()) {
 	    tmpDir.delete();
 	}

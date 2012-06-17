@@ -41,7 +41,7 @@ import org.jboss.wise.core.exception.WiseRuntimeException;
 @Immutable
 public class WSServiceImpl implements WSService {
 
-    private final Class serviceClass;
+    private final Class<?> serviceClass;
     private final URLClassLoader classLoader;
     private final Object service;
     private final String userName;
@@ -57,7 +57,7 @@ public class WSServiceImpl implements WSService {
      * @param password
      * @param maxThreadPoolSize the max pool size for method execution of service attached endpoint.
      */
-    public WSServiceImpl( Class serviceClass,
+    public WSServiceImpl( Class<?> serviceClass,
                           URLClassLoader classLoader,
                           Object service,
                           String userName,
@@ -110,10 +110,10 @@ public class WSServiceImpl implements WSService {
 
     private WSEndpoint getWiseEndpoint( Method method,
                                         String name ) throws WiseRuntimeException {
-        ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+        ClassLoader oldLoader = SecurityActions.getContextClassLoader();
         WSEndpointImpl ep = new WSEndpointImpl(this.maxThreadPoolSize);
         try {
-            Thread.currentThread().setContextClassLoader(this.getClassLoader());
+            SecurityActions.setContextClassLoader(this.getClassLoader());
             ep.setClassLoader(this.getClassLoader());
             // ep.setUnderlyingObjectInstance(this.getServiceClass().getMethod(method.getName(),
             // method.getParameterTypes()).invoke(this.getService(),
@@ -129,13 +129,12 @@ public class WSServiceImpl implements WSService {
         } catch (Exception e) {
             throw new WiseRuntimeException("Error while reading an endpoint!", e);
         } finally {
-            Thread.currentThread().setContextClassLoader(oldLoader);
+            SecurityActions.setContextClassLoader(oldLoader);
         }
         return ep;
     }
 
-    @SuppressWarnings( "unchecked" )
-    private synchronized final Class getServiceClass() {
+    private synchronized final Class<?> getServiceClass() {
         return serviceClass;
     }
 

@@ -93,13 +93,16 @@ public abstract class WSConsumer {
                 return name.endsWith(".class");
             }
         };
-        File scanDir = new File(outputDir.getAbsolutePath() + "/" + targetPackage.replaceAll("\\.", "/") + "/");
+        File scanDir = new File(new StringBuilder(outputDir.getAbsolutePath()).append(File.separator)
+        	.append(targetPackage.replaceAll("\\.", File.separator)).append(File.separator).toString());
         String[] children = scanDir.list(filter);
-        for (int i = 0; children != null && i < children.length; i++) {
-            classNames.add(targetPackage + "." + children[i].substring(0, children[i].length() - 6));
+        if (children != null) {
+            for (int i = 0; i < children.length; i++) {
+                classNames.add(targetPackage + "." + children[i].substring(0, children[i].length() - 6));
+            }
         }
         if (classNames.size() == 0) {
-            throw new WiseRuntimeException("No classs foung in dir " + outputDir + "for targetPackage " + targetPackage);
+            throw new WiseRuntimeException("No classs found in dir " + outputDir + " for targetPackage " + targetPackage);
         }
         return classNames;
 
@@ -108,7 +111,7 @@ public abstract class WSConsumer {
     public List<String> getClassNames( File outputDir ) throws WiseRuntimeException {
         List<String> classNames = this.getClassNames(outputDir, outputDir);
         if (classNames.size() == 0) {
-            throw new WiseRuntimeException("No classs foung in dir " + outputDir + "for targetPackage unspecified");
+            throw new WiseRuntimeException("No classs found in dir " + outputDir + " for unspecified targetPackage");
         }
         return classNames;
     }

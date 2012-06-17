@@ -29,7 +29,7 @@ package org.jboss.wise.core.utils;
  * @author Stefano Maestri stefano.maestri@javalinux.it
  */
 public enum DefaultConfig {
-    MAX_THRED_POOL_SIZE("100");
+    MAX_THREAD_POOL_SIZE("100");
 
     Object value;
 

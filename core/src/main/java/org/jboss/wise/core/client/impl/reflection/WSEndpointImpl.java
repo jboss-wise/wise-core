@@ -22,6 +22,8 @@
 
 package org.jboss.wise.core.client.impl.reflection;
 
+import static org.jboss.wise.core.utils.DefaultConfig.MAX_THREAD_POOL_SIZE;
+
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -30,14 +32,16 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import javax.jws.WebMethod;
 import javax.xml.ws.handler.Handler;
+
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
+
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.client.impl.reflection.WSServiceImpl.WSEndPointbuilder;
-import static org.jboss.wise.core.utils.DefaultConfig.MAX_THRED_POOL_SIZE;
 import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
 
 /**
@@ -54,7 +58,7 @@ public class WSEndpointImpl implements WSEndpoint {
     private String name;
 
     @GuardedBy("this")
-    private Class underlyingObjectClass;
+    private Class<?> underlyingObjectClass;
 
     private final ExecutorService service;
 
@@ -84,7 +88,7 @@ public class WSEndpointImpl implements WSEndpoint {
 	if (maxThreadPoolSize >= 1) {
 	    this.service = Executors.newFixedThreadPool(maxThreadPoolSize);
 	} else {
-	    this.service = Executors.newFixedThreadPool(MAX_THRED_POOL_SIZE.getIntValue());
+	    this.service = Executors.newFixedThreadPool(MAX_THREAD_POOL_SIZE.getIntValue());
 	}
     }
 
@@ -144,11 +148,11 @@ public class WSEndpointImpl implements WSEndpoint {
 	this.password = password;
     }
 
-    public synchronized Class getUnderlyingObjectClass() {
+    public synchronized Class<?> getUnderlyingObjectClass() {
 	return underlyingObjectClass;
     }
 
-    public synchronized void setUnderlyingObjectClass(Class clazz) {
+    public synchronized void setUnderlyingObjectClass(Class<?> clazz) {
 	this.underlyingObjectClass = clazz;
     }
 
@@ -159,7 +163,7 @@ public class WSEndpointImpl implements WSEndpoint {
      * @see #getWSMethods()
      * @param handler
      */
-    public void addHandler(Handler handler) {
+    public void addHandler(Handler<?> handler) {
 	handlers.add(handler);
     }
 

@@ -46,8 +46,6 @@ import org.junit.Test;
 import org.milyn.Smooks;
 import org.milyn.container.ExecutionContext;
 
-import com.sun.tools.corba.se.idl.constExpr.And;
-
 /**
  * @author stefano.maestri@javalinux.it
  */
@@ -71,10 +69,10 @@ public class SmooksMapperTest {
 	originalObjects.put("external", external);
 	Map<String, Object> results;
 	results = mapper.applyMapping(originalObjects);
-	Integer integerResult = (Integer) results.get("complexObject").getClass().getMethod("getNumberField", null)
-		.invoke(results.get("complexObject"), null);
-	String stringResult = (String) results.get("complexObject").getClass().getMethod("getTextField", null).invoke(results
-		.get("complexObject"), null);
+	Integer integerResult = (Integer) results.get("complexObject").getClass().getMethod("getNumberField")
+		.invoke(results.get("complexObject"));
+	String stringResult = (String) results.get("complexObject").getClass().getMethod("getTextField").invoke(results
+		.get("complexObject"));
 	assertThat(integerResult, equalTo(internal.getNumber()));
 	assertThat(stringResult, equalTo("fooText"));
 
@@ -95,8 +93,8 @@ public class SmooksMapperTest {
 	originalObjects.put("external", external);
 	Map<String, Object> results;
 	results = mapper.applyMapping(originalObjects);
-	long returnedTime = ((XMLGregorianCalendar) results.get("complexObject").getClass().getMethod("getDateField", null)
-		.invoke(results.get("complexObject"), null)).toGregorianCalendar().getTimeInMillis();
+	long returnedTime = ((XMLGregorianCalendar) results.get("complexObject").getClass().getMethod("getDateField")
+		.invoke(results.get("complexObject"))).toGregorianCalendar().getTimeInMillis();
 
 	assertThat(returnedTime, is(date.getTime()));
 

@@ -53,7 +53,7 @@ public class InvocationResultImpl implements InvocationResult {
 
 	this.originalObjects = new HashMap<String, Object>();
 	if (results == null) {
-	    results = Collections.EMPTY_MAP;
+	    results = Collections.emptyMap();
 	}
 	this.originalObjects.putAll(results);
 	if (name != null && name.trim().length() != 0) {

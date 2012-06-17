@@ -34,7 +34,7 @@ public class LocalFirstClassLoader extends URLClassLoader {
     @Override
     public synchronized Class<?> loadClass( String name,
                                             boolean resolve ) throws ClassNotFoundException {
-        Class claz = findLoadedClass(name);
+        Class<?> claz = findLoadedClass(name);
         if (claz == null) {
             try {
                 claz = findClass(name);

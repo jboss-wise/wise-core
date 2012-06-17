@@ -40,13 +40,13 @@ public interface WebParameter {
     /**
      * 
      * @return The name defined in the wsdl and {@link WebParam} annotation of
-     *         generated classses
+     *         generated classes
      */
     public String getName();
 
     /**
      * 
-     * @return The {@link Type} defined in generated classses
+     * @return The {@link Type} defined in generated classes
      */
     public Type getType();
 
@@ -60,7 +60,7 @@ public interface WebParameter {
     /**
      * 
      * @return The {@link Mode} defined in the wsdl and {@link WebParam}
-     *         annotation of generated classses
+     *         annotation of generated classes
      */
     public Enum<WebParam.Mode> getMode();
 

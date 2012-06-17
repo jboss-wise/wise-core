@@ -29,6 +29,7 @@ import java.io.StringWriter;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.stream.StreamResult;
@@ -51,9 +52,7 @@ import org.milyn.cdr.SmooksResourceConfigurationList;
 import org.milyn.cdr.XMLConfigDigester;
 import org.milyn.container.ExecutionContext;
 import org.milyn.event.report.HtmlReportGenerator;
-import org.milyn.javabean.BeanAccessor;
 import org.milyn.javabean.repository.BeanRepository;
-import org.milyn.javabean.repository.BeanRepositoryManager;
 import org.milyn.profile.DefaultProfileSet;
 import org.milyn.profile.ProfileStore;
 import org.milyn.profile.UnknownProfileMemberException;
@@ -73,7 +72,7 @@ import org.milyn.resource.URIResourceLocator;
 @ThreadSafe
 public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
 
-    private final Map beansMap;
+    private final Map<String, Object> beansMap;
 
     private final Smooks smooks;
 
@@ -95,7 +94,7 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
      * @param client
      * @param smooksReport
      */
-    public SmooksHandler(String smooksResource, Map beans, WSDynamicClient client, String smooksReport) {
+    public SmooksHandler(String smooksResource, Map<String, Object> beans, WSDynamicClient client, String smooksReport) {
 
 	assert smooksResource != null;
 
@@ -126,7 +125,7 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
 	this.beansMap = beans;
     }
 
-    public Set getHeaders() {
+    public Set<QName> getHeaders() {
 	return null;
     }
 
@@ -182,14 +181,14 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
 	    StringWriter transResult = new StringWriter();
 
 	    BeanRepository.getInstance(executionContext).getBeanMap().putAll(this.beansMap);
-	    StringWriter buffer;
 	    outStream = new ByteArrayOutputStream();
 	    message.writeTo(outStream);
 	    outStream.flush();
 	    inStream = new ByteArrayInputStream(outStream.toByteArray());
-	    smooks.filter(new StreamSource(inStream), new StreamResult(transResult), executionContext);
+	    smooks.filterSource(executionContext, new StreamSource(inStream), new StreamResult(transResult));
 	    inStream.close();
 	    inStream = new ByteArrayInputStream(transResult.toString().getBytes());
+	    //TODO evaluate avoiding buinding up a new factory each time + check for soap 1.2
 	    SOAPMessage message2 = MessageFactory.newInstance().createMessage(message.getMimeHeaders(), inStream);
 	    return message2;
 	} finally {

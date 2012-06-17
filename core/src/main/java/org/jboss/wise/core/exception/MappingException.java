@@ -29,6 +29,8 @@ package org.jboss.wise.core.exception;
  */
 public class MappingException extends Exception {
 
+    private static final long serialVersionUID = 5830827412437161462L;
+
     public MappingException( String message,
                              Throwable cause ) {
         super(message, cause);

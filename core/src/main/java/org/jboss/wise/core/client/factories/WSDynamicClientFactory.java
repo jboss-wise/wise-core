@@ -48,7 +48,7 @@ public abstract class WSDynamicClientFactory {
 	synchronized (WSDynamicClientFactory.class) {
 	    // If the logger has not been configured
 	    if (Logger.getRootLogger().getAllAppenders() instanceof NullEnumeration) {
-		// Use default log configuraiton to startup jbossmc
+		// Use default log configuration to startup jbossmc
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		URL url = cl.getResource("META-INF/" + WISE_LOG_CONFIG);
 		if (url != null) {

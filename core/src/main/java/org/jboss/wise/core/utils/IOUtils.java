@@ -30,7 +30,7 @@ import java.io.OutputStream;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 
 /**
- * IO utilites
+ * IO utilities
  * 
  * @author stefano.maestri@javalinux.it class imported from JBossWS. Kept methods useful for Wise
  */

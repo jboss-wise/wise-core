@@ -22,10 +22,7 @@
 
 package org.jboss.wise.core.utils;
 
-import java.util.Random;
 import java.util.UUID;
-
-import org.apache.commons.lang.math.RandomUtils;
 
 /**
  * Generates unique ID numbers, almost like a database sequence.

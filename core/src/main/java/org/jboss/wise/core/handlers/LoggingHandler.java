@@ -24,7 +24,6 @@ package org.jboss.wise.core.handlers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 import javax.xml.namespace.QName;
@@ -35,7 +34,6 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;

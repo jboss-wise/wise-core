@@ -113,8 +113,8 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 	wsExtensionEnablerDelegate = EnablerDelegateProvider.newEnablerDelegate(builder.getSecurityConfigFileURL(), builder
 		.getSecurityConfigName());
 	this.tmpDir = builder.getClientSpecificTmpDir();
-	File outputDir = new File(tmpDir + "/classes/");
-	File sourceDir = new File(tmpDir + "/src/");
+	final File outputDir = new File(new StringBuilder(tmpDir).append(File.separator).append("classes").append(File.separator).toString());
+	final File sourceDir = new File(new StringBuilder(tmpDir).append(File.separator).append("src").append(File.separator).toString());
 
 	try {
 	    classNames.addAll(consumer.importObjectFromWsdl(builder.getNormalizedWsdlUrl(), outputDir, sourceDir, builder
@@ -135,19 +135,18 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     private synchronized void initClassLoader(File outputDir) throws WiseRuntimeException {
 	try {
 
+	    final ClassLoader oldLoader = SecurityActions.getContextClassLoader();
 	    // we need a custom classloader pointing the temp dir
 	    // in order to load the generated classes on the fly
-	    this.setClassLoader(new URLClassLoader(new URL[] { outputDir.toURI().toURL(), }, Thread.currentThread()
-		    .getContextClassLoader()));
-	    ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+	    this.setClassLoader(new URLClassLoader(new URL[] { outputDir.toURI().toURL(), }, oldLoader));
 
 	    try {
-		Thread.currentThread().setContextClassLoader(this.getClassLoader());
+		SecurityActions.setContextClassLoader(this.getClassLoader());
 		Class<?> clazz = JavaUtils.loadJavaType("javax.xml.ws.spi.Provider", this.getClassLoader());
 		clazz.getMethod("provider", new Class[]{}).invoke(null, new Object[]{});
 	    } finally {
 		// restore the original classloader
-		Thread.currentThread().setContextClassLoader(oldLoader);
+		SecurityActions.setContextClassLoader(oldLoader);
 	    }
 	} catch (Exception e) {
 	    throw new WiseRuntimeException(
@@ -161,10 +160,10 @@ public class WSDynamicClientImpl implements WSDynamicClient {
      * @see org.jboss.wise.core.client.WSDynamicClient#processServices()
      */
     public synchronized Map<String, WSService> processServices() throws IllegalStateException {
-	ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+	ClassLoader oldLoader = SecurityActions.getContextClassLoader();
 
 	try {
-	    Thread.currentThread().setContextClassLoader(this.getClassLoader());
+	    SecurityActions.setContextClassLoader(this.getClassLoader());
 	    for (String className : classNames) {
 		try {
 		    Class<?> clazz = JavaUtils.loadJavaType(className, this.getClassLoader());
@@ -183,7 +182,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 	    }
 	} finally {
 	    // restore the original classloader
-	    Thread.currentThread().setContextClassLoader(oldLoader);
+	    SecurityActions.setContextClassLoader(oldLoader);
 	}
 	return servicesMap;
     }

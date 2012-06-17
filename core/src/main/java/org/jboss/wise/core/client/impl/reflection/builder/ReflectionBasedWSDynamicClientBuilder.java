@@ -22,12 +22,14 @@
 
 package org.jboss.wise.core.client.impl.reflection.builder;
 
-import static org.jboss.wise.core.utils.DefaultConfig.MAX_THRED_POOL_SIZE;
+import static org.jboss.wise.core.utils.DefaultConfig.MAX_THREAD_POOL_SIZE;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.List;
 
 import net.jcip.annotations.GuardedBy;
@@ -63,7 +65,7 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
     private String password;
 
     @GuardedBy("this")
-    private String tmpDir = System.getProperty("java.io.tmpdir");
+    private String tmpDir = AccessController.doPrivileged(new PropertyAccessAction("java.io.tmpdir"));
 
     @GuardedBy("this")
     private String targetPackage;
@@ -96,7 +98,7 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
     private PrintStream messageStream = System.out;
 
     @GuardedBy("this")
-    private int maxThreadPoolSize = MAX_THRED_POOL_SIZE.getIntValue();
+    private int maxThreadPoolSize = MAX_THREAD_POOL_SIZE.getIntValue();
 
     public ReflectionBasedWSDynamicClientBuilder() {
 	super();
@@ -110,8 +112,7 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
     public synchronized WSDynamicClient build() throws IllegalStateException, WiseRuntimeException {
 	clientSpecificTmpDir = tmpDir;
 	if (clientSpecificTmpDir != null) {
-	    String id = IDGenerator.nextVal();
-	    clientSpecificTmpDir = tmpDir + "/Wise" + id;
+	    clientSpecificTmpDir = new StringBuilder().append(tmpDir).append(File.separator).append("Wise").append(IDGenerator.nextVal()).toString();
 	    File tmpDirFile = new File(clientSpecificTmpDir);
 	    try {
 		FileUtils.forceMkdir(tmpDirFile);
@@ -412,6 +413,19 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
     public synchronized WSDynamicClientBuilder maxThreadPoolSize(int maxThreadPoolSize) {
 	this.maxThreadPoolSize = maxThreadPoolSize;
 	return this;
+    }
+    
+    private static class PropertyAccessAction implements PrivilegedAction<String> {
+
+	private final String name;
+
+	PropertyAccessAction(String name) {
+	    this.name = name;
+	}
+
+	public String run() {
+	    return System.getProperty(name);
+	}
     }
 
 }

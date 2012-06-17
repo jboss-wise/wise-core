@@ -24,7 +24,6 @@ package org.jboss.wise.core.wsextensions.impl;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.client.WSDynamicClient;
-import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.wsextensions.EnablerDelegate;
 import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
 

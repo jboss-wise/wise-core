@@ -22,11 +22,12 @@
 package org.jboss.wise.core.client.impl.reflection;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.Handler;
+
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
 
@@ -83,7 +84,8 @@ public class EndpointMethodCaller implements Callable<Object> {
         if (epInstance.getHandlers() != null) {
 
             for (Handler<?> handler : epInstance.getHandlers()) {
-                List<Handler> handlerChain = ((BindingProvider)epUnderlyingObjectInstance.get()).getBinding().getHandlerChain();
+                @SuppressWarnings("rawtypes")
+		List<Handler> handlerChain = ((BindingProvider)epUnderlyingObjectInstance.get()).getBinding().getHandlerChain();
                 handlerChain.add(handler);
                 ((BindingProvider)epUnderlyingObjectInstance.get()).getBinding().setHandlerChain(handlerChain);
             }

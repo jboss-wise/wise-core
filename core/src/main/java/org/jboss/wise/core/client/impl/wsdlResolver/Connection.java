@@ -27,11 +27,10 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.ws.common.utils.JarUrlConnection;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * 
@@ -99,7 +98,7 @@ public class Connection {
 	    // BASIC AUTH
 	    String usernamePassword = getUserNameAndPasswordForBasicAuthentication();
 	    if (usernamePassword != null && usernamePassword.length() != 0) {
-		conn.setRequestProperty("Authorization", "Basic " + (new BASE64Encoder()).encode(usernamePassword.getBytes()));
+		conn.setRequestProperty("Authorization", "Basic " + new String(Base64.encodeBase64(usernamePassword.getBytes())));
 	    }
 	    return conn;
 	} catch (Exception e) {

@@ -27,7 +27,7 @@ import java.util.Map;
 import net.jcip.annotations.ThreadSafe;
 
 /**
- * It represents a sigle service. I can be used to retrieve endpoints (Ports) of this services.
+ * It represents a single service. I can be used to retrieve endpoints (Ports) of this services.
  * 
  * @author Stefano Maestri, stefano.maestri@javalinux.it
  */

@@ -64,7 +64,7 @@ public interface WSEndpoint {
     public void setPassword(String password);
 
     @GuardedBy("this")
-    public Class getUnderlyingObjectClass();
+    public Class<?> getUnderlyingObjectClass();
 
     /**
      * 
@@ -81,7 +81,7 @@ public interface WSEndpoint {
      * @param handler
      */
     @GuardedBy("this")
-    public void addHandler(Handler handler);
+    public void addHandler(Handler<?> handler);
 
     /**
      * Create the webmethods' map and it back. This maps would be used by

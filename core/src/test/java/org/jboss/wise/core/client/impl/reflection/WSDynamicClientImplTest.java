@@ -69,6 +69,7 @@ public class WSDynamicClientImplTest {
         when(builder.getClientSpecificTmpDir()).thenReturn("target/temp/foo");
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void shouldInitClassLoader() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
@@ -77,15 +78,16 @@ public class WSDynamicClientImplTest {
                                                (File)anyObject(),
                                                (File)anyObject(),
                                                anyString(),
-                                               (List)anyObject(),
+                                               (List<File>)anyObject(),
                                                (PrintStream)anyObject(),
                                                (File)anyObject())).thenReturn(new LinkedList<String>());
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         File expectedOutPutDir = new File("target/temp/foo/classes");
         assertThat(client.getClassLoader().getURLs().length, is(1));
-        assertThat(client.getClassLoader().getURLs()[0], equalTo(expectedOutPutDir.toURL()));
+        assertThat(client.getClassLoader().getURLs()[0], equalTo(expectedOutPutDir.toURI().toURL()));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void shouldProcessServices() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
@@ -95,7 +97,7 @@ public class WSDynamicClientImplTest {
                                                (File)anyObject(),
                                                (File)anyObject(),
                                                anyString(),
-                                               (List)anyObject(),
+                                               (List<File>)anyObject(),
                                                (PrintStream)anyObject(),
                                                (File)anyObject())).thenReturn(Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
@@ -106,6 +108,7 @@ public class WSDynamicClientImplTest {
         assertThat(services.keySet(), hasItem("ServiceName2"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
@@ -115,7 +118,7 @@ public class WSDynamicClientImplTest {
                                                (File)anyObject(),
                                                (File)anyObject(),
                                                anyString(),
-                                               (List)anyObject(),
+                                               (List<File>)anyObject(),
                                                (PrintStream)anyObject(),
                                                (File)anyObject())).thenReturn(Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
@@ -124,6 +127,7 @@ public class WSDynamicClientImplTest {
         assertNotNull("Should get WsMethod through getWSMethod api", wsMethod);
     }
 
+    @SuppressWarnings("unchecked")
     @Test( expected = ResourceNotAvailableException.class )
     public void missingOperationShouldCaseExceptionThrownOnGetWSMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
@@ -133,13 +137,14 @@ public class WSDynamicClientImplTest {
                                                (File)anyObject(),
                                                (File)anyObject(),
                                                anyString(),
-                                               (List)anyObject(),
+                                               (List<File>)anyObject(),
                                                (PrintStream)anyObject(),
                                                (File)anyObject())).thenReturn(Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         client.getWSMethod("ServiceName1", "Port1", "testWrongMethod");
     }
 
+    @SuppressWarnings("unchecked")
     @Test( expected = ResourceNotAvailableException.class )
     public void missingPortShouldCaseExceptionThrownOnGetWSMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
@@ -149,13 +154,14 @@ public class WSDynamicClientImplTest {
                                                (File)anyObject(),
                                                (File)anyObject(),
                                                anyString(),
-                                               (List)anyObject(),
+                                               (List<File>)anyObject(),
                                                (PrintStream)anyObject(),
                                                (File)anyObject())).thenReturn(Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         client.getWSMethod("ServiceName1", "Port2", "testMethod");
     }
 
+    @SuppressWarnings("unchecked")
     @Test( expected = ResourceNotAvailableException.class )
     public void missingServiceShouldCaseExceptionThrownOnGetWSMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
@@ -165,7 +171,7 @@ public class WSDynamicClientImplTest {
                                                (File)anyObject(),
                                                (File)anyObject(),
                                                anyString(),
-                                               (List)anyObject(),
+                                               (List<File>)anyObject(),
                                                (PrintStream)anyObject(),
                                                (File)anyObject())).thenReturn(Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);

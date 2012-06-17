@@ -32,8 +32,8 @@ import org.milyn.javabean.decoders.DateDecoder;
 /**
  * {@link javax.xml.datatype.Duration} data decoder.
  * <p/>
- * Decodes the supplied string into a {@link javax.xml.datatype.Duration} String value is supposed to be millisecs representing
- * this Duaration
+ * Decodes the supplied string into a {@link javax.xml.datatype.Duration} String value is supposed to be milliseconds representing
+ * this Duration
  */
 @DecodeType( Duration.class )
 public class DurationDecoder extends DateDecoder implements DataDecoder {

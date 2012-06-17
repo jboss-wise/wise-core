@@ -33,8 +33,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 
-import sun.misc.BASE64Encoder;
-import org.jboss.wise.core.client.impl.reflection.builder.ReflectionBasedWSDynamicClientBuilder;
+import org.apache.commons.codec.binary.Base64;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.junit.Test;
 
@@ -94,7 +93,7 @@ public class ConnectionTest {
         verify(conn).setRequestProperty("Accept",
                                         "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
         verify(conn).setRequestProperty("Connection", "close");
-        verify(conn).setRequestProperty("Authorization", "Basic " + (new BASE64Encoder()).encode("username:password".getBytes()));
+        verify(conn).setRequestProperty("Authorization", "Basic " + new String(Base64.encodeBase64("username:password".getBytes())));
     }
 
     @Test

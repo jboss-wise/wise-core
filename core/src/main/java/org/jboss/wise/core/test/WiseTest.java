@@ -90,8 +90,9 @@ public class WiseTest {
      */
     public URL getArchiveUrl( String archiveName ) {
          URL warUrl = null;
-         URL dirURL = this.getClass().getClassLoader().getResource(".");
-         File file = new File(dirURL.getFile(), ".." + File.separator + TEST_WS_ARCHIVE_DIR + File.separator + archiveName);
+         final URL dirURL = this.getClass().getClassLoader().getResource(".");
+         final File parent = new File(dirURL.getFile()).getParentFile();
+         final File file = new File(parent, TEST_WS_ARCHIVE_DIR + File.separator + archiveName);
          if (file.exists()) {
              try {
                  warUrl = file.getAbsoluteFile().toURI().toURL();
