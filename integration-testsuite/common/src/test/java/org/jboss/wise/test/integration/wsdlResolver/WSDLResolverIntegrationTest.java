@@ -24,14 +24,17 @@ package org.jboss.wise.test.integration.wsdlResolver;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.jcip.annotations.Immutable;
 
 import org.jboss.wise.core.client.impl.wsdlResolver.Connection;
 import org.jboss.wise.core.client.impl.wsdlResolver.WSDLResolver;
 import org.jboss.wise.core.test.WiseTest;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
@@ -43,7 +46,7 @@ import static org.junit.Assert.assertTrue;
 public class WSDLResolverIntegrationTest extends WiseTest {
     
     private static final File tmpDir = new File("target/temp/WSDLResolverTest");
-    private URL warUrl = null;
+    private static URL warUrl = null;
     
     @Test
     public void shouldSaveRemoteSimpleWsdl() throws Exception {
@@ -92,11 +95,16 @@ public class WSDLResolverIntegrationTest extends WiseTest {
         assertTrue(wsdlFile.length() > 0);
     }
     
-    @Before
-    public void setUp() throws Exception {
-	warUrl = this.getClass().getClassLoader().getResource("wsdlResolver.war");
+    @BeforeClass
+    public static void setUp() throws Exception {
+	final ClassLoader classloader = WSDLResolverIntegrationTest.class.getClassLoader();
+	Map<String, String> authenticationOptions = new HashMap<String, String>();
+	authenticationOptions.put("usersProperties", classloader.getResource("org/jboss/wise/test/integration/wsdlResolver/jbossws-users.properties").toString());
+	authenticationOptions.put("rolesProperties", classloader.getResource("org/jboss/wise/test/integration/wsdlResolver/jbossws-roles.properties").toString());
+	authenticationOptions.put("unauthenticatedIdentity", "anonymous");
+	addSecurityDomain("JBossWS", authenticationOptions);
+	warUrl = classloader.getResource("wsdlResolver.war");
 	deployWS(warUrl);
-
     }
     
     @Before
@@ -109,9 +117,14 @@ public class WSDLResolverIntegrationTest extends WiseTest {
 	tmpDir.mkdir();
     }
     
-    @After
-    public void tearDown() throws Exception {
-	undeployWS(warUrl);
+    @AfterClass
+    public static void tearDown() throws Exception {
+	try {
+	    undeployWS(warUrl);
+	    removeSecurityDomain("JBossWS");
+	} finally {
+	    warUrl = null;
+	}
     }
 
 }

@@ -24,25 +24,25 @@ package org.jboss.wise.test.integration.basic;
 
 import java.net.URL;
 import java.util.Map;
+
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.test.WiseTest;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class WiseIntegrationBasicTest extends WiseTest {
-    private URL warUrl = null;
+    private static URL warUrl = null;
 
-    @Before
-    public void setUp() throws Exception {
-	warUrl = this.getClass().getClassLoader().getResource("basic.war");
+    @BeforeClass
+    public static void setUp() throws Exception {
+	warUrl = WiseIntegrationBasicTest.class.getClassLoader().getResource("basic.war");
 	deployWS(warUrl);
-
     }
 
     @Test
@@ -63,8 +63,12 @@ public class WiseIntegrationBasicTest extends WiseTest {
 	Assert.assertEquals("from-wise-client", test.get("result"));
     }
 
-    @After
-    public void tearDown() throws Exception {
-	undeployWS(warUrl);
+    @AfterClass
+    public static void tearDown() throws Exception {
+	try {
+	    undeployWS(warUrl);
+	} finally {
+	    warUrl = null;
+	}
     }
 }

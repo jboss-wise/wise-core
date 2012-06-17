@@ -28,6 +28,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Map;
 
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
@@ -63,7 +64,7 @@ public class WiseTest {
      * @param url url for webservice war 
      * @throws Exception if the deployment is failed
      */
-    public void deployWS(URL url) throws Exception {
+    public static void deployWS(URL url) throws Exception {
 	getDeployer().deploy(url);
     }
     
@@ -71,8 +72,16 @@ public class WiseTest {
      * @param url url of webservice war 
      * @throws Exception if undeployment is failed
      */
-    public void undeployWS(URL url) throws Exception {
-	getDeployer().undeploy(url);       
+    public static void undeployWS(URL url) throws Exception {
+	getDeployer().undeploy(url);
+    }
+    
+    public static void addSecurityDomain(String domainName, Map<String, String> authenticationOptions) throws Exception {
+	getDeployer().addSecurityDomain(domainName, authenticationOptions);
+    }
+    
+    public static void removeSecurityDomain(String domainName) throws Exception {
+	getDeployer().removeSecurityDomain(domainName);
     }
     
     /**Get the URL path for a given webservice archive. It will find this war file under ${baseDir}/build/test-ws-archive

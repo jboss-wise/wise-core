@@ -21,7 +21,6 @@
  */
 package org.jboss.wise.test.integration.wsaddressing;
 
-import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.xml.ws.soap.Addressing;
 
@@ -37,7 +36,6 @@ import javax.xml.ws.soap.Addressing;
              serviceName = "HelloService",
              wsdlLocation = "WEB-INF/test.wsdl" ) //this is added to force the server on publishing a WSDL without policies; this way we're sure WS-Addressing
              					  //on client side is controlled by features only, not by WS-Policy engine.
-@Stateless
 @Addressing(enabled = true, required = false)
 public class HelloImpl implements Hello {
     

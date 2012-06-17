@@ -40,17 +40,17 @@ import org.jboss.wise.core.mapper.SmooksMapper;
 import org.jboss.wise.core.test.WiseTest;
 import org.jboss.wise.test.integration.smooks.pojo.clientside.ExternalObject;
 import org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class WiseIntegrationSmooksTest extends WiseTest {
 
-    private URL warUrl = null;
+    private static URL warUrl = null;
 
-    @Before
-    public void setUp() throws Exception {
-	warUrl = this.getClass().getClassLoader().getResource("smooks.war");
+    @BeforeClass
+    public static void setUp() throws Exception {
+	warUrl = WiseIntegrationSmooksTest.class.getClassLoader().getResource("smooks.war");
 	deployWS(warUrl);
 
     }
@@ -82,8 +82,12 @@ public class WiseIntegrationSmooksTest extends WiseTest {
 	assertThat(((ExternalObject) resultMap.get("ExternalObject")).getDate(), notNullValue());
     }
 
-    @After
-    public void tearDown() throws Exception {
-	undeployWS(warUrl);
+    @AfterClass
+    public static void tearDown() throws Exception {
+	try {
+	    undeployWS(warUrl);
+	} finally {
+	    warUrl = null;
+	}
     }
 }
