@@ -27,12 +27,16 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.matchers.JUnitMatchers.hasItem;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.SpiLoader;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;
+import org.jboss.wise.core.utils.LoggingOutputStream;
 import org.junit.Test;
 
 /**
@@ -40,6 +44,8 @@ import org.junit.Test;
  * @author alessio.soldano@jboss.com
  */
 public class WSConsumerTest {
+    
+    private PrintStream testPrintStream = new PrintStream(new LoggingOutputStream(Logger.getLogger(this.getClass()), Level.INFO), true);
 
     @Test
     public void parseHelloGreetingWSDLShouldWorkWithoutPackage() throws Exception {
@@ -47,7 +53,7 @@ public class WSConsumerTest {
 	File outputDir = new File(url.getFile());
 	URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
 	WSConsumer importer = newConsumer();
-	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, null, System.out, null);
+	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, null, testPrintStream, null);
     }
 
     @Test()
@@ -60,7 +66,7 @@ public class WSConsumerTest {
 	List<File> bindings = new java.util.ArrayList<File>();
 	bindings.add(bindFile);
 	WSConsumer importer = newConsumer();
-	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, bindings, System.out, null);
+	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, bindings, testPrintStream, null);
 	File generatedClass = new File(url.getFile(), "org/mytest");
 	assertTrue(generatedClass.exists());
     }
@@ -71,7 +77,7 @@ public class WSConsumerTest {
 	File outputDir = new File(url.getFile());
 	URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
 	WSConsumer importer = newConsumer();
-	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, "org.jboss.wise", null, System.out, null);
+	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, "org.jboss.wise", null, testPrintStream, null);
     }
 
     @Test()

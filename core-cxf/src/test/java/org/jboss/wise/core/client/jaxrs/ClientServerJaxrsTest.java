@@ -1,9 +1,11 @@
 package org.jboss.wise.core.client.jaxrs;
 
 import java.io.InputStream;
+
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.testutil.common.AbstractClientServerTestBase;
+import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.junit.BeforeClass;
@@ -11,6 +13,8 @@ import org.junit.Test;
 
 public class ClientServerJaxrsTest extends AbstractClientServerTestBase {
 
+    private Logger logger = Logger.getLogger(ClientServerJaxrsTest.class);
+    
     @BeforeClass
     public static void startServers() throws Exception {
         assertTrue("server did not launch correctly", launchServer(JaxrsServer.class));
@@ -41,7 +45,7 @@ public class ClientServerJaxrsTest extends AbstractClientServerTestBase {
         InvocationResult result = client.invoke(request, null);
 
         String response = (String)result.getResult().get(InvocationResult.RESPONSE);
-        System.out.println("-------------" + response);
+        logger.debug("-------------" + response);
 
         String expected = getStringFromInputStream(getClass().getResourceAsStream("/jaxrs/expected_add_book.txt"));
 

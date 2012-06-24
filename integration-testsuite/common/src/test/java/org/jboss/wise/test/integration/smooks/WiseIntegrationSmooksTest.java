@@ -30,6 +30,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Map;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
@@ -64,7 +66,7 @@ public class WiseIntegrationSmooksTest extends WiseTest {
 		.toString()).build();
 
 	WSMethod method = client.getWSMethod("ComplexWSService", "ComplexWSPort", "ping");
-	method.getEndpoint().addHandler(new LoggingHandler());
+	method.getEndpoint().addHandler(new LoggingHandler(Logger.getLogger(this.getClass()), Level.DEBUG));
 	InternalObject internal = new InternalObject();
 	internal.setNumber(new Integer(1));
 	internal.setText("aa");

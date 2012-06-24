@@ -29,6 +29,7 @@ import java.util.Map;
 
 import net.jcip.annotations.Immutable;
 
+import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.impl.wsdlResolver.Connection;
 import org.jboss.wise.core.client.impl.wsdlResolver.WSDLResolver;
 import org.jboss.wise.core.test.WiseTest;
@@ -110,7 +111,7 @@ public class WSDLResolverIntegrationTest extends WiseTest {
     @Before
     public void createTmpDir() throws IOException
     {
-	System.out.println("Creating tmp dir: " + tmpDir.getPath());
+	Logger.getLogger(this.getClass()).debug("Creating tmp dir: " + tmpDir.getPath());
 	if (tmpDir.exists()) {
 	    tmpDir.delete();
 	}

@@ -37,6 +37,7 @@ import net.jcip.annotations.ThreadSafe;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
@@ -45,6 +46,7 @@ import org.jboss.wise.core.client.impl.wsdlResolver.Connection;
 import org.jboss.wise.core.client.impl.wsdlResolver.WSDLResolver;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wise.core.utils.IDGenerator;
+import org.jboss.wise.core.utils.LoggingOutputStream;
 
 /**
  * @author stefano.maestri@javalinux.it
@@ -54,6 +56,7 @@ import org.jboss.wise.core.utils.IDGenerator;
 public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBuilder {
 
     private static Logger logger = Logger.getLogger(ReflectionBasedWSDynamicClientBuilder.class);
+    private static PrintStream ps = new PrintStream(new LoggingOutputStream(logger, Level.INFO), true);
 
     @GuardedBy("this")
     private String wsdlURL;
@@ -95,7 +98,7 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
     private String clientSpecificTmpDir;
 
     @GuardedBy("this")
-    private PrintStream messageStream = System.out;
+    private PrintStream messageStream = ps;
 
     @GuardedBy("this")
     private int maxThreadPoolSize = MAX_THREAD_POOL_SIZE.getIntValue();

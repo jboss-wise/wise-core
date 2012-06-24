@@ -70,13 +70,15 @@ public class DefaultWSImportImpl extends WSConsumer {
 	wsImporter.setGenerateSource(this.isKeepSource());
 	wsImporter.setOutputDirectory(outputDir);
 	wsImporter.setSourceDirectory(sourceDir);
+	
+	if (this.isVerbose()) {
+	    wsImporter.setMessageStream(System.out);
+	}
+	
 	if (messageStream != null) {
 	    wsImporter.setMessageStream(messageStream);
 	}
 
-	if (this.isVerbose()) {
-	    wsImporter.setMessageStream(System.out);
-	}
 	wsImporter.setAdditionalCompilerClassPath(defineAdditionalCompilerClassPath());
 
 	if (bindingFiles != null && bindingFiles.size() > 0) {
