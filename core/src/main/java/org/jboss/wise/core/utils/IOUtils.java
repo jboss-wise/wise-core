@@ -22,27 +22,19 @@
 
 package org.jboss.wise.core.utils;
 
-// $Id: IOUtils.java 4018 2007-07-27 06:31:03Z thomas.diesler@jboss.com $
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import org.jboss.wise.core.exception.WiseRuntimeException;
 
 /**
  * IO utilities
  * 
- * @author stefano.maestri@javalinux.it class imported from JBossWS. Kept methods useful for Wise
+ * @author stefano.maestri@javalinux.it
  */
 public final class IOUtils {
-    // Hide the constructor
-    private IOUtils() {
-    }
-
-    public static IOUtils newInstance() {
-        return new IOUtils();
-    }
-
+    
     /**
      * True if the given type name is the source notation of a primitive or array of which.
      * 
@@ -50,7 +42,7 @@ public final class IOUtils {
      * @param ins
      * @throws WiseRuntimeException
      */
-    public void copyStreamAndClose( OutputStream outs,
+    public static void copyStreamAndClose( OutputStream outs,
                                     InputStream ins ) throws WiseRuntimeException {
         try {
             byte[] bytes = new byte[1024];
@@ -79,5 +71,4 @@ public final class IOUtils {
 
         }
     }
-
 }
