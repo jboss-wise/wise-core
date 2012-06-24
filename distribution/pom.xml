@@ -19,12 +19,12 @@
             <dependency>
                 <groupId>org.jboss.wise</groupId>
                 <artifactId>wise-core</artifactId>
-                <version>${version}</version>         
+                <version>${project.version}</version>         
             </dependency>
     </dependencies>
 
     <properties>
-        <wise.version>${pom.version}</wise.version>
+        <wise.version>${project.version}</wise.version>
     </properties>
 
     <build>
@@ -43,10 +43,10 @@
                             <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>${pom.groupId}</groupId>
+                                    <groupId>${project.groupId}</groupId>
                                     <artifactId>wise-core</artifactId>
                                     <classifier>javadoc</classifier>
-                                    <version>${pom.version}</version>
+                                    <version>${project.version}</version>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
