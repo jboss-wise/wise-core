@@ -19,9 +19,8 @@
 	<property name="classes.java.server.dir" value="classes/server" />
 	<property name="server.classes.additional.dir" value="classes" />
 	<property name="lib.dir" value="../../lib" />
-	<property name="local.lib.dir" value="./lib" />
 	<property name="distribuion.dir" value="../../" />
-        <property file="${basedir}/../ant/sample.properties" />
+	<property file="${basedir}/../ant/sample.properties" />
 
     <!-- Use -Ddebug=true for remote debugging -->
     <condition property="remote.debug.line" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005">
@@ -43,9 +42,6 @@
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
-		<fileset dir="${local.lib.dir}">
-			<include name="*.jar" />
-		</fileset>
 		<fileset dir="${distribuion.dir}">
 		    <include name="*.jar" />
 		</fileset>
@@ -55,18 +51,14 @@
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
-		<fileset dir="${local.lib.dir}">
-			<include name="*.jar" />
-		</fileset>
 		<fileset dir="${distribuion.dir}">
-		            <include name="*.jar" />
+			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${build.client.dir}">
 			<include name="*.jar" />
 		</fileset>
-                <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
+		<pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
 		<!--<path refid="additional.run.classpath"/>-->
-
 	</path>
 
 	<target name="clean">
@@ -75,8 +67,8 @@
 		<delete dir="${classes.dir}" />
 		<delete dir="${build.client.dir}" />
 		<delete dir="${build.server.dir}" />
-                <delete dir="${build.dir}" />
-                <delete dir="${log.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${log.dir}" />
 	</target>
 
 	<target name="prepare">
@@ -86,10 +78,10 @@
 		<mkdir dir="${build.server.dir}" />
 	</target>
 	<target name="compile" description="Compile the Java source code" depends="prepare">
-		<javac destdir="${classes.java.client.dir}" classpathref="build.classpath" debug="true" deprecation="true" target="1.5">
+		<javac destdir="${classes.java.client.dir}" classpathref="build.classpath" debug="true" deprecation="true" target="1.6">
 			<src path="${src.java.client.dir}" />
 		</javac>
-		<javac destdir="${classes.java.server.dir}" classpathref="build.classpath" debug="true" deprecation="true" target="1.5">
+		<javac destdir="${classes.java.server.dir}" classpathref="build.classpath" debug="true" deprecation="true" target="1.6">
 			<src path="${src.java.server.dir}" />
 		</javac>
 		<copy todir="${classes.java.client.dir}">
@@ -107,7 +99,7 @@
 			</metainf>
 		</jar>
 		<war webxml="./resources/WEB-INF/web.xml" jarfile="${build.server.dir}/${ant.project.name}.war">
-			<fileset dir="${classes.java.server.dir}" />
+			<classes dir="${classes.java.server.dir}" />
 			<webinf dir="./resources/WEB-INF">
 			    <include name="*"/>
 			</webinf>
@@ -115,11 +107,11 @@
 	</target>
 
 	<target name="deployTestWS" depends="jar" description="Deploys the server side archive of the current test">
-		<copy todir="${JBossHome}/server/${ServerConfig}/deploy/" file="${build.server.dir}/${ant.project.name}.war" />
+		<copy todir="${JBossHome}/${ServerConfig}/deployments/" file="${build.server.dir}/${ant.project.name}.war" />
 	</target>
 	
     <target name="undeployTestWS" depends="jar" description="Undeploys the server side archive of the current test">
-    	<delete file="${JBossHome}/server/${ServerConfig}/deploy/${ant.project.name}.war"/>
+    	<delete file="${JBossHome}/${ServerConfig}/deployments/${ant.project.name}.war"/>
     </target>
 
     <target name="runTest" depends="jar" description="Run the current test">
