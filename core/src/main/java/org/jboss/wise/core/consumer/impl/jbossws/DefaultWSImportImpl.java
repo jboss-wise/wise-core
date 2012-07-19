@@ -26,12 +26,10 @@ import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.log4j.Logger;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.ws.api.tools.WSContractConsumer;
@@ -43,11 +41,6 @@ import org.jboss.ws.api.tools.WSContractConsumer;
  */
 @ThreadSafe
 public class DefaultWSImportImpl extends WSConsumer {
-
-    private final String[] neededClasses = { "javax/jws/WebResult.class",
-					    "javax/xml/ws/Action.class",
-					    "javax/xml/bind/JAXBElement.class",
-					    "com/sun/xml/bind/XmlAccessorFactory.class" };
 
     public DefaultWSImportImpl() {
 	
@@ -79,8 +72,6 @@ public class DefaultWSImportImpl extends WSConsumer {
 	    wsImporter.setMessageStream(messageStream);
 	}
 
-	wsImporter.setAdditionalCompilerClassPath(defineAdditionalCompilerClassPath());
-
 	if (bindingFiles != null && bindingFiles.size() > 0) {
 	    wsImporter.setBindingFiles(bindingFiles);
 	}
@@ -96,25 +87,6 @@ public class DefaultWSImportImpl extends WSConsumer {
 	wsImporter.consume(wsdlURL);
     }
 
-    /*
-     * This is used load libraries required by tests and usually not available
-     * when running out of container.
-     * 
-     * @return A list of paths
-     */
-    protected List<String> defineAdditionalCompilerClassPath() throws WiseRuntimeException {
-	List<String> cp = new LinkedList<String>();
-	for (String jar : neededClasses) {
-	    try {
-		cp.add(getContextClassLoader().getResource(jar).getPath().split("!")[0]);
-	    } catch (NullPointerException npe) {
-		Logger.getLogger(this.getClass()).debug("Did not find jar needed by wsImport API:" + jar);
-	    }
-
-	}
-	return cp;
-    }
-    
     private static ClassLoader getContextClassLoader()
     {
        SecurityManager sm = System.getSecurityManager();
