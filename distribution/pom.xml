@@ -15,17 +15,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <properties>
+        <wise.version>${project.version}</wise.version>
+    </properties>
+
     <dependencies>
             <dependency>
                 <groupId>org.jboss.wise</groupId>
                 <artifactId>wise-core-cxf</artifactId>
                 <version>${project.version}</version>         
             </dependency>
+            <dependency>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+            </dependency>
     </dependencies>
-
-    <properties>
-        <wise.version>${project.version}</wise.version>
-    </properties>
 
     <build>
         <plugins>
