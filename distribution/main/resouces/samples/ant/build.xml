@@ -98,6 +98,9 @@
 			<metainf dir="./resources/META-INF">
 			</metainf>
 		</jar>
+	</target>
+
+	<target name="war" depends="compile">
 		<war webxml="./resources/WEB-INF/web.xml" jarfile="${build.server.dir}/${ant.project.name}.war">
 			<classes dir="${classes.java.server.dir}" />
 			<webinf dir="./resources/WEB-INF">
@@ -106,11 +109,11 @@
 		</war>
 	</target>
 
-	<target name="deployTestWS" depends="jar" description="Deploys the server side archive of the current test">
+	<target name="deployTestWS" depends="war" description="Deploys the server side archive of the current test">
 		<copy todir="${JBossHome}/${ServerConfig}/deployments/" file="${build.server.dir}/${ant.project.name}.war" />
 	</target>
 	
-    <target name="undeployTestWS" depends="jar" description="Undeploys the server side archive of the current test">
+    <target name="undeployTestWS" description="Undeploys the server side archive of the current test">
     	<delete file="${JBossHome}/${ServerConfig}/deployments/${ant.project.name}.war"/>
     </target>
 
