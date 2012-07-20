@@ -132,6 +132,12 @@
                 <groupId>org.jboss.ws</groupId>
                 <artifactId>jbossws-common</artifactId>
                 <version>2.0.2.GA</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jboss.jaxbintros</groupId>
+                        <artifactId>jboss-jaxb-intros</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -144,12 +150,52 @@
                 <groupId>org.jboss.ws.cxf</groupId>
                 <artifactId>jbossws-cxf-client</artifactId>
                 <version>4.0.2.GA</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-ws-rm</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-management</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-tools-java2ws</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.woodstox</groupId>
+                        <artifactId>woodstox-core-asl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.opensaml</groupId>
+                        <artifactId>opensaml</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.fastinfoset</groupId>
+                        <artifactId>FastInfoset</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jboss.ws.cxf</groupId>
+                        <artifactId>jbossws-cxf-transports-httpserver</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>gnu-getopt</groupId>
+                        <artifactId>getopt</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.milyn</groupId>
                 <artifactId>milyn-smooks-core</artifactId>
                 <version>1.2.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
              <dependency>

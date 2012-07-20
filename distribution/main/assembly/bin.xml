@@ -23,7 +23,6 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <formats>
         <format>dir</format>
-        <format>tar.gz</format>
         <format>zip</format>
     </formats>
 
@@ -65,6 +64,7 @@
                 <exclude>**/build</exclude>
                 <exclude>**/build/**/*</exclude>
                 <exclude>**/.settings</exclude>
+                <exclude>**/.settings/**/*</exclude>
                 <exclude>**/.classpath</exclude>
                 <exclude>**/.project</exclude>
                 <exclude>**/surefire*</exclude>
@@ -77,22 +77,16 @@
         <dependencySet>
             <outputDirectory>wise-${wise.version}/lib</outputDirectory>
             <unpack>false</unpack>
-            <excludes>
-              <!--temporarily fixed the jaxws-rt jar problem--> 
-              <exclude>jaxws-rt*.jar</exclude>
-            </excludes>
             <scope>runtime</scope>
         </dependencySet>
-
         <dependencySet>
             <outputDirectory>wise-${wise.version}</outputDirectory>
             <unpack>false</unpack>
-            <includes>
-              <include>wise-*.jar</include>
-            </includes>
             <scope>runtime</scope>
+            <includes>
+              <include>*:wise-core*:jar</include>
+            </includes>
         </dependencySet>
-
     </dependencySets>
 
 </assembly>
