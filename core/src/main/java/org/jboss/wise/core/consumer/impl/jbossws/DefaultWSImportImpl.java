@@ -79,6 +79,9 @@ public class DefaultWSImportImpl extends WSConsumer {
 	if (catelog != null) {
 	    wsImporter.setCatalog(catelog);
 	}
+	
+	wsImporter.setTarget("2.1"); //workaround for WISE-179
+	
 	runWSConsume(wsImporter, wsdlURL);
 	return this.getClassNames(outputDir, targetPackage);
     }
