@@ -26,14 +26,11 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.NullPrintStream;
-import org.jboss.wsf.stack.cxf.tools.CXFConsumerImpl;
 
 /**
  * A WSContractConsumer for CXF stack; this is basically a copy of the JBossWS-CXF 4.1.0
@@ -44,7 +41,6 @@ import org.jboss.wsf.stack.cxf.tools.CXFConsumerImpl;
  */
 public class WiseCXFConsumerImpl extends WSContractConsumer
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFConsumerImpl.class);
    private List<File> bindingFiles = null;
    private File catalog = null;
    private boolean extension;
@@ -196,7 +192,7 @@ public class WiseCXFConsumerImpl extends WSContractConsumer
       if (sourceDir != null && generateSource)
       {
          if (!sourceDir.exists() && !sourceDir.mkdirs())
-            throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  sourceDir.getName()));
+            throw new IllegalStateException("Could not make directory: " + sourceDir.getName());
 
          args.add("-d");
          args.add(sourceDir.getAbsolutePath());
@@ -224,7 +220,7 @@ public class WiseCXFConsumerImpl extends WSContractConsumer
       }
 
       if (!outputDir.exists() && !outputDir.mkdirs())
-         throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  outputDir.getName()));
+         throw new IllegalStateException("Could not make directory: " + outputDir.getName());
 
       // Always add the output directory and the wsdl location
       if (!nocompile)
