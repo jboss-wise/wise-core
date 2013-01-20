@@ -268,6 +268,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 		}
 	    }
 	}
+	this.classLoader = null;
     }
 
     /**
