@@ -23,6 +23,7 @@
 package org.jboss.wise.core.client;
 
 import java.net.URLClassLoader;
+import java.util.List;
 import java.util.Map;
 
 import org.jboss.wise.core.exception.ResourceNotAvailableException;
@@ -55,6 +56,11 @@ public interface WSDynamicClient {
      * @return The classLoader used to load generated class.
      */
     public URLClassLoader getClassLoader();
+    
+    /**
+     * @return The ObjectFactory classes for the generated sources
+     */
+    public List<Class<?>> getObjectFactories();
 
     /**
      * It return directly the method to invoke the specified action on specified

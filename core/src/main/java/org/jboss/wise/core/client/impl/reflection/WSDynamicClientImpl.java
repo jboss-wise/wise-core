@@ -30,6 +30,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -215,6 +217,23 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 
     public synchronized final void setClassLoader(URLClassLoader classLoader) {
 	this.classLoader = classLoader;
+    }
+    
+    public synchronized List<Class<?>> getObjectFactories() {
+	List<Class<?>> list = new LinkedList<Class<?>>();
+	for (String className : classNames) {
+	    if (className.endsWith("ObjectFactory")) {
+		try {
+		    Class<?> clazz = JavaUtils.loadJavaType(className, this.getClassLoader());
+		    //TODO!! Add check on @XmlRegistry
+		    list.add(clazz);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    throw new IllegalStateException("Error during loading/instanciating class:" + className + " with exception message: " + e.getMessage());
+		}
+	    }
+	}
+	return list;
     }
 
     /**
