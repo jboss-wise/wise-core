@@ -180,7 +180,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
                 String response = get.getResponseBodyAsString();
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
-                result = new InvocationResultImpl(InvocationResult.RESPONSE, response, responseHolder);
+                result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
                 // System.out.print(response);
             } catch (IOException e) {
@@ -199,7 +199,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
                 String response = post.getResponseBodyAsString();
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
-                result = new InvocationResultImpl(InvocationResult.RESPONSE, response, responseHolder);
+                result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
                 // System.out.print(response);
             } catch (IOException e) {
@@ -218,7 +218,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
                 String response = put.getResponseBodyAsString();
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
-                result = new InvocationResultImpl(InvocationResult.RESPONSE, response, responseHolder);
+                result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
                 // System.out.print(response);
             } catch (IOException e) {
@@ -235,7 +235,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
                 String response = delete.getResponseBodyAsString();
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
-                result = new InvocationResultImpl(InvocationResult.RESPONSE, response, responseHolder);
+                result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
                 // System.out.print(response);
             } catch (IOException e) {

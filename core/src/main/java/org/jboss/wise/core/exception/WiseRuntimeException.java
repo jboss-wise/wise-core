@@ -23,7 +23,7 @@
 package org.jboss.wise.core.exception;
 
 /**
- * This exception is for connection/authentication failure issues.
+ * Common Wise runtime exception
  * 
  * @author alessio.soldano@javalinux.it
  */

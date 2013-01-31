@@ -42,21 +42,21 @@ public class InvocationResultImplTest {
 
     @Test
     public void shoudReturnAnOriginaObjectsEmptyMapIfNameIsNull() throws Exception {
-        results = new InvocationResultImpl(null, new Long(1), null);
+        results = new InvocationResultImpl(null, Long.class, new Long(1), null);
         Map<String, Object> mappedResult = results.getMapRequestAndResult(null, null);
         assertThat(((Map<?,?>)mappedResult.get("results")).isEmpty(), is(true));
     }
 
     @Test
     public void shoudReturnAnOriginaObjectsEmptyMapIfNameIsEmptyString() throws Exception {
-        results = new InvocationResultImpl(" ", new Long(1), null);
+        results = new InvocationResultImpl(" ", Long.class, new Long(1), null);
         Map<String, Object> mappedResult = results.getMapRequestAndResult(null, null);
         assertThat(((Map<?,?>)mappedResult.get("results")).isEmpty(), is(true));
     }
 
     @Test
     public void shouldReturnOriginalObjectIfMapperIsNull() throws Exception {
-        results = new InvocationResultImpl("result", new Long(1), null);
+        results = new InvocationResultImpl("result", Long.class, new Long(1), null);
         Map<String, Object> mappedResult = results.getMapRequestAndResult(null, null);
         assertThat((Long)((Map<?,?>)mappedResult.get("results")).get("result"), equalTo(new Long(1)));
 
@@ -64,7 +64,7 @@ public class InvocationResultImplTest {
 
     @Test
     public void shouldApplyMapping() throws Exception {
-        results = new InvocationResultImpl("result", new Long(1), null);
+        results = new InvocationResultImpl("result", Long.class, new Long(1), null);
         WiseMapper mapper = mock(WiseMapper.class);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", new Long(2));
@@ -76,7 +76,7 @@ public class InvocationResultImplTest {
 
     @Test
     public void shouldReturnInputObjectAndOriginalObjectIfMapperIsNull() throws Exception {
-        results = new InvocationResultImpl("result", new Long(1), null);
+        results = new InvocationResultImpl("result", Long.class, new Long(1), null);
         Map<String, Object> inputMap = new HashMap<String, Object>();
         inputMap.put("origKey", "origValue");
         Map<String, Object> mappedResult = results.getMapRequestAndResult(null, inputMap);
@@ -87,7 +87,7 @@ public class InvocationResultImplTest {
 
     @Test
     public void shouldApplyMappingAndReturnIputMap() throws Exception {
-        results = new InvocationResultImpl("result", new Long(1), null);
+        results = new InvocationResultImpl("result", Long.class, new Long(1), null);
         WiseMapper mapper = mock(WiseMapper.class);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", new Long(2));

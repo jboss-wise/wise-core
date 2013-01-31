@@ -22,12 +22,14 @@
 
 package org.jboss.wise.core.client.impl.reflection;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.client.InvocationResult;
+import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.exception.MappingException;
 import org.jboss.wise.core.mapper.WiseMapper;
 
@@ -49,7 +51,7 @@ public class InvocationResultImpl implements InvocationResult {
      * @param value
      * @param results
      */
-    public InvocationResultImpl(String name, Object value, Map<String, Object> results) {
+    public InvocationResultImpl(String name, Type resultType, Object value, Map<String, Object> results) {
 
 	this.originalObjects = new HashMap<String, Object>();
 	if (results == null) {
@@ -58,6 +60,9 @@ public class InvocationResultImpl implements InvocationResult {
 	this.originalObjects.putAll(results);
 	if (name != null && name.trim().length() != 0) {
 	    this.originalObjects.put(name, value);
+	    if (resultType != null) {
+		this.originalObjects.put(WSMethod.TYPE_PREFIX + WSMethod.RESULT, resultType);
+	    }
 	}
     }
 

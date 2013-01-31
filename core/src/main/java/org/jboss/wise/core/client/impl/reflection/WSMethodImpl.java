@@ -50,7 +50,7 @@ import org.jboss.wise.core.mapper.WiseMapper;
 @ThreadSafe
 @Immutable
 public class WSMethodImpl implements WSMethod {
-
+    
     private final Method method;
 
     private final WSEndpoint endpoint;
@@ -83,10 +83,9 @@ public class WSMethodImpl implements WSMethod {
 	    Future<Object> invocation = ((WSEndpointImpl) this.getEndpoint()).getService().submit(caller);
 	    if (isOneWay()) {
 		invocation.get();
-		result = new InvocationResultImpl(null, null, emptyHolder);
+		result = new InvocationResultImpl(null, null, null, emptyHolder);
 	    } else {
-
-		result = new InvocationResultImpl("result", invocation.get(), getHoldersResult(args));
+		result = new InvocationResultImpl(RESULT, method.getGenericReturnType(), invocation.get(), getHoldersResult(args));
 
 	    }
 	} catch (Exception ite) {
@@ -94,8 +93,9 @@ public class WSMethodImpl implements WSMethod {
 	    System.out.print("error invoking:" + args.values().toArray());
 	    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
 		for (int i = 0; i < methodPointer.getExceptionTypes().length; i++) {
-		    if (ite.getCause().getClass().isAssignableFrom(methodPointer.getExceptionTypes()[i])) {
-			result = new InvocationResultImpl("exception", ite.getCause(), emptyHolder);
+		    Class<?> excType = methodPointer.getExceptionTypes()[i];
+		    if (ite.getCause().getClass().isAssignableFrom(excType)) {
+			result = new InvocationResultImpl("exception", excType, ite.getCause(), emptyHolder);
 			return result;
 		    }
 		}
@@ -201,6 +201,7 @@ public class WSMethodImpl implements WSMethod {
 	    WebParameterImpl wisePara = webParams.get(key);
 	    if (wisePara != null && (wisePara.getMode() == WebParam.Mode.INOUT || wisePara.getMode() == WebParam.Mode.OUT)) {
 		holders.put(key, paras.get(key));
+		holders.put(TYPE_PREFIX + key, wisePara.getType());
 	    }
 	}
 	return holders;

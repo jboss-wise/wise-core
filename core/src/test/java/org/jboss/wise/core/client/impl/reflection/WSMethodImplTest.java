@@ -173,6 +173,8 @@ public class WSMethodImplTest {
 	Map<String, Object> results = wsMethod.getHoldersResult(inputMap);
 	assertThat(results, hasEntry("annotation2", (Object) "foo2"));
 	assertThat(results, hasEntry("annotation3", (Object) "foo3"));
+	assertThat(results, hasEntry("type.annotation2", (Object) String.class));
+	assertThat(results, hasEntry("type.annotation3", (Object) String.class));
     }
 
     @Test
@@ -187,9 +189,11 @@ public class WSMethodImplTest {
 
 	WSMethodImpl wsMethod = new WSMethodImpl(method, endPointMock);
 	Map<String, Object> results = wsMethod.getHoldersResult(inputMap);
-	assertThat(results.size(), is(2));
+	assertThat(results.size(), is(4));
 	assertThat(results, hasEntry("annotation2", (Object) "foo2"));
 	assertThat(results, hasEntry("annotation3", (Object) "foo3"));
+	assertThat(results, hasEntry("type.annotation2", (Object) String.class));
+	assertThat(results, hasEntry("type.annotation3", (Object) String.class));
     }
 
     @Test
@@ -204,9 +208,11 @@ public class WSMethodImplTest {
 
 	WSMethodImpl wsMethod = new WSMethodImpl(method, endPointMock);
 	Map<String, Object> results = wsMethod.getHoldersResult(inputMap);
-	assertThat(results.size(), is(2));
+	assertThat(results.size(), is(4));
 	assertThat(results, hasEntry("annotation2", (Object) "foo2"));
 	assertThat(results, hasEntry("annotation3", (Object) "foo3"));
+	assertThat(results, hasEntry("type.annotation2", (Object) String.class));
+	assertThat(results, hasEntry("type.annotation3", (Object) String.class));
     }
 
     @Test
@@ -239,11 +245,13 @@ public class WSMethodImplTest {
 	InvocationResult invocationResults = wsMethod.invoke(inputMap);
 	assertThat(this.methodWorked, is(true));
 	Map<String, Object> results = (Map) invocationResults.getMapRequestAndResult(null, null).get("results");
-	assertThat(results.size(), is(3));
+	assertThat(results.size(), is(6));
 	assertThat(results, hasEntry("result", (Object) "great"));
 	assertThat(results, hasEntry("annotation2", (Object) "foo2"));
 	assertThat(results, hasEntry("annotation3", (Object) "foo3"));
-
+	assertThat(results, hasEntry("type.result", (Object) String.class));
+	assertThat(results, hasEntry("type.annotation2", (Object) String.class));
+	assertThat(results, hasEntry("type.annotation3", (Object) String.class));
     }
 
     @Test
@@ -263,10 +271,14 @@ public class WSMethodImplTest {
 	InvocationResult invocationResults = wsMethod.invoke(inputMap, mapper);
 	assertThat(this.methodWorked, is(true));
 	Map<String, Object> results = (Map) invocationResults.getMapRequestAndResult(null, null).get("results");
-	assertThat(results.size(), is(3));
+	assertThat(results.size(), is(6));
 	assertThat(results, hasEntry("result", (Object) "great"));
 	assertThat(results, hasEntry("annotation2", (Object) "foo2"));
 	assertThat(results, hasEntry("annotation3", (Object) "foo3"));
+	assertThat(results, hasEntry("type.result", (Object) String.class));
+	assertThat(results, hasEntry("type.annotation2", (Object) String.class));
+	assertThat(results, hasEntry("type.annotation3", (Object) String.class));
+
 
     }
 }

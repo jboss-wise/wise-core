@@ -38,6 +38,9 @@ import org.jboss.wise.core.mapper.WiseMapper;
 @ThreadSafe
 public interface WSMethod {
 
+    public static final String RESULT = "result";
+    public static final String TYPE_PREFIX = "type.";
+
     /**
      * Invokes this method with the provided arguments applying provided mapper
      * 
