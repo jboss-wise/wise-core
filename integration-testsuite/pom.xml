@@ -47,7 +47,6 @@
 			<groupId>org.jboss.wise</groupId>
 			<artifactId>wise-core</artifactId>
 			<version>${project.version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>

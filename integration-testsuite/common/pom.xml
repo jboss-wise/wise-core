@@ -27,8 +27,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<dependencies/>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -81,6 +79,40 @@
 									<excludes>
 										<exclude>**/*Test.class</exclude>
 									</excludes>
+								</webResource>
+							</webResources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>war-it-incontainer</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+						<configuration>
+							<webXml>${basedir}/src/test/resources/WEB-INF/incontainer/web.xml</webXml>
+							<warName>incontainer</warName>
+							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+							<webappDirectory>${project.build.directory}/incontainer</webappDirectory>
+							<warSourceExcludes>**/lib/**</warSourceExcludes>
+							<packagingIncludes>WEB-INF/lib/wise*.jar, WEB-INF/lib/commons*.jar, WEB-INF/lib/milyn*.jar, WEB-INF/classes/**, WEB-INF/*.xml</packagingIncludes>
+							<webResources>
+								<webResource>
+									<targetPath>WEB-INF/classes</targetPath>
+									<directory>${basedir}/target/test-classes/</directory>
+									<includes>
+										<include>**/incontainer/*.class</include>
+									</includes>
+									<excludes>
+										<exclude>**/*Test.class</exclude>
+									</excludes>
+								</webResource>
+								<webResource>
+									<targetPath>WEB-INF</targetPath>
+									<directory>${basedir}/src/test/resources/WEB-INF/incontainer/</directory>
+									<includes>
+										<include>**/*.*</include>
+									</includes>
 								</webResource>
 							</webResources>
 						</configuration>
