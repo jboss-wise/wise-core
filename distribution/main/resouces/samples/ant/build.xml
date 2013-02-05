@@ -5,7 +5,7 @@
      ====================================================================== -->
 <project name="WiseSamples">
 	<description>
-            It's the base file used by all samples's build
+            It's the base file used by all samples' build
     </description>
         <property environment="env"/>
 	<property name="log.dir" value="log" />
