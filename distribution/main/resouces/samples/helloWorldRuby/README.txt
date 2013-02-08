@@ -1,6 +1,6 @@
-To run this sample edit runJRubyJDK6.sh and set your JRUBY_PATH.
-Then run runGroovyJDK6.sh and have fun. 
-If you want to see groovy's closures in action with Wise edit and then run runGroovyClosure.sh
+This sample assumes you have properly installed JRuby.
+You have two convenient shell scripts for running the Ruby scripts included in this sample without bothering with the classpath:
+* runJRuby.sh
+* runJRubyClosure.sh 
 
-
-Have fun.
+This sample has been tested using JRuby 1.7.2.
