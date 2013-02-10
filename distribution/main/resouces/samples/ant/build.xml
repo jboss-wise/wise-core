@@ -78,10 +78,10 @@
 		<mkdir dir="${build.server.dir}" />
 	</target>
 	<target name="compile" description="Compile the Java source code" depends="prepare">
-		<javac destdir="${classes.java.client.dir}" classpathref="build.classpath" debug="true" deprecation="true" target="1.6">
+		<javac destdir="${classes.java.client.dir}" classpathref="build.classpath" debug="true" includeantruntime="false">
 			<src path="${src.java.client.dir}" />
 		</javac>
-		<javac destdir="${classes.java.server.dir}" classpathref="build.classpath" debug="true" deprecation="true" target="1.6">
+		<javac destdir="${classes.java.server.dir}" classpathref="build.classpath" debug="true" includeantruntime="false">
 			<src path="${src.java.server.dir}" />
 		</javac>
 		<copy todir="${classes.java.client.dir}">
