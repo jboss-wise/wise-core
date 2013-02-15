@@ -30,6 +30,11 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.ws.Binding;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.Handler;
@@ -82,8 +87,16 @@ public class EndpointMethodPreview extends EndpointMethodCaller {
 	@Override
 	public boolean handleMessage(SOAPMessageContext context) {
 	    try {
-		SOAPMessage soapMessage = context.getMessage();
-		soapMessage.writeTo(os);
+		TransformerFactory tff = TransformerFactory.newInstance();
+		Transformer tf = tff.newTransformer();
+		tf.setOutputProperty(OutputKeys.INDENT, "yes");
+		tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+		
+		Source sc = context.getMessage().getSOAPPart().getContent();
+		
+		StreamResult result = new StreamResult(os);
+		tf.transform(sc, result);
+		
 	    } catch (Exception e) {
 		e.printStackTrace(new PrintStream(os));
 	    }
