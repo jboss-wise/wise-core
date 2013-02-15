@@ -21,6 +21,7 @@
  */
 package org.jboss.wise.test.integration.basic;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.util.Map;
 
@@ -55,6 +56,9 @@ public class WiseIntegrationBasicTest extends WiseTest {
 	WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
 	Map<String, Object> args = new java.util.HashMap<String, Object>();
 	args.put("arg0", "from-wise-client");
+	ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	method.writeRequestPreview(args, bos);
+	Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
 	InvocationResult result = method.invoke(args, null);
 	Map<String, Object> res = result.getMapRequestAndResult(null, null);
 	Map<String, Object> test = (Map<String, Object>) res.get("results");

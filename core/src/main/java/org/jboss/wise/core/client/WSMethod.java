@@ -21,6 +21,7 @@
  */
 package org.jboss.wise.core.client;
 
+import java.io.OutputStream;
 import java.util.Map;
 import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.exception.InvocationException;
@@ -84,6 +85,16 @@ public interface WSMethod {
      * @throws MappingException
      */
     public InvocationResult invoke(Object args) throws InvocationException, IllegalArgumentException, MappingException;
+    
+    /**
+     * Generates and writes a preview of the request message for invoking this
+     * method with the provided arguments.
+     * 
+     * @param args
+     * @param os
+     * @throws InvocationException
+     */
+    public void writeRequestPreview(Map<String, Object> args, OutputStream os) throws InvocationException;
 
     /**
      * Gets the map of {@link WebParameter} for the webserice method represented

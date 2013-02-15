@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.xml.ws.Binding;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.Handler;
 
@@ -33,7 +34,7 @@ import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
 
 public class EndpointMethodCaller implements Callable<Object> {
 
-    private final ThreadLocal<Object> epUnderlyingObjectInstance = new ThreadLocal<Object>() {
+    protected final ThreadLocal<Object> epUnderlyingObjectInstance = new ThreadLocal<Object>() {
         @Override
         protected Object initialValue() {
             return epInstance.createInstance();
@@ -74,21 +75,23 @@ public class EndpointMethodCaller implements Callable<Object> {
 
     public void visitEnabler() {
         if (epInstance.getExtensions() != null) {
+            Object obj = epUnderlyingObjectInstance.get();
             for (WSExtensionEnabler enabler : epInstance.getExtensions()) {
-                enabler.enable(epUnderlyingObjectInstance.get());
+                enabler.enable(obj);
             }
         }
     }
 
     public void addHandlers() {
-        if (epInstance.getHandlers() != null) {
-
-            for (Handler<?> handler : epInstance.getHandlers()) {
-                @SuppressWarnings("rawtypes")
-		List<Handler> handlerChain = ((BindingProvider)epUnderlyingObjectInstance.get()).getBinding().getHandlerChain();
+        List<Handler<?>> handlers = epInstance.getHandlers();
+        if (handlers != null && !handlers.isEmpty()) {
+            Binding binding = ((BindingProvider)epUnderlyingObjectInstance.get()).getBinding();
+            @SuppressWarnings("rawtypes")
+            List<Handler> handlerChain = binding.getHandlerChain();
+            for (Handler<?> handler : handlers) {
                 handlerChain.add(handler);
-                ((BindingProvider)epUnderlyingObjectInstance.get()).getBinding().setHandlerChain(handlerChain);
             }
+            binding.setHandlerChain(handlerChain);
         }
     }
 

@@ -21,6 +21,7 @@
  */
 package org.jboss.wise.core.client.impl.reflection;
 
+import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -72,7 +73,7 @@ public class WSMethodImpl implements WSMethod {
      * received
      */
     InvocationResultImpl invoke(Map<String, Object> args) throws InvocationException, IllegalArgumentException {
-	Method methodPointer = null;
+//	Method methodPointer = null;
 	InvocationResultImpl result = null;
 	Map<String, Object> emptyHolder = Collections.emptyMap();
 
@@ -90,20 +91,33 @@ public class WSMethodImpl implements WSMethod {
 	} catch (Exception ite) {
 	    System.out.print("error invoking:" + this.getMethod());
 	    System.out.print("error invoking:" + args.values().toArray());
-	    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
-		for (int i = 0; i < methodPointer.getExceptionTypes().length; i++) {
-		    Class<?> excType = methodPointer.getExceptionTypes()[i];
-		    if (ite.getCause().getClass().isAssignableFrom(excType)) {
-			result = new InvocationResultImpl("exception", excType, ite.getCause(), emptyHolder);
-			return result;
-		    }
-		}
-	    }
+//	    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
+//		for (int i = 0; i < methodPointer.getExceptionTypes().length; i++) {
+//		    Class<?> excType = methodPointer.getExceptionTypes()[i];
+//		    if (ite.getCause().getClass().isAssignableFrom(excType)) {
+//			result = new InvocationResultImpl("exception", excType, ite.getCause(), emptyHolder);
+//			return result;
+//		    }
+//		}
+//	    }
 	    throw new InvocationException("Unknown exception received: " + ite.getMessage(), ite);
 	} catch (Throwable e) {
 	    throw new InvocationException("Generic Error during method invocation!", e);
 	}
 	return result;
+    }
+
+    @Override
+    public void writeRequestPreview(Map<String, Object> args, OutputStream os) throws InvocationException {
+	try {
+	    EndpointMethodPreview caller = new EndpointMethodPreview(this.getEndpoint(), this.getMethod(), this
+		    .getParmeterInRightPositionArray(args), os);
+	    ((WSEndpointImpl) this.getEndpoint()).getService().submit(caller).get();
+	} catch (Exception ite) {
+	    throw new InvocationException("Unknown exception received: " + ite.getMessage(), ite);
+	} catch (Throwable e) {
+	    throw new InvocationException("Generic Error during method invocation!", e);
+	}
     }
 
     /**
