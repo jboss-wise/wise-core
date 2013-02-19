@@ -51,7 +51,7 @@ public class WiseIntegrationInContainerTest extends WiseTest {
 	if (result.startsWith("[FIXME]")) {
 	    System.out.println(result);
 	} else {
-	    Assert.assertEquals("WS return: foo", br.readLine());
+	    Assert.assertEquals("WS return: foo", result);
 	}
     }
 
