@@ -58,7 +58,11 @@
         <surefire.usefile>false</surefire.usefile>
         <compile.flags>-Xlint:unchecked,deprecation,fallthrough,finally</compile.flags>
         <checkstyle.extension />
-        <cxf.version>2.4.6</cxf.version> <!-- This should stay in synch with the one used within the jbossws-cxf being pulled in wise-core-cxf -->
+        <milyn.version>1.2.1</milyn.version>
+        <!-- Following should stay in synch with the one used within the jbossws-cxf being pulled in wise-core-cxf -->
+        <cxf.version>2.6.4</cxf.version>
+        <jaxb.impl.version>2.2.5</jaxb.impl.version>
+        <!--  -->
         <compiler.fork>false</compiler.fork>
 	</properties>
 	
@@ -136,6 +140,18 @@
                 <artifactId>commons-lang</artifactId>
                 <version>2.4</version>
             </dependency>
+            
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxb.impl.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-xjc</artifactId>
+                <version>${jaxb.impl.version}</version>
+            </dependency>
 
 			<dependency>
 				<groupId>org.jboss</groupId>
@@ -153,14 +169,14 @@
 			<dependency>
 				<groupId>org.jboss.logging</groupId>
 				<artifactId>jboss-logging</artifactId>
-				<version>3.1.0.GA</version>
+				<version>3.1.2.GA</version>
 				<scope>provided</scope>
 			</dependency>
 
             <dependency>
                 <groupId>org.jboss.ws</groupId>
                 <artifactId>jbossws-common</artifactId>
-                <version>2.0.2.GA</version>
+                <version>2.1.1.Final</version>
                 <exclusions>
                     <exclusion>
                         <groupId>jboss.jaxbintros</groupId>
@@ -172,13 +188,13 @@
             <dependency>
                 <groupId>org.jboss.ws</groupId>
                 <artifactId>jbossws-spi</artifactId>
-                <version>2.0.3.GA</version>
+                <version>2.1.1.Final</version>
             </dependency>
 
             <dependency>
                 <groupId>org.jboss.ws.cxf</groupId>
                 <artifactId>jbossws-cxf-client</artifactId>
-                <version>4.0.2.GA</version>
+                <version>4.1.1.Final</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.apache.cxf</groupId>
@@ -197,10 +213,6 @@
                         <artifactId>woodstox-core-asl</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>org.opensaml</groupId>
-                        <artifactId>opensaml</artifactId>
-                    </exclusion>
-                    <exclusion>
                         <groupId>com.sun.xml.fastinfoset</groupId>
                         <artifactId>FastInfoset</artifactId>
                     </exclusion>
@@ -212,13 +224,29 @@
                         <groupId>gnu-getopt</groupId>
                         <artifactId>getopt</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-transports-jms</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-ws-security</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.santuario</groupId>
+                        <artifactId>xmlsec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jboss.spec.javax.xml.rpc</groupId>
+                        <artifactId>jboss-jaxrpc-api_1.1_spec</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.milyn</groupId>
                 <artifactId>milyn-smooks-core</artifactId>
-                <version>1.2.1</version>
+                <version>${milyn.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>xerces</groupId>
@@ -230,19 +258,19 @@
              <dependency>
                 <groupId>org.milyn</groupId>
                 <artifactId>milyn-smooks-validation</artifactId>
-                <version>1.2.1</version>
+                <version>${milyn.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.milyn</groupId>
                 <artifactId>milyn-commons</artifactId>
-                <version>1.2.1</version>
+                <version>${milyn.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.milyn</groupId>
                 <artifactId>milyn-smooks-javabean</artifactId>
-                <version>1.2.1</version>
+                <version>${milyn.version}</version>
             </dependency>
 
             <dependency>
@@ -263,23 +291,23 @@
                 <version>1.2.16</version>
             </dependency>
 
-        <dependency>
-             <groupId>xalan</groupId>
-             <artifactId>xalan</artifactId>
-             <version>2.7.1</version>
-         </dependency> 
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>2.7.1</version>
+            </dependency> 
 
-         <dependency>
-             <groupId>org.mockito</groupId>
-             <artifactId>mockito-all</artifactId>
-             <version>1.8.0</version>
-         </dependency> 
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.8.0</version>
+            </dependency> 
 
-           <dependency>
-              <groupId>org.hamcrest</groupId>
-              <artifactId>hamcrest-all</artifactId>
-              <version>1.1</version>
-           </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>1.1</version>
+            </dependency>
 
             <dependency>
 		 <groupId>javax.ejb</groupId>

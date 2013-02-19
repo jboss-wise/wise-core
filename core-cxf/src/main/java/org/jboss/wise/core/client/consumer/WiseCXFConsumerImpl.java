@@ -36,6 +36,7 @@ import org.jboss.ws.common.utils.NullPrintStream;
  * A WSContractConsumer for CXF stack; this is basically a copy of the JBossWS-CXF 4.1.0
  * implementation, to early consume the fix for JBWS-3520 which is blocking for Wise 2.0
  * on AS 7 as it's the only workaround for WISE-179.
+ * This currently also include a workaround for CXF-4833.
  * 
  * @author alessio.soldano@jboss.com
  */
@@ -259,15 +260,16 @@ public class WiseCXFConsumerImpl extends WSContractConsumer
       }
       catch (Throwable t)
       {
-         if (messageStream != null)
-         {
-            messageStream.println("Failed to invoke WSDLToJava");
-            t.printStackTrace(messageStream);
-         }
-         else
-         {
-            t.printStackTrace();
-         }
-      }
+	  try {
+		if (messageStream != null) {
+		    messageStream.println("Failed to invoke WSDLToJava");
+		    t.printStackTrace(messageStream);
+		} else {
+		    t.printStackTrace();
+		}
+	  } catch (IndexOutOfBoundsException iobe) {
+	      //ignore, caused by CXF-4833
+	  }
+	}
    }
 }

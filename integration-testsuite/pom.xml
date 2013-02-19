@@ -50,11 +50,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>net.jcip</groupId>
 			<artifactId>jcip-annotations</artifactId>
 			<scope>test</scope>
@@ -145,6 +140,37 @@
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-webservices-tests-integration</artifactId>
 					<version>7.1.1.Final</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.jboss.as</groupId>
+							<artifactId>jboss-as-clustering-infinispan</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.as</groupId>
+							<artifactId>jboss-as-transactions</artifactId>
+						</exclusion>
+					</exclusions>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jboss800</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-webservices-tests-integration</artifactId>
+					<version>8.0.0.Alpha1-SNAPSHOT</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.jboss.as</groupId>
+							<artifactId>jboss-as-clustering-infinispan</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.as</groupId>
+							<artifactId>jboss-as-transactions</artifactId>
+						</exclusion>
+					</exclusions>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
