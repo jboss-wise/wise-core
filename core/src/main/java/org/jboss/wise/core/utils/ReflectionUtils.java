@@ -44,7 +44,7 @@ public class ReflectionUtils {
     public static List<Field> getAllFields( Class<?> cl ) {
         List<Field> list = new LinkedList<Field>();
         for (Field field : cl.getDeclaredFields()) {
-            if (!"serialVersionUID".equals(field.getName())) {
+            if (!"serialVersionUID".equals(field.getName()) && !field.getName().startsWith("this$")) {
                 list.add(field);
             }
         }
