@@ -34,6 +34,8 @@ import javax.jws.Oneway;
 import javax.jws.WebParam;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
+
+import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.WSMethod;
@@ -89,8 +91,7 @@ public class WSMethodImpl implements WSMethod {
 
 	    }
 	} catch (Exception ite) {
-	    System.out.print("error invoking:" + this.getMethod());
-	    System.out.print("error invoking:" + args.values().toArray());
+	    Logger.getLogger(WSMethodImpl.class).info("Error invoking method " + this.getMethod() + ", arguments: " + args != null ? args.values().toArray() : null);
 //	    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
 //		for (int i = 0; i < methodPointer.getExceptionTypes().length; i++) {
 //		    Class<?> excType = methodPointer.getExceptionTypes()[i];
