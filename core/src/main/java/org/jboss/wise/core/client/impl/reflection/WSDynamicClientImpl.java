@@ -68,7 +68,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     private static final long serialVersionUID = -7185945063107035243L;
 
     @GuardedBy("this")
-    private URLClassLoader classLoader;
+    private ClassLoader classLoader;
 
     private final String userName;
 
@@ -210,11 +210,12 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 	return wsMethod;
     }
 
+    //TODO modify API to avoid enforcing a URLClassLoader
     public synchronized final URLClassLoader getClassLoader() {
-	return classLoader;
+	return (URLClassLoader)classLoader;
     }
 
-    public synchronized final void setClassLoader(URLClassLoader classLoader) {
+    public synchronized final void setClassLoader(ClassLoader classLoader) {
 	this.classLoader = classLoader;
     }
     
