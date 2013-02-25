@@ -108,7 +108,7 @@ public class WiseTest {
      * 
      * @return http://server-hostname:port
      */
-    public String getServerHostAndPort() {
+    public static String getServerHostAndPort() {
 	final String host = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
 	final String port = System.getProperty(SYSPROP_JBOSS_HTTP_PORT, "8080");
 	final StringBuilder sb = new StringBuilder("http://");

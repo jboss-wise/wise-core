@@ -84,6 +84,33 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>war-it-complex</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+						<configuration>
+							<webXml>${basedir}/src/test/resources/WEB-INF/complex/web.xml</webXml>
+							<warName>complex</warName>
+							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+							<webappDirectory>${project.build.directory}/complex</webappDirectory>
+							<warSourceExcludes>**/lib/**</warSourceExcludes>
+							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+							<webResources>
+								<webResource>
+									<targetPath>WEB-INF/classes</targetPath>
+									<directory>${basedir}/target/test-classes/</directory>
+									<includes>
+										<include>**/complex/*.class</include>
+									</includes>
+									<excludes>
+										<exclude>**/*Test.class</exclude>
+									</excludes>
+								</webResource>
+							</webResources>
+						</configuration>
+					</execution>
+					<execution>
 						<id>war-it-incontainer</id>
 						<phase>pre-integration-test</phase>
 						<goals>
