@@ -19,15 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wise.test.integration.complex;
+package org.jboss.wise.test.integration.tree;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.Map;
 
 import javax.jws.WebParam;
-import javax.xml.ws.Holder;
 
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
@@ -36,6 +35,8 @@ import org.jboss.wise.core.client.WebParameter;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.test.WiseTest;
+import org.jboss.wise.tree.Element;
+import org.jboss.wise.tree.impl.ElementBuilderImpl;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -46,14 +47,14 @@ import org.junit.Test;
  * @author alessio.soldano@jboss.com
  *
  */
-public class WiseIntegrationComplexTest extends WiseTest {
+public class WiseIntegrationTreeTest extends WiseTest {
     
     private static URL warUrl = null;
     private static WSDynamicClient client;
 
     @BeforeClass
     public static void setUp() throws Exception {
-	warUrl = WiseIntegrationComplexTest.class.getClassLoader().getResource("complex.war");
+	warUrl = WiseIntegrationTreeTest.class.getClassLoader().getResource("complex.war");
 	deployWS(warUrl);
 	
 	URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
@@ -68,18 +69,15 @@ public class WiseIntegrationComplexTest extends WiseTest {
 	WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Register");
 	Map<String, ? extends WebParameter> pars = method.getWebParams();
 	WebParameter customerPar = pars.get("Customer");
-	Class<?> customerClass = (Class<?>)customerPar.getType();
-	Object customer = customerClass.newInstance();
-	customerClass.getMethod("setId", long.class).invoke(customer, new Long(1234));
-	Class<?> nameClass = (Class<?>)customerClass.getDeclaredField("name").getType();
-	Object name = nameClass.newInstance();
-	nameClass.getMethod("setFirstName", String.class).invoke(name, "Foo");
-	nameClass.getMethod("setLastName", String.class).invoke(name, "Bar");
-	nameClass.getMethod("setMiddleName", String.class).invoke(name, "The");
-	customerClass.getMethod("setName", nameClass).invoke(customer, name);
+	
+	Element customerElement = new ElementBuilderImpl(client, true, true).buildTree(customerPar.getType(), customerPar.getName(), null, true);
+	customerElement.getChildByName("id").setValue("1234");
+	customerElement.getChildByName("name").getChildByName("firstName").setValue("Foo");
+	customerElement.getChildByName("name").getChildByName("lastName").setValue("Bar");
+	customerElement.getChildByName("name").getChildByName("middleName").setValue("The");
 	
 	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("Customer", customer);
+	args.put(customerElement.getName(), customerElement.toObject());
 	args.put("When", null);
 	ByteArrayOutputStream bos = new ByteArrayOutputStream();
 	method.writeRequestPreview(args, bos);
@@ -97,19 +95,16 @@ public class WiseIntegrationComplexTest extends WiseTest {
 	Map<String, ? extends WebParameter> pars = method.getWebParams();
 	WebParameter customerPar = pars.get("Customer");
 	Assert.assertEquals(WebParam.Mode.INOUT, customerPar.getMode());
-	Assert.assertEquals(Holder.class, (Class<?>)((ParameterizedType)customerPar.getType()).getRawType());
-	Class<?> customerClass = (Class<?>)((ParameterizedType)customerPar.getType()).getActualTypeArguments()[0];
-	Object customer = customerClass.newInstance();
-	customerClass.getMethod("setId", long.class).invoke(customer, new Long(1235));
-	Class<?> nameClass = (Class<?>)customerClass.getDeclaredField("name").getType();
-	Object name = nameClass.newInstance();
-	nameClass.getMethod("setFirstName", String.class).invoke(name, "Foo");
-	nameClass.getMethod("setLastName", String.class).invoke(name, "Bar");
-	nameClass.getMethod("setMiddleName", String.class).invoke(name, "The");
-	customerClass.getMethod("setName", nameClass).invoke(customer, name);
+	
+	Element element = new ElementBuilderImpl(client, true, true).buildTree(customerPar.getType(), customerPar.getName(), null, true);
+	Element customerElement = element.getChildren().next();
+	customerElement.getChildByName("id").setValue("1235");
+	customerElement.getChildByName("name").getChildByName("firstName").setValue("Foo");
+	customerElement.getChildByName("name").getChildByName("lastName").setValue("Bar");
+	customerElement.getChildByName("name").getChildByName("middleName").setValue("The");
 	
 	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("Customer", new Holder(customer));
+	args.put(element.getName(), element.toObject());
 	ByteArrayOutputStream bos = new ByteArrayOutputStream();
 	method.writeRequestPreview(args, bos);
 	Assert.assertTrue(bos.toString().contains("<firstName>Foo</firstName>"));
@@ -117,13 +112,14 @@ public class WiseIntegrationComplexTest extends WiseTest {
 	Map<String, Object> res = result.getMapRequestAndResult(null, null);
 	Map<String, Object> test = (Map<String, Object>) res.get("results");
 	Assert.assertEquals(void.class, test.get("type.result"));
-	ParameterizedType returnType = (ParameterizedType)test.get("type.Customer");
-	Assert.assertEquals(Holder.class, returnType.getRawType());
-	Assert.assertEquals(customerClass, returnType.getActualTypeArguments()[0]);
-	Assert.assertNull(test.get("result"));
-	Object returnObj = ((Holder<?>)test.get("Customer")).value;
-	Object returnNameObj = customerClass.getMethod("getName").invoke(returnObj);
-	Assert.assertEquals("Foo", nameClass.getMethod("getFirstName").invoke(returnNameObj));
+
+	final String key = "Customer";
+	Element returnElement = new ElementBuilderImpl(client, false, false).buildTree((Type)test.get("type." + key), key, test.get(key), true);
+	Element returnCustomerElement = returnElement.getChildren().next();
+	Assert.assertEquals("1235", returnCustomerElement.getChildByName("id").getValue());
+	Assert.assertEquals("Foo", returnCustomerElement.getChildByName("name").getChildByName("firstName").getValue());
+	Assert.assertEquals("Bar", returnCustomerElement.getChildByName("name").getChildByName("lastName").getValue());
+	Assert.assertEquals("The", returnCustomerElement.getChildByName("name").getChildByName("middleName").getValue());
     }
 
     @AfterClass

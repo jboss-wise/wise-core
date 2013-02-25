@@ -52,11 +52,7 @@ public interface Element extends Serializable, Cloneable {
     
     public Iterator<String> getChildrenIDs();
     
-//    public Iterator<String> getChildrenIDs(boolean resolve);
-    
     public Iterator<? extends Element> getChildren();
-    
-//    public Iterator<? extends Element> getChildren(boolean resolve);
     
     public String getValue();
 

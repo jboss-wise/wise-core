@@ -94,7 +94,6 @@ public class ElementImpl implements Element {
 	return removable;
     }
 
-//    @Override
     protected void setRemovable(boolean removable) {
 	this.removable = removable;
     }
@@ -250,7 +249,6 @@ public class ElementImpl implements Element {
 	return this.getChildren(true);
     }
     
-//    @Override
     protected Iterator<String> getChildrenIDs(boolean resolve) {
 	if (resolve) {
 	    resolveReference();
@@ -258,7 +256,6 @@ public class ElementImpl implements Element {
 	return unmodifiableIterator(children.keySet().iterator());
     }
     
-//    @Override
     protected Iterator<? extends Element> getChildren(boolean resolve) {
 	return this.getChildrenInternal(resolve);
     }
