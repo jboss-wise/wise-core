@@ -36,7 +36,8 @@ import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.test.WiseTest;
 import org.jboss.wise.tree.Element;
-import org.jboss.wise.tree.impl.ElementBuilderImpl;
+import org.jboss.wise.tree.ElementBuilder;
+import org.jboss.wise.tree.ElementBuilderFactory;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -70,7 +71,8 @@ public class WiseIntegrationTreeTest extends WiseTest {
 	Map<String, ? extends WebParameter> pars = method.getWebParams();
 	WebParameter customerPar = pars.get("Customer");
 	
-	Element customerElement = new ElementBuilderImpl(client, true, true).buildTree(customerPar.getType(), customerPar.getName(), null, true);
+	ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true).useDefautValuesForNullLeaves(true);
+	Element customerElement = builder.buildTree(customerPar.getType(), customerPar.getName(), null, true);
 	customerElement.getChildByName("id").setValue("1234");
 	customerElement.getChildByName("name").getChildByName("firstName").setValue("Foo");
 	customerElement.getChildByName("name").getChildByName("lastName").setValue("Bar");
@@ -96,7 +98,8 @@ public class WiseIntegrationTreeTest extends WiseTest {
 	WebParameter customerPar = pars.get("Customer");
 	Assert.assertEquals(WebParam.Mode.INOUT, customerPar.getMode());
 	
-	Element element = new ElementBuilderImpl(client, true, true).buildTree(customerPar.getType(), customerPar.getName(), null, true);
+	ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true).useDefautValuesForNullLeaves(true);
+	Element element = builder.buildTree(customerPar.getType(), customerPar.getName(), null, true);
 	Element customerElement = element.getChildren().next();
 	customerElement.getChildByName("id").setValue("1235");
 	customerElement.getChildByName("name").getChildByName("firstName").setValue("Foo");
@@ -114,7 +117,7 @@ public class WiseIntegrationTreeTest extends WiseTest {
 	Assert.assertEquals(void.class, test.get("type.result"));
 
 	final String key = "Customer";
-	Element returnElement = new ElementBuilderImpl(client, false, false).buildTree((Type)test.get("type." + key), key, test.get(key), true);
+	Element returnElement = builder.request(false).useDefautValuesForNullLeaves(false).buildTree((Type)test.get("type." + key), key, test.get(key), true);
 	Element returnCustomerElement = returnElement.getChildren().next();
 	Assert.assertEquals("1235", returnCustomerElement.getChildByName("id").getValue());
 	Assert.assertEquals("Foo", returnCustomerElement.getChildByName("name").getChildByName("firstName").getValue());

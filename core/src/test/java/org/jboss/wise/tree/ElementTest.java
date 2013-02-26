@@ -62,7 +62,7 @@ public class ElementTest {
     
     @Test
     public void shouldBuildTreeOfStringElement() throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	final String name = "myString";
 	final String value = "foo";
 	
@@ -133,7 +133,7 @@ public class ElementTest {
     
     @Test
     public void shouldBuildTreeOfQNameElement() throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	final String name = "myQName";
 	final String value = "{org.jboss.wise}foo";
 	
@@ -188,7 +188,7 @@ public class ElementTest {
     
     @Test
     public void shouldBuildTreeOfDurationElement() throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	final String name = "myDuration";
 	final long longVal = 345678;
 	final String value = String.valueOf(DatatypeFactory.newInstance().newDuration(longVal).getTimeInMillis(new GregorianCalendar()));
@@ -240,7 +240,7 @@ public class ElementTest {
     
     @Test
     public void shouldBuildTreeOfXMLGregorianCalendarElement() throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	final String name = "myXMLGregorianCalendar";
 	final String value = "2013-02-13T12:12:10.000Z";
 	final String refCal = "1970-01-01T00:00:00.000Z";
@@ -291,7 +291,7 @@ public class ElementTest {
     }
     
     private static <T> void shouldBuildTreeOfNumberElement(Class<T> clazz, String name, String value, String expDefValue, T expObj, T expDefObj) throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(clazz, name, null, true);
 	assertElementProps(el, true, false, false, true, true, false, false, 0);
 	assertEquals(clazz, el.getClassType());
@@ -338,7 +338,7 @@ public class ElementTest {
     }
     
     private static <T> void shouldBuildTreeOfPrimitiveNumberElement(Class<T> clazz, String name, String value, String expDefValue, T expObj, T expDefObj) throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(clazz, name, null, true);
 	assertElementProps(el, true, false, false, false, false, false, false, 0);
 	assertEquals(clazz, el.getClassType());
@@ -382,7 +382,7 @@ public class ElementTest {
     
     @Test
     public void shouldBuildTreeOfComplexElement() throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(MyTest.class, "myTest", null, true);
 	assertElementProps(el, false, false, false, false, true, false, false, 1);
 	assertEquals(MyTest.class, el.getClassType());
@@ -429,7 +429,7 @@ public class ElementTest {
     @SuppressWarnings("unchecked")
     @Test
     public void shouldBuildTreeOfGroupElement() throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	ParameterizedType type = getTestCollectionType();
 	
 	Element el = builder.buildTree(type, "myTests", null, true);
@@ -506,7 +506,7 @@ public class ElementTest {
     
     @Test
     public void shouldBuildTreeOfLazyElement() throws Exception {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(MyLazyTest.class, "myLazyTest", null, true);
 	assertElementProps(el, false, false, false, false, true, false, false, 2);
 	assertEquals(MyLazyTest.class, el.getClassType());
@@ -564,14 +564,14 @@ public class ElementTest {
     
     @Test(expected = UnsupportedOperationException.class)
     public void incrementChildOperationOnNotGroupElementShouldCauseExceptionThrown() {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(MyTest.class, "myTest", null, true);
 	el.incrementChildren();
     }
     
     @Test(expected = WiseRuntimeException.class)
     public void removeChildOperationOfUnremovableElementShouldCauseExceptionThrown() {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(MyTest.class, "myTest", null, true);
 	Element child = el.getChildren().next();
 	el.removeChild(child.getId());
@@ -579,23 +579,23 @@ public class ElementTest {
     
     @Test(expected = UnsupportedOperationException.class)
     public void incrementChildOperationOnLeafElementShouldCauseExceptionThrown() {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(String.class, "myString", null, true);
 	el.incrementChildren();
     }
     
     @Test(expected = UnsupportedOperationException.class)
     public void setValueOperationsOnNotLeafElementShouldCauseExceptionThrown() {
-	ElementBuilderImpl builder = getElementBuilder(true, false);
+	ElementBuilder builder = getElementBuilder(true, false);
 	Element el = builder.buildTree(MyTest.class, "myTest", null, true);
 	el.setValue("Foo");
     }
     
-    private static ElementBuilderImpl getElementBuilder(boolean request, boolean useDefaults) {
+    private static ElementBuilder getElementBuilder(boolean request, boolean useDefaults) {
 	WSDynamicClientImpl mock = mock(WSDynamicClientImpl.class);
 	mock.setClassLoader(ElementTest.class.getClassLoader());
 //	when(mock.getClassLoaderInternal()).thenReturn();
-	return new TestElementBuilder(mock, request, useDefaults);
+	return new TestElementBuilder().client(mock).request(request).useDefautValuesForNullLeaves(useDefaults);
     }
     
     private static void assertElementProps(Element el, boolean leaf, boolean group, boolean lazy, boolean nil, boolean nillable, boolean removable, boolean resolved, int childrenCount) {
@@ -614,10 +614,6 @@ public class ElementTest {
     
     private static class TestElementBuilder extends ElementBuilderImpl {
 	
-	public TestElementBuilder(WSDynamicClient client, boolean request, boolean useDefautValuesForNulls) {
-	    super(client, request, useDefautValuesForNulls);
-	}
-
 	protected boolean isSimpleType(Class<?> cl, WSDynamicClient client) {
 	    if (cl.isEnum() || cl.isPrimitive()) {
 		return true;

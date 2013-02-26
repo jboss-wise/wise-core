@@ -38,25 +38,45 @@ import org.jboss.wise.core.utils.IDGenerator;
 import org.jboss.wise.core.utils.JavaUtils;
 import org.jboss.wise.core.utils.ReflectionUtils;
 import org.jboss.wise.tree.Element;
+import org.jboss.wise.tree.ElementBuilder;
 
 
 /**
  * @author alessio.soldano@jboss.com
  * 
  */
-public class ElementBuilderImpl {
+public class ElementBuilderImpl implements ElementBuilder {
     
     private WSDynamicClient client;
-    private final boolean request;
-    private final boolean useDefautValuesForNullLeaves;
+    private boolean request = true;
+    private boolean useDefautValuesForNullLeaves = true;
     
-    public ElementBuilderImpl(WSDynamicClient client, boolean request, boolean useDefautValuesForNullLeaves) {
-	this.client = client;
-	this.request = request;
-	this.useDefautValuesForNullLeaves = useDefautValuesForNullLeaves;
+    public ElementBuilderImpl() {
     }
     
+    @Override
+    public ElementBuilder client(WSDynamicClient client) {
+	this.client = client;
+	return this;
+    }
+
+    @Override
+    public ElementBuilder request(boolean request) {
+	this.request = request;
+	return this;
+    }
+
+    @Override
+    public ElementBuilder useDefautValuesForNullLeaves(boolean useDefautValuesForNullLeaves) {
+	this.useDefautValuesForNullLeaves = useDefautValuesForNullLeaves;
+	return this;
+    }
+    
+    @Override
     public Element buildTree(Type type, String name, Object value, boolean nillable) {
+	if (client == null) {
+	    throw new IllegalStateException("WSDynamicClient reference is not set!");
+	}
 	return buildTree(type, name, value, nillable, null, null, Collections.synchronizedMap(new HashMap<Type, ElementImpl>()), new HashSet<Type>());
     }
 
@@ -249,4 +269,7 @@ public class ElementBuilderImpl {
     protected String generateNewID() {
 	return IDGenerator.nextVal();
     }
+
+
+
 }
