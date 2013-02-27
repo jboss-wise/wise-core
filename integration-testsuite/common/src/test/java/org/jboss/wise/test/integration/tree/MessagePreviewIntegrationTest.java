@@ -140,16 +140,13 @@ public class MessagePreviewIntegrationTest extends WiseTest {
 	Map<String, Element> elementsMap = new HashMap<String, Element>();
 	for (Entry<String, ? extends WebParameter> par : pars.entrySet()) {
 	    String parName = par.getKey();
-	    WebParameter parameter = par.getValue();
-	    Element parElement = builder.buildTree(parameter.getType(), parName, null, true);
+	    Element parElement = builder.buildTree(par.getValue().getType(), parName, null, true);
 	    populateElement(parElement, 1);
 	    elementsMap.put(parName, parElement);
 	}
 	Map<String, Object> args = new java.util.HashMap<String, Object>();
 	for (Entry<String, Element> elem : elementsMap.entrySet()) {
-	    String parName = elem.getKey();
-	    Element element = elem.getValue();
-	    args.put(parName, element.toObject());
+	    args.put(elem.getKey(), elem.getValue().toObject());
 	}
 	
 	ByteArrayOutputStream bos = new ByteArrayOutputStream();
