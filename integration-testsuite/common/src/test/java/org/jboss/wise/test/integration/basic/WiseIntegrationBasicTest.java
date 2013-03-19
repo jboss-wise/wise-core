@@ -22,6 +22,8 @@
 package org.jboss.wise.test.integration.basic;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
+import org.jboss.wise.core.exception.InvocationException;
 import org.jboss.wise.core.test.WiseTest;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -61,6 +64,42 @@ public class WiseIntegrationBasicTest extends WiseTest {
 	Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
 	InvocationResult result = method.invoke(args, null);
 	Map<String, Object> res = result.getMapRequestAndResult(null, null);
+	@SuppressWarnings("unchecked")
+	Map<String, Object> test = (Map<String, Object>) res.get("results");
+	client.close();
+	Assert.assertEquals("from-wise-client", test.get("result"));
+    }
+
+    @Test
+    public void shouldAllowOverridingTargetEndpoint() throws Exception {
+
+	final File targetDir = new File("target", "test-classes");
+	URL wsdlURL = new File(targetDir, "basic-local.wsdl").toURI().toURL();
+
+	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+	WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
+		.toString()).build();
+	WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
+	Map<String, Object> args = new java.util.HashMap<String, Object>();
+	args.put("arg0", "from-wise-client");
+	ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	method.writeRequestPreview(args, bos);
+	Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
+	
+	InvocationResult result;
+	try {
+	    result = method.invoke(args, null);
+	    Assert.fail("Invocation should have failed because of invalid target endpoint address");
+	} catch (InvocationException ie) {
+	    //expected
+	    Assert.assertTrue(ie.getCause().getCause() instanceof InvocationTargetException);
+	}
+	
+	method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
+	result = method.invoke(args, null);
+	
+	Map<String, Object> res = result.getMapRequestAndResult(null, null);
+	@SuppressWarnings("unchecked")
 	Map<String, Object> test = (Map<String, Object>) res.get("results");
 	client.close();
 	Assert.assertEquals("from-wise-client", test.get("result"));
