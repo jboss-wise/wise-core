@@ -68,18 +68,14 @@ public class InvocationResultImpl implements InvocationResult {
     /**
      * {@inheritDoc}
      * 
-     * @see org.jboss.wise.core.client.InvocationResult#getMapRequestAndResult(WiseMapper,
-     *      Map)
+     * @see org.jboss.wise.core.client.InvocationResult#getMapRequestAndResult(WiseMapper, Map)
      */
-    // TODO: demostrate with an integration test how it can be used for message
-    // enrichement in same class loader and
-    // integrating input and output in same object model
     public Map<String, Object> getMapRequestAndResult(WiseMapper mapper, Map<String, Object> inputMap) throws MappingException {
 
 	if (inputMap == null) {
 	    inputMap = new HashMap<String, Object>();
 	}
-	inputMap.put("results", originalObjects);
+	inputMap.put(WSMethod.RESULTS, originalObjects);
 	Map<String, Object> mappedResult = new HashMap<String, Object>();
 	if (mapper != null) {
 	    mappedResult.putAll(mapper.applyMapping(inputMap));

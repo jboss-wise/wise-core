@@ -39,6 +39,7 @@ import org.jboss.wise.core.mapper.WiseMapper;
 public interface WSMethod {
 
     public static final String RESULT = "result";
+    public static final String RESULTS = "results";
     public static final String TYPE_PREFIX = "type.";
 
     /**

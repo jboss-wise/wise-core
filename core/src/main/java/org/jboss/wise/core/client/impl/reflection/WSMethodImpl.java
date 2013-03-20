@@ -68,7 +68,7 @@ public class WSMethodImpl implements WSMethod {
 	this.initWebParams();
     }
 
-    /*
+    /**
      * Invokes this method with the provided arguments
      * 
      * @param args @return @throws WiseException If an unknown exception is
@@ -81,7 +81,7 @@ public class WSMethodImpl implements WSMethod {
 
 	try {
 	    EndpointMethodCaller caller = new EndpointMethodCaller(this.getEndpoint(), this.getMethod(), this
-		    .getParmeterInRightPositionArray(args));
+		    .getParametersInRightPositionArray(args));
 	    Future<Object> invocation = ((WSEndpointImpl) this.getEndpoint()).getService().submit(caller);
 	    if (isOneWay()) {
 		invocation.get();
@@ -112,7 +112,7 @@ public class WSMethodImpl implements WSMethod {
     public void writeRequestPreview(Map<String, Object> args, OutputStream os) throws InvocationException {
 	try {
 	    EndpointMethodPreview caller = new EndpointMethodPreview(this.getEndpoint(), this.getMethod(), this
-		    .getParmeterInRightPositionArray(args), os);
+		    .getParametersInRightPositionArray(args), os);
 	    ((WSEndpointImpl) this.getEndpoint()).getService().submit(caller).get();
 	} catch (Exception ite) {
 	    throw new InvocationException("Unknown exception received: " + ite.getMessage(), ite);
@@ -191,7 +191,7 @@ public class WSMethodImpl implements WSMethod {
     /*
      * package protected method, for test purpose
      */
-    /* package */Object[] getParmeterInRightPositionArray(Map<String, Object> originalParams) {
+    /* package */Object[] getParametersInRightPositionArray(Map<String, Object> originalParams) {
 	Map<String, WebParameterImpl> webParams = this.getWebParams();
 	Object[] arrayToReturn = new Object[webParams.size()];
 	Arrays.fill(arrayToReturn, null);

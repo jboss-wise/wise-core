@@ -110,7 +110,7 @@ public class WSMethodImplTest implements BindingProvider {
 	Map<String, Object> inputMap = new HashMap<String, Object>();
 	inputMap.put("annotation2", "foo");
 	inputMap.put("annotation1", Integer.valueOf(3));
-	Object[] array = wsMethod.getParmeterInRightPositionArray(inputMap);
+	Object[] array = wsMethod.getParametersInRightPositionArray(inputMap);
 
 	assertThat(array.length, is(3));
 	assertThat(array[0].equals(Integer.valueOf(3)), is(true));
@@ -130,7 +130,7 @@ public class WSMethodImplTest implements BindingProvider {
 	inputMap.put("annotation2", "foo");
 	inputMap.put("annotation1", Integer.valueOf(3));
 	inputMap.put("unknown", Integer.valueOf(5));
-	Object[] array = wsMethod.getParmeterInRightPositionArray(inputMap);
+	Object[] array = wsMethod.getParametersInRightPositionArray(inputMap);
 
 	assertThat(array.length, is(3));
 	assertThat(array[0].equals(Integer.valueOf(3)), is(true));
@@ -154,7 +154,7 @@ public class WSMethodImplTest implements BindingProvider {
 	inputMap.put("myAnnotation", Integer.valueOf(6));
 	inputMap.put("unknown2", Integer.valueOf(7));
 
-	Object[] array = wsMethod.getParmeterInRightPositionArray(inputMap);
+	Object[] array = wsMethod.getParametersInRightPositionArray(inputMap);
 
 	assertThat(array.length, is(3));
 	assertThat(array[0].equals(Integer.valueOf(3)), is(true));
