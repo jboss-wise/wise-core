@@ -44,7 +44,7 @@ import javax.wsdl.extensions.schema.Schema;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.jboss.wise.core.utils.IDGenerator;
 import org.jboss.ws.common.Constants;
 import org.jboss.ws.common.DOMUtils;
@@ -173,6 +173,7 @@ public class WSDLResolver {
 	String baseURI = parentURL.toExternalForm();
 
 	Iterator<?> it = parentDefinition.getImports().values().iterator();
+	final boolean debugLog = log.isDebugEnabled();
 	while (it.hasNext()) {
 	    for (Import wsdlImport : (List<Import>) it.next()) {
 		String locationURI = wsdlImport.getLocationURI();
@@ -187,7 +188,7 @@ public class WSDLResolver {
 		URL targetURL = new URL(baseURI.substring(0, baseURI.lastIndexOf("/") + 1) + "wsdl-" + IDGenerator.nextVal() + ".wsdl");
 		String newLocationURI = targetURL.getPath();
 		File targetFile = new File(newLocationURI);
-		log.debug("targetFile: " + targetFile);
+		if (debugLog) log.debug("targetFile: " + targetFile);
 		targetFile.getParentFile().mkdirs();
 		saved.put(locationURI, newLocationURI);
 		saved.put(newLocationURI, newLocationURI);
@@ -213,7 +214,7 @@ public class WSDLResolver {
 		    fw.close();
 		}
 
-		log.debug("WSDL import saved to: " + targetURL);
+		if (debugLog) log.debug("WSDL import saved to: " + targetURL);
 	    }
 	}
     }
@@ -270,7 +271,7 @@ public class WSDLResolver {
 		    try {
 			DOMWriter domWriter = new DOMWriter(fos);
 			domWriter.print(subDoc);
-			log.debug("XMLSchema import saved to: " + xsdURL);
+			if (log.isDebugEnabled()) log.debug("XMLSchema import saved to: " + xsdURL);
 		    } finally {
 			try {
 			    fos.close();

@@ -28,7 +28,7 @@ import java.net.URL;
 
 import javax.wsdl.xml.WSDLLocator;
 
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -56,7 +56,9 @@ public class WSDLLocatorImpl implements WSDLLocator {
     }
 
     public InputSource getBaseInputSource() {
-	log.trace("getBaseInputSource [wsdlUrl=" + wsdlLocation + "]");
+	if (log.isTraceEnabled()) {
+	    log.trace("getBaseInputSource [wsdlUrl=" + wsdlLocation + "]");
+	}
 	try {
 	    InputStream inputStream = connection.open(wsdlLocation);
 	    if (inputStream == null)
@@ -73,7 +75,9 @@ public class WSDLLocatorImpl implements WSDLLocator {
     }
 
     public InputSource getImportInputSource(String parent, String resource) {
-	log.trace("getImportInputSource [parent=" + parent + ",resource=" + resource + "]");
+	if (log.isTraceEnabled()) {
+	    log.trace("getImportInputSource [parent=" + parent + ",resource=" + resource + "]");
+	}
 
 	URL parentURL = null;
 	try {
@@ -115,7 +119,9 @@ public class WSDLLocatorImpl implements WSDLLocator {
 	}
 
 	try {
-	    log.trace("Trying to resolve: " + wsdlImport);
+	    if (log.isTraceEnabled()) {
+		log.trace("Trying to resolve: " + wsdlImport);
+	    }
 	    InputSource inputSource = entityResolver.resolveEntity(wsdlImport, wsdlImport);
 	    if (inputSource != null) {
 		latestImportURI = wsdlImport;
