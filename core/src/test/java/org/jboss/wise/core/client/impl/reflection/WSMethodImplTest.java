@@ -36,6 +36,10 @@ import java.util.concurrent.Executors;
 import javax.jws.Oneway;
 import javax.jws.WebParam;
 import javax.jws.WebParam.Mode;
+import javax.xml.ws.Binding;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.EndpointReference;
+
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.mapper.WiseMapper;
@@ -45,7 +49,7 @@ import org.junit.Test;
 /**
  * @author stefano.maestri@javalinux.it
  */
-public class WSMethodImplTest {
+public class WSMethodImplTest implements BindingProvider {
 
     private boolean methodWorked = false;
 
@@ -279,5 +283,36 @@ public class WSMethodImplTest {
 	assertThat(results, hasEntry("type.annotation3", (Object) String.class));
 
 
+    }
+
+    
+    // BindingProvider methods, required as the current class is used as test WSEndpoint here...
+    @Override
+    public Map<String, Object> getRequestContext() {
+	return new HashMap<String, Object>();
+    }
+
+    @Override
+    public Map<String, Object> getResponseContext() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public Binding getBinding() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public EndpointReference getEndpointReference() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public <T extends EndpointReference> T getEndpointReference(Class<T> clazz) {
+	// TODO Auto-generated method stub
+	return null;
     }
 }

@@ -113,6 +113,8 @@ public class EndpointMethodCaller implements Callable<Object> {
         if (epInstance.getTargetUrl() != null) {
             ((BindingProvider)epUnderlyingObjectInstance.get()).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                                                                                         epInstance.getTargetUrl());
+        } else {
+            ((BindingProvider)epUnderlyingObjectInstance.get()).getRequestContext().remove(BindingProvider.ENDPOINT_ADDRESS_PROPERTY);
         }
     }
 
