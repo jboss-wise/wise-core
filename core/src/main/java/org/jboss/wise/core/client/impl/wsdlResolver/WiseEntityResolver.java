@@ -27,7 +27,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.jboss.util.xml.JBossEntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
