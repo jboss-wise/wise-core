@@ -33,6 +33,8 @@ import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.ws.api.tools.WSContractConsumer;
+import org.jboss.ws.api.tools.WSContractConsumerFactory;
+import org.jboss.ws.api.util.ServiceLoader;
 
 /**
  * @author alessio.soldano@jboss.com
@@ -54,7 +56,7 @@ public class DefaultWSImportImpl extends WSConsumer {
 
     @Override
     public synchronized List<String> importObjectFromWsdl(String wsdlURL, File outputDir, File sourceDir, String targetPackage, List<File> bindingFiles, PrintStream messageStream, File catelog) throws MalformedURLException, WiseRuntimeException {
-	WSContractConsumer wsImporter = WSContractConsumer.newInstance(getContextClassLoader());
+	WSContractConsumer wsImporter = newWSContractConsumerInstance();
 
 	if (targetPackage != null && targetPackage.trim().length() > 0) {
 	    wsImporter.setTargetPackage(targetPackage);
@@ -88,6 +90,19 @@ public class DefaultWSImportImpl extends WSConsumer {
     
     protected void runWSConsume(WSContractConsumer wsImporter, String wsdlURL) throws MalformedURLException {
 	wsImporter.consume(wsdlURL);
+    }
+    
+    //TODO remove double factory lookup when removing the Wise override (in wise-core-cxf) of the JBossWS WSConsumer
+    //this is currently required to workaround classloading issues on flat classpath env (the jbossws provided META-INF prop
+    //might come before the wise one, so we use a different wise specific prop)
+    private WSContractConsumer newWSContractConsumerInstance()
+    {
+	WSContractConsumerFactory factory = (WSContractConsumerFactory) ServiceLoader.loadService("org.jboss.wise.ConsumerFactory", null);
+	if (factory != null) {
+	    return factory.createConsumer();
+	} else {
+	    return WSContractConsumer.newInstance(getContextClassLoader());
+	}
     }
 
     private static ClassLoader getContextClassLoader()
