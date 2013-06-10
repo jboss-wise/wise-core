@@ -84,6 +84,56 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>war-it-jbide14739</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+						<configuration>
+							<webXml>${basedir}/src/test/resources/WEB-INF/jbide14739/web.xml</webXml>
+							<warName>jbide14739</warName>
+							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+							<webappDirectory>${project.build.directory}/jbide14739</webappDirectory>
+							<warSourceExcludes>**/lib/**</warSourceExcludes>
+							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+							<webResources>
+								<webResource>
+									<targetPath>WEB-INF/classes</targetPath>
+									<directory>${basedir}/target/test-classes/</directory>
+									<includes>
+										<include>**/jbide14739/HelloWorldBean.class</include>
+										<include>**/jbide14739/HelloWorldInterface.class</include>
+									</includes>
+								</webResource>
+							</webResources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>war-it-jbide14739-b</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+						<configuration>
+							<webXml>${basedir}/src/test/resources/WEB-INF/jbide14739/web-b.xml</webXml>
+							<warName>jbide14739B</warName>
+							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+							<webappDirectory>${project.build.directory}/jbide14739B</webappDirectory>
+							<warSourceExcludes>**/lib/**</warSourceExcludes>
+							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+							<webResources>
+								<webResource>
+									<targetPath>WEB-INF/classes</targetPath>
+									<directory>${basedir}/target/test-classes/</directory>
+									<includes>
+										<include>**/jbide14739/HelloWorldBBean.class</include>
+										<include>**/jbide14739/HelloWorldBInterface.class</include>
+									</includes>
+								</webResource>
+							</webResources>
+						</configuration>
+					</execution>
+					<execution>
 						<id>war-it-complex</id>
 						<phase>pre-integration-test</phase>
 						<goals>
