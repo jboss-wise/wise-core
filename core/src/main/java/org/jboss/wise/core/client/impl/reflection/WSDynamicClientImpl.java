@@ -70,9 +70,9 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     @GuardedBy("this")
     private ClassLoader classLoader;
 
-    private final String userName;
+    protected final String userName;
 
-    private final String password;
+    protected final String password;
 
     private final EnablerDelegate wsExtensionEnablerDelegate;
 
@@ -84,7 +84,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 
     private final String tmpDir;
 
-    private final int maxThreadPoolSize;
+    protected final int maxThreadPoolSize;
 
     /**
      * @param builder
@@ -114,6 +114,11 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 	wsExtensionEnablerDelegate = EnablerDelegateProvider.newEnablerDelegate(builder.getSecurityConfigFileURL(), builder
 		.getSecurityConfigName());
 	this.tmpDir = builder.getClientSpecificTmpDir();
+	
+	this.prepare(builder, consumer);
+    }
+    
+    protected void prepare(WSDynamicClientBuilder builder, WSConsumer consumer) {
 	final File outputDir = new File(new StringBuilder(tmpDir).append(File.separator).append("classes").append(File.separator).toString());
 	final File sourceDir = new File(new StringBuilder(tmpDir).append(File.separator).append("src").append(File.separator).toString());
 
@@ -170,8 +175,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 		    Class<?> clazz = JavaUtils.loadJavaType(className, this.getClassLoader());
 		    Annotation annotation = clazz.getAnnotation(WebServiceClient.class);
 		    if (annotation != null) {
-			WSService service = new WSServiceImpl(clazz, this.getClassLoader(), clazz.newInstance(), userName,
-				password, this.maxThreadPoolSize);
+			WSService service = createService(clazz);
 			servicesMap.put(((WebServiceClient) annotation).name(), service);
 		    }
 		} catch (Exception e) {
@@ -186,6 +190,10 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 	    SecurityActions.setContextClassLoader(oldLoader);
 	}
 	return servicesMap;
+    }
+    
+    protected WSService createService(Class<?> clazz) throws InstantiationException, IllegalAccessException {
+	return new WSServiceImpl(clazz, this.getClassLoader(), clazz.newInstance(), userName, password, this.maxThreadPoolSize);
     }
 
     /**

@@ -140,8 +140,12 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
 	    throw new IllegalStateException("wsdlURL cannot be null");
 	}
 
-	return new WSDynamicClientImpl(this);
+	return createClient();
 
+    }
+    
+    protected WSDynamicClient createClient() {
+	return new WSDynamicClientImpl(this);
     }
 
     /**

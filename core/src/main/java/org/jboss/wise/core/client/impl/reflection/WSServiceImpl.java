@@ -46,7 +46,7 @@ public class WSServiceImpl implements WSService {
     private final String userName;
     private final String password;
     private final Map<String, WSEndpoint> endpoints = Collections.synchronizedMap(new HashMap<String, WSEndpoint>());
-    private final int maxThreadPoolSize;
+    protected final int maxThreadPoolSize;
 
     /**
      * @param serviceClass
@@ -110,7 +110,7 @@ public class WSServiceImpl implements WSService {
     private WSEndpoint getWiseEndpoint( Method method,
                                         String name ) throws WiseRuntimeException {
         ClassLoader oldLoader = SecurityActions.getContextClassLoader();
-        WSEndpointImpl ep = new WSEndpointImpl(this.maxThreadPoolSize);
+        WSEndpointImpl ep = createEndpoint();
         try {
             SecurityActions.setContextClassLoader(this.getClassLoader());
             ep.setClassLoader(this.getClassLoader());
@@ -131,6 +131,10 @@ public class WSServiceImpl implements WSService {
             SecurityActions.setContextClassLoader(oldLoader);
         }
         return ep;
+    }
+    
+    protected WSEndpointImpl createEndpoint() {
+	return new WSEndpointImpl(this.maxThreadPoolSize);
     }
 
     private synchronized final Class<?> getServiceClass() {
