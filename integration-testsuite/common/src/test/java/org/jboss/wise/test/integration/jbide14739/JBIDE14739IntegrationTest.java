@@ -21,9 +21,7 @@
  */
 package org.jboss.wise.test.integration.jbide14739;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Map;
 
@@ -44,7 +42,6 @@ public class JBIDE14739IntegrationTest extends WiseTest {
 	URL wsdlURL = new URL(getServerHostAndPort() + "/jbide14739/HelloWorld?wsdl");
 	try {
 	    deployWS(warUrl);
-	    checkWsdl(wsdlURL);
 	    runWise(wsdlURL, "target/temp/wise/jbide14739", "echo");
 	} finally {
 	    undeployWS(warUrl);
@@ -55,25 +52,10 @@ public class JBIDE14739IntegrationTest extends WiseTest {
 	wsdlURL = new URL(getServerHostAndPort() + "/jbide14739/HelloWorld?wsdl");
 	try {
 	    deployWS(warUrl);
-	    checkWsdl(wsdlURL);
 	    runWise(wsdlURL, "target/temp/wise/jbide14739B", "echoB");
 	} finally {
 	    undeployWS(warUrl);
 	}
-    }
-    
-    private void checkWsdl(URL wsdlURL) throws Exception {
-	BufferedReader br = new BufferedReader(new InputStreamReader(wsdlURL.openStream(), "UTF-8"));
-	StringBuilder sb = new StringBuilder();
-	try {
-	    String s;
-	    while ((s = br.readLine()) != null) {
-		sb.append(s);
-	    }
-	} finally {
-	    br.close();
-	}
-	System.out.println(sb.toString());
     }
     
     private void runWise(URL wsdlURL, String tempDir, String methodName) throws Exception {
