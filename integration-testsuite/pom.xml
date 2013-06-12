@@ -164,17 +164,21 @@
 			<id>jboss800</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.jboss.as</groupId>
-					<artifactId>jboss-as-webservices-tests-integration</artifactId>
-					<version>8.0.0.Alpha1-SNAPSHOT</version>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-webservices-tests-integration</artifactId>
+					<version>8.0.0.Alpha1</version>
 					<exclusions>
 						<exclusion>
-							<groupId>org.jboss.as</groupId>
-							<artifactId>jboss-as-clustering-infinispan</artifactId>
+							<groupId>org.wildfly</groupId>
+							<artifactId>wildfly-clustering-infinispan</artifactId>
 						</exclusion>
 						<exclusion>
-							<groupId>org.jboss.as</groupId>
-							<artifactId>jboss-as-transactions</artifactId>
+							<groupId>org.wildfly</groupId>
+							<artifactId>wildfly-transactions</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.remoting3</groupId>
+							<artifactId>jboss-remoting</artifactId>
 						</exclusion>
 					</exclusions>
 					<scope>test</scope>
