@@ -101,18 +101,12 @@ public class ReflectionUtils {
      * @return String
      */
     public static String getGetter( Field field ) {
-        XmlElement ann = field.getAnnotation(XmlElement.class);
         Class cl = field.getType();
         if (cl.isPrimitive()) {
             cl = JavaUtils.getWrapperType(cl);
 
         }
-        String cap;
-        if (ann == null || ann.name() == null || ann.name().startsWith("##")) {
-            cap = JavaUtils.capitalize(field.getName());
-        } else {
-            cap = JavaUtils.capitalize(ann.name());
-        }
+        String cap = JavaUtils.capitalize(field.getName());
         if (cl.getName().equalsIgnoreCase("java.lang.Boolean")) {
             return "is" + cap;
         } else {
