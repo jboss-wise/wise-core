@@ -24,7 +24,6 @@ package org.jboss.wise.core.utils;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Provides some utility methods useful to deal with classes through reflection.
@@ -63,15 +62,11 @@ public class ReflectionUtils {
      */
     public static String setterMethodName( String fieldName,
                                            boolean isBoolean ) {
-        String setter = "set" + JavaUtils.capitalize(fieldName);
-        if (isBoolean) {
-            if (fieldName.startsWith("is")) {
-                setter = "set" + fieldName.substring(2);
-            } else {
-                setter = "set" + JavaUtils.capitalize(fieldName);
-            }
+        if (!isBoolean) {
+            return "set" + JavaUtils.capitalize(fieldName);
+        } else {
+            return "set" + (fieldName.startsWith("is") ? fieldName.substring(2) : JavaUtils.capitalize(fieldName));
         }
-        return setter;
     }
 
     /**
@@ -83,15 +78,11 @@ public class ReflectionUtils {
      */
     public static String getterMethodName( String fieldName,
                                            boolean isBoolean ) {
-        String getter = "get" + JavaUtils.capitalize(fieldName);
-        if (isBoolean) {
-            if (fieldName.startsWith("is")) {
-                getter = fieldName;
-            } else {
-                getter = "is" + JavaUtils.capitalize(fieldName);
-            }
-        }
-        return getter;
+	if (!isBoolean) {
+	    return "get" + JavaUtils.capitalize(fieldName);
+	} else {
+	    return fieldName.startsWith("is") ? fieldName : "is" + JavaUtils.capitalize(fieldName);
+	}
     }
 
     /**
@@ -104,13 +95,8 @@ public class ReflectionUtils {
         Class cl = field.getType();
         if (cl.isPrimitive()) {
             cl = JavaUtils.getWrapperType(cl);
-
         }
         String cap = JavaUtils.capitalize(field.getName());
-        if (cl.getName().equalsIgnoreCase("java.lang.Boolean")) {
-            return "is" + cap;
-        } else {
-            return "get" + cap;
-        }
+        return cl.getName().equalsIgnoreCase("java.lang.Boolean") ? "is" + cap : "get" + cap;
     }
 }

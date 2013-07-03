@@ -31,7 +31,7 @@ import java.util.HashMap;
  */
 public class JavaUtils {
 
-    private static HashMap<String, Class<?>> primitiveNames = new HashMap<String, Class<?>>(8);
+    private static HashMap<String, Class<?>> primitiveNames = new HashMap<String, Class<?>>(12);
 
     static {
 	primitiveNames.put("int", int.class);
