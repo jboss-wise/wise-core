@@ -293,7 +293,6 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
 		    : new WSDLResolver(tmpDir);
 	    File wsdlFile = resolver.retrieveWsdlFile(new URL(getWsdlURL()));
 	    String result = wsdlFile.getAbsolutePath();
-	    logger.info("Main wsdl file stored locally: " + result);
 	    return result;
 	} catch (Exception e) {
 	    throw new WiseRuntimeException(e);

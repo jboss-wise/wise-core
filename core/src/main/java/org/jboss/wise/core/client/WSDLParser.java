@@ -27,6 +27,7 @@ import static org.jboss.wsf.spi.util.StAXUtils.attributeAsQName;
 import static org.jboss.wsf.spi.util.StAXUtils.match;
 import static org.jboss.wsf.spi.util.StAXUtils.nextElement;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -63,11 +64,18 @@ public class WSDLParser {
     private static final String TARGET_NAMESPACE = "targetNamespace";
 
     public static Set<String> searchNonSoapServices(String wsdlUrl) throws WiseRuntimeException {
+	URL url;
 	try {
-	    return searchNonSoapServices(new URL(wsdlUrl));
-	} catch (MalformedURLException mue) {
-	    throw new WiseRuntimeException(mue);
+	    url = new URL(wsdlUrl);
+	} catch (MalformedURLException e) {
+	    File file = new File(wsdlUrl);
+	    try {
+		url = file.toURI().toURL();
+	    } catch (MalformedURLException mue) {
+		throw new WiseRuntimeException(mue);
+	    }
 	}
+	return searchNonSoapServices(url);
     }
     
     public static Set<String> searchNonSoapServices(URL wsdlUrl) throws WiseRuntimeException {
