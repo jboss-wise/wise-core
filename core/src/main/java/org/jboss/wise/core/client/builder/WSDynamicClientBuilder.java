@@ -151,6 +151,14 @@ public interface WSDynamicClientBuilder {
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder verbose(boolean bool);
+    
+    /**
+     * if it set to true non-SOAP wsdl ports will be excluded
+     * 
+     * @param bool
+     * @return {@link WSDynamicClient}
+     */
+    public WSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude);
 
     /**
      * Sets the PrintStream to use for status feedback. The simplest example
@@ -192,6 +200,8 @@ public interface WSDynamicClientBuilder {
     public boolean isKeepSource();
 
     public boolean isVerbose();
+    
+    public boolean isExcludeNonSOAPPorts();
 
     public PrintStream getMessageStream();
 

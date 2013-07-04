@@ -89,6 +89,9 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
 
     @GuardedBy("this")
     private boolean verbose;
+    
+    @GuardedBy("this")
+    private boolean excludeNonSoapPorts;
 
     @GuardedBy("this")
     private String normalizedWsdlUrl;
@@ -129,14 +132,16 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
 	if (this.getMaxThreadPoolSize() < 1) {
 	    throw new IllegalStateException("MaxThreadPoolSize cannot be less than 1");
 	}
-	String wsdlUrl = this.getWsdlURL();
+	final String wsdlUrl = this.getWsdlURL();
+	final String nwu;
 	if (userName != null || (StringUtils.trimToNull(wsdlUrl) != null && Connection.isLocalAddress(wsdlUrl))) {
-	    this.setNormalizedWsdlUrl(this.transferWSDL(userName, password, clientSpecificTmpDir));
+	    nwu = this.transferWSDL(userName, password, clientSpecificTmpDir);
 	} else {
-	    this.setNormalizedWsdlUrl(wsdlUrl);
+	    nwu = wsdlUrl;
 	}
+	this.setNormalizedWsdlUrl(nwu);
 
-	if (this.getNormalizedWsdlUrl() == null || this.getNormalizedWsdlUrl().trim().length() == 0) {
+	if (nwu == null || nwu.trim().length() == 0) {
 	    throw new IllegalStateException("wsdlURL cannot be null");
 	}
 
@@ -334,6 +339,15 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
     /**
      * {@inheritDoc}
      * 
+     * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#isExcludeNonSOAPPorts()
+     */
+    public synchronized boolean isExcludeNonSOAPPorts() {
+	return this.excludeNonSoapPorts;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#keepSource(boolean)
      */
     public synchronized WSDynamicClientBuilder keepSource(boolean bool) {
@@ -368,6 +382,16 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
      */
     public synchronized WSDynamicClientBuilder verbose(boolean bool) {
 	this.verbose = bool;
+	return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#excludeNonSOAPPorts(boolean)
+     */
+    public synchronized WSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude) {
+	this.excludeNonSoapPorts = exclude;
 	return this;
     }
 

@@ -26,6 +26,8 @@ import java.net.URLClassLoader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
 import javax.xml.ws.WebEndpoint;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
@@ -46,6 +48,7 @@ public class WSServiceImpl implements WSService {
     private final String userName;
     private final String password;
     private final Map<String, WSEndpoint> endpoints = Collections.synchronizedMap(new HashMap<String, WSEndpoint>());
+    private final Set<String> excludedPorts;
     protected final int maxThreadPoolSize;
 
     /**
@@ -61,6 +64,7 @@ public class WSServiceImpl implements WSService {
                           Object service,
                           String userName,
                           String password,
+                          Set<String> excludedPorts,
                           int maxThreadPoolSize ) {
         super();
         this.serviceClass = serviceClass;
@@ -68,6 +72,7 @@ public class WSServiceImpl implements WSService {
         this.service = service;
         this.userName = userName;
         this.password = password;
+        this.excludedPorts = excludedPorts;
         endpoints.clear();
         this.processEndpoints();
         this.maxThreadPoolSize = maxThreadPoolSize;
@@ -89,7 +94,7 @@ public class WSServiceImpl implements WSService {
 
         for (Method method : this.getServiceClass().getMethods()) {
             WebEndpoint annotation = method.getAnnotation(WebEndpoint.class);
-            if (annotation != null) {
+            if (annotation != null && (excludedPorts == null || !excludedPorts.contains(annotation.name()))) {
                 WSEndpoint ep;
                 try {
                     if (method.getParameterTypes().length == 0) // required to support JAX-WS 2.1, as you get 2 @WebEndpoint ->

@@ -23,7 +23,6 @@ package org.jboss.wise.core.client.impl.reflection;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -32,6 +31,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.xml.ws.WebServiceClient;
@@ -42,6 +42,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.SpiLoader;
+import org.jboss.wise.core.client.WSDLParser;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.WSMethod;
@@ -79,6 +80,8 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     private final CopyOnWriteArrayList<String> classNames = new CopyOnWriteArrayList<String>();
 
     private final Map<String, WSService> servicesMap = Collections.synchronizedMap(new HashMap<String, WSService>());
+    
+    private Set<String> excludedPorts;
 
     private final Smooks smooksInstance;
 
@@ -129,6 +132,10 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 	    throw new WiseRuntimeException("Problem consuming wsdl:" + builder.getWsdlURL(), e);
 	}
 	this.initClassLoader(outputDir);
+	
+	if (builder.isExcludeNonSOAPPorts()) {
+	    excludedPorts = WSDLParser.searchNonSoapServices(builder.getNormalizedWsdlUrl());
+	}
 
 	this.processServices();
     }
@@ -159,7 +166,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 		    "Error occurred while setting up classloader for generated class in directory: " + outputDir, e);
 	}
     }
-
+    
     /**
      * {@inheritDoc}
      * 
@@ -167,16 +174,15 @@ public class WSDynamicClientImpl implements WSDynamicClient {
      */
     public synchronized Map<String, WSService> processServices() throws IllegalStateException {
 	ClassLoader oldLoader = SecurityActions.getContextClassLoader();
-
 	try {
 	    SecurityActions.setContextClassLoader(this.getClassLoader());
 	    for (String className : classNames) {
 		try {
 		    Class<?> clazz = JavaUtils.loadJavaType(className, this.getClassLoader());
-		    Annotation annotation = clazz.getAnnotation(WebServiceClient.class);
+		    WebServiceClient annotation = clazz.getAnnotation(WebServiceClient.class);
 		    if (annotation != null) {
 			WSService service = createService(clazz);
-			servicesMap.put(((WebServiceClient) annotation).name(), service);
+			servicesMap.put(annotation.name(), service);
 		    }
 		} catch (Exception e) {
 		    e.printStackTrace();
@@ -193,7 +199,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     }
     
     protected WSService createService(Class<?> clazz) throws InstantiationException, IllegalAccessException {
-	return new WSServiceImpl(clazz, this.getClassLoader(), clazz.newInstance(), userName, password, this.maxThreadPoolSize);
+	return new WSServiceImpl(clazz, this.getClassLoader(), clazz.newInstance(), userName, password, excludedPorts, this.maxThreadPoolSize);
     }
 
     /**
