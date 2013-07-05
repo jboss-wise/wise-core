@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.wise</groupId>
 	<artifactId>wise</artifactId>
-	<version>2.1.0-SNAPSHOT</version>
+	<version>2.0.3.Final</version>
 	<name>Wise</name>
         <description>Wise Core</description>
 	<url>http://www.jboss.org/wise</url>
@@ -28,9 +28,9 @@
 	<packaging>pom</packaging>
 
 	<scm>
-		<connection>scm:svn:http://anonsvn.jboss.org/repos/wise/core/trunk</connection>
-		<developerConnection>scm:svn:https://svn.jboss.org/repos/wise/core/trunk</developerConnection>
-		<url>http://fisheye.jboss.org/viewrep/Wise/core/trunk</url>
+		<connection>scm:svn:http://anonsvn.jboss.org/repos/wise/core/tags/wise-core-2.0.3.Final</connection>
+		<developerConnection>scm:svn:https://svn.jboss.org/repos/wise/core/tags/wise-core-2.0.3.Final</developerConnection>
+		<url>http://fisheye.jboss.org/viewrep/Wise/core/tags/wise-core-2.0.3.Final</url>
 	</scm>
 
         <developers>
