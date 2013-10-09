@@ -166,12 +166,12 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jboss800</id>
+			<id>wildfly800</id>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-webservices-tests-integration</artifactId>
-					<version>8.0.0.Alpha1</version>
+					<version>8.0.0.Beta1</version>
 					<exclusions>
 						<exclusion>
 							<groupId>org.wildfly</groupId>
