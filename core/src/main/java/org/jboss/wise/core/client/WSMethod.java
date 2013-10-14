@@ -41,6 +41,7 @@ public interface WSMethod {
     public static final String RESULT = "result";
     public static final String RESULTS = "results";
     public static final String TYPE_PREFIX = "type.";
+    public static final String TYPE_RESULT = TYPE_PREFIX + RESULT;
 
     /**
      * Invokes this method with the provided arguments applying provided mapper
