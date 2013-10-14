@@ -382,6 +382,12 @@ public class ElementImpl implements Element {
 	    }
 	    if (cl.isPrimitive()) {
 		cl = JavaUtils.getWrapperType(cl);
+	    } else if (cl.isEnum()) {
+		try {
+		    return cl.getMethod("fromValue", String.class).invoke(null, value);
+		} catch (Exception e) {
+		    throw new WiseRuntimeException("Could not get enum from value '" + value + "'", e);
+		}
 	    }
 	    final String n = cl.getName();
 	    if ("java.lang.String".equals(n)) {
@@ -479,6 +485,8 @@ public class ElementImpl implements Element {
 		    }
 		}
 		return obj;
+	    } catch (WiseRuntimeException wre) {
+		throw wre;
 	    } catch (Exception e) {
 		throw new WiseRuntimeException("Error converting element to object", e);
 	    }

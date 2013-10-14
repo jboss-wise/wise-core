@@ -20,10 +20,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -261,9 +263,23 @@ public class ElementBuilderImpl implements ElementBuilder {
 	    return "0";
 	} else if ("javax.xml.datatype.XMLGregorianCalendar".equals(cn)) {
 	    return "1970-01-01T00:00:00.000Z";
+	} else if (cl.isEnum()) {
+	    return getValidEnumValues(cl).iterator().next();
 	} else {
 	    return "";
 	}
+    }
+    
+    public static List<String> getValidEnumValues(Class<?> classType) {
+	List<String> list = new ArrayList<String>();
+	for (Object obj : classType.getEnumConstants()) {
+	    try {
+		list.add((String) obj.getClass().getMethod("value").invoke(obj));
+	    } catch (Exception e) {
+		throw new WiseRuntimeException("Could not get enum values for " + classType, e);
+	    }
+	}
+	return list;
     }
     
     protected String generateNewID() {
