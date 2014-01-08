@@ -91,12 +91,12 @@ public class ReflectionUtils {
      * @param field
      * @return String
      */
-    public static String getGetter( Field field ) {
-        Class cl = field.getType();
+    public static String getGetter( Field field, String xmlName ) {
+        Class<?> cl = field.getType();
         if (cl.isPrimitive()) {
             cl = JavaUtils.getWrapperType(cl);
         }
-        String cap = JavaUtils.capitalize(field.getName());
-        return cl.getName().equalsIgnoreCase("java.lang.Boolean") ? "is" + cap : "get" + cap;
+        final String m = xmlName != null ? xmlName : JavaUtils.capitalize(field.getName());
+        return cl.getName().equalsIgnoreCase("java.lang.Boolean") ? "is" + m : "get" + m;
     }
 }

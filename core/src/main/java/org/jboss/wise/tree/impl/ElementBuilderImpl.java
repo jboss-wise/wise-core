@@ -163,6 +163,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 		    fieldName = refAnnotation.name();
 		    namespace = refAnnotation.namespace();
 		}
+		final String xmlName = fieldName;
 		if (fieldName == null) {
 		    fieldName = field.getName();
 		}
@@ -172,7 +173,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 		Object fieldValue = null;
 		if (obj != null) {
 		    try {
-			Method getter = cl.getMethod(ReflectionUtils.getGetter(field), (Class[]) null);
+			Method getter = cl.getMethod(ReflectionUtils.getGetter(field, xmlName), (Class[]) null);
 			fieldValue = getter.invoke(obj, (Object[]) null);
 		    } catch (Exception e) {
 			throw new WiseRuntimeException("Error calling getter method for field " + field, e);
