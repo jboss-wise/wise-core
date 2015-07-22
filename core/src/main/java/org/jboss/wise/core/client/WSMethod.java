@@ -26,6 +26,7 @@ import java.util.Map;
 import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.exception.InvocationException;
 import org.jboss.wise.core.exception.MappingException;
+import org.jboss.wise.gwt.shared.WiseWebServiceException;
 import org.jboss.wise.core.mapper.WiseMapper;
 
 /**
@@ -62,7 +63,7 @@ public interface WSMethod {
      * @throws IllegalArgumentException
      * @throws MappingException
      */
-    public InvocationResult invoke(Object args, WiseMapper mapper) throws InvocationException, IllegalArgumentException, MappingException;
+    public InvocationResult invoke(Object args, WiseMapper mapper) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException;
 
     /**
      * Invokes this method with the provided arguments
@@ -86,7 +87,7 @@ public interface WSMethod {
      * @throws IllegalArgumentException
      * @throws MappingException
      */
-    public InvocationResult invoke(Object args) throws InvocationException, IllegalArgumentException, MappingException;
+    public InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException;
     
     /**
      * Generates and writes a preview of the request message for invoking this

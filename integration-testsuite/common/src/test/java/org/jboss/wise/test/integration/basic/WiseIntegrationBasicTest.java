@@ -34,6 +34,7 @@ import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.exception.InvocationException;
 import org.jboss.wise.core.test.WiseTest;
+import org.jboss.wise.gwt.shared.WiseWebServiceException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -90,7 +91,7 @@ public class WiseIntegrationBasicTest extends WiseTest {
 	try {
 	    result = method.invoke(args, null);
 	    Assert.fail("Invocation should have failed because of invalid target endpoint address");
-	} catch (InvocationException ie) {
+	} catch (WiseWebServiceException ie) {
 	    //expected
 	    Assert.assertTrue(ie.getCause().getCause() instanceof InvocationTargetException);
 	}
