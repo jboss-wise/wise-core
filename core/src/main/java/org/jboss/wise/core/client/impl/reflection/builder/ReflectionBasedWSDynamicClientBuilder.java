@@ -31,6 +31,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.List;
 
+import javax.xml.ws.WebServiceException;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
@@ -114,7 +115,7 @@ public class ReflectionBasedWSDynamicClientBuilder implements WSDynamicClientBui
      * 
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#build()
      */
-    public synchronized WSDynamicClient build() throws IllegalStateException, WiseRuntimeException {
+    public synchronized WSDynamicClient build() throws WebServiceException, IllegalStateException, WiseRuntimeException {
 	clientSpecificTmpDir = tmpDir;
 	if (clientSpecificTmpDir != null) {
 	    clientSpecificTmpDir = new StringBuilder().append(tmpDir).append(File.separator).append("Wise").append(IDGenerator.nextVal()).toString();
