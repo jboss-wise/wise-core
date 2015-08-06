@@ -42,6 +42,7 @@ import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.exception.InvocationException;
 import org.jboss.wise.core.exception.MappingException;
 import org.jboss.wise.core.mapper.WiseMapper;
+import org.jboss.wise.gwt.shared.WiseWebServiceException;
 
 /**
  * Represent a webservice operation invocation
@@ -74,7 +75,7 @@ public class WSMethodImpl implements WSMethod {
      * @param args @return @throws WiseException If an unknown exception is
      * received
      */
-    InvocationResultImpl invoke(Map<String, Object> args) throws InvocationException, IllegalArgumentException {
+    InvocationResultImpl invoke(Map<String, Object> args) throws WiseWebServiceException, InvocationException, IllegalArgumentException {
 //	Method methodPointer = null;
 	InvocationResultImpl result = null;
 	Map<String, Object> emptyHolder = Collections.emptyMap();
@@ -90,6 +91,8 @@ public class WSMethodImpl implements WSMethod {
 		result = new InvocationResultImpl(RESULT, method.getGenericReturnType(), invocation.get(), getHoldersResult(args));
 
 	    }
+	} catch (java.util.concurrent.ExecutionException wse) {
+		throw new WiseWebServiceException(wse.getMessage(), wse);
 	} catch (Exception ite) {
 	    Logger.getLogger(WSMethodImpl.class).info("Error invoking method " + this.getMethod() + ", arguments: " + args != null ? args.values().toArray() : null);
 //	    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
@@ -136,7 +139,7 @@ public class WSMethodImpl implements WSMethod {
      * @throws MappingException
      */
     @SuppressWarnings("unchecked")
-    public InvocationResultImpl invoke(Object args, WiseMapper mapper) throws InvocationException, IllegalArgumentException, MappingException {
+    public InvocationResultImpl invoke(Object args, WiseMapper mapper) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException {
 	if (mapper == null) {
 	    return this.invoke((Map<String, Object>) args);
 	}
@@ -157,7 +160,7 @@ public class WSMethodImpl implements WSMethod {
      * 
      * @see org.jboss.wise.core.client.WSMethod#invoke(java.lang.Object)
      */
-    public InvocationResult invoke(Object args) throws InvocationException, IllegalArgumentException, MappingException {
+    public InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException {
 	return this.invoke(args, null);
     }
 
