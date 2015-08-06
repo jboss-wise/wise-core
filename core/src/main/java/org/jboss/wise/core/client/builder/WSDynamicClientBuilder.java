@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.net.ConnectException;
 import java.util.List;
+import javax.xml.ws.WebServiceException;
 import net.jcip.annotations.ThreadSafe;
 
 import org.jboss.wise.core.client.WSDynamicClient;
@@ -49,7 +50,7 @@ public interface WSDynamicClientBuilder {
      * @throws ConnectException
      * @throws WiseRuntimeException
      */
-    public WSDynamicClient build() throws IllegalStateException, ConnectException, WiseRuntimeException;
+    public WSDynamicClient build() throws WebServiceException, IllegalStateException, ConnectException, WiseRuntimeException;
 
     /**
      * Set the wsdlURL to generate WS client
