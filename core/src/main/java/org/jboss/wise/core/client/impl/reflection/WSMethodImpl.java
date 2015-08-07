@@ -42,7 +42,7 @@ import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.exception.InvocationException;
 import org.jboss.wise.core.exception.MappingException;
 import org.jboss.wise.core.mapper.WiseMapper;
-import org.jboss.wise.gwt.shared.WiseWebServiceException;
+import org.jboss.wise.core.exception.WiseWebServiceException;
 
 /**
  * Represent a webservice operation invocation
