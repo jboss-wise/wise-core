@@ -59,6 +59,7 @@ public interface WSMethod {
      * @return return an {@link InvocationResult} object populated with returned
      *         values (implementation will process both directed returned values
      *         and OUT parameters as defined in wsdl)
+     * @throws WiseWebServiceException
      * @throws InvocationException
      * @throws IllegalArgumentException
      * @throws MappingException
@@ -83,6 +84,7 @@ public interface WSMethod {
      * @return return an {@link InvocationResult} object populated with returned
      *         values (implementation will process both directed returned values
      *         and OUT parameters as defined in wsdl)
+     * @throws WiseWebServiceException  can indicate login credentials needed
      * @throws InvocationException
      * @throws IllegalArgumentException
      * @throws MappingException
