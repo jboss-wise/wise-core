@@ -74,6 +74,9 @@ public class WSMethodImpl implements WSMethod {
      * 
      * @param args @return @throws WiseException If an unknown exception is
      * received
+	  * @throws WiseWebServiceException  can indicate login credentials needed
+	  * @throws InvocationException
+	  * @throws IllegalArgumentException
      */
     InvocationResultImpl invoke(Map<String, Object> args) throws WiseWebServiceException, InvocationException, IllegalArgumentException {
 //	Method methodPointer = null;
@@ -134,6 +137,7 @@ public class WSMethodImpl implements WSMethod {
      *            parameters names as defined in wsdl/wsconsume generated
      *            classes
      * @return {@link InvocationResultImpl}
+	  * @throws WiseWebServiceException  can indicate login credentials needed
      * @throws InvocationException
      * @throws IllegalArgumentException
      * @throws MappingException
@@ -159,6 +163,10 @@ public class WSMethodImpl implements WSMethod {
      * {@inheritDoc}
      * 
      * @see org.jboss.wise.core.client.WSMethod#invoke(java.lang.Object)
+	  * @throws WiseWebServiceException  can indicate login credentials needed
+	  * @throws InvocationException
+	  * @throws IllegalArgumentException
+	  * @throws MappingException
      */
     public InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException {
 	return this.invoke(args, null);
