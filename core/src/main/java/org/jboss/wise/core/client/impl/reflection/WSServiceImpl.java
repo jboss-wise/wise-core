@@ -52,11 +52,12 @@ public class WSServiceImpl implements WSService {
     protected final int maxThreadPoolSize;
 
     /**
-     * @param serviceClass
-     * @param classLoader
-     * @param service
-     * @param userName
-     * @param password
+     * @param serviceClass   class
+     * @param classLoader   classloader
+     * @param service       object
+     * @param userName     string
+     * @param password     string
+     * @param excludedPorts set of string
      * @param maxThreadPoolSize the max pool size for method execution of service attached endpoint.
      */
     public WSServiceImpl( Class<?> serviceClass,
@@ -160,9 +161,9 @@ public class WSServiceImpl implements WSService {
         private final Method buildMethod;
 
         /**
-         * @param serviceClass
-         * @param serviceObject
-         * @param buildMethod
+         * @param serviceClass  class
+         * @param serviceObject  object
+         * @param buildMethod   method
          */
         public WSEndPointbuilder( Class<?> serviceClass,
                                   Object serviceObject,

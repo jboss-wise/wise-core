@@ -71,6 +71,7 @@ public interface Element extends Serializable, Cloneable {
     /**
      * Every WiseTreeElement must be cloneable; this is required to handle
      * element's add and removal into/from arrays and collections.
+     * @return element
      */
     public Element clone();
 

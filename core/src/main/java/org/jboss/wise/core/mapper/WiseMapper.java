@@ -36,10 +36,10 @@ public interface WiseMapper {
     /**
      * apply this mapping to original object
      * 
-     * @param originalObjects
-     * @return the mapped object in a Map<String,Object>. Keys of this map normally represent symbolic name of mapped Object. For
+     * @param originalObjects object
+     * @return the mapped object in a Map&lt;String,Object&gt;. Keys of this map normally represent symbolic name of mapped Object. For
      *         JAXRS conventional key used for standard key/value pairs are "ContentType" and "JAXRSStream"
-     * @throws MappingException
+     * @throws MappingException  mapping issue
      */
     public Map<String, Object> applyMapping( Object originalObjects ) throws MappingException;
 

@@ -46,9 +46,10 @@ public class InvocationResultImpl implements InvocationResult {
     private final Map<String, Object> originalObjects;
 
     /**
-     * @param name
-     * @param value
-     * @param results
+     * @param name  string
+	  * @param resultType type
+     * @param value  object
+     * @param results   map of objects
      */
     public InvocationResultImpl(String name, Type resultType, Object value, Map<String, Object> results) {
 

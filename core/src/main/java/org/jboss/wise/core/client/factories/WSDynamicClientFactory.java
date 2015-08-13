@@ -77,12 +77,12 @@ public abstract class WSDynamicClientFactory {
      * Return an instance of RSDynamicClient taken from cache if possible,
      * generate and initialise if not.
      * 
-     * @param endpointURL
-     * @param produceMediaTypes
-     * @param consumeMediaTypes
-     * @param httpMethod
-     * @param userName
-     * @param password
+     * @param endpointURL  string
+     * @param produceMediaTypes  string
+     * @param consumeMediaTypes string
+     * @param httpMethod  http method
+     * @param userName   string
+     * @param password   string
      * @return an instance of {@link RSDynamicClient} already initialized, ready
      *         to be called
      */
@@ -100,10 +100,10 @@ public abstract class WSDynamicClientFactory {
      * Return an instance of RSDynamicClient taken from cache if possible,
      * generate and initialise if not.
      * 
-     * @param endpointURL
-     * @param produceMediaTypes
-     * @param consumeMediaTypes
-     * @param httpMethod
+     * @param endpointURL  string
+     * @param produceMediaTypes  string
+     * @param consumeMediaTypes string
+     * @param httpMethod  http method
      * @return an instance of {@link RSDynamicClient} already initialized, ready
      *         to be called
      */

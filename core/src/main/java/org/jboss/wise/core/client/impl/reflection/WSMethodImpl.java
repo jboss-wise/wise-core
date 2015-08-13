@@ -130,7 +130,7 @@ public class WSMethodImpl implements WSMethod {
     /**
      * Invokes this method with the provided arguments applying provided mapper
      * 
-     * @param args
+     * @param args  object
      * @param mapper
      *            if null no mappings are applied method will be invoked using
      *            args directly. in this case the keys of the map gotta be the
@@ -138,9 +138,9 @@ public class WSMethodImpl implements WSMethod {
      *            classes
      * @return {@link InvocationResultImpl}
      * @throws WiseWebServiceException  can indicate login credentials needed
-     * @throws InvocationException
-     * @throws IllegalArgumentException
-     * @throws MappingException
+     * @throws InvocationException   invocation issue
+     * @throws IllegalArgumentException  illegal argument
+     * @throws MappingException  mapping issue
      */
     @SuppressWarnings("unchecked")
     public InvocationResultImpl invoke(Object args, WiseMapper mapper) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException {
@@ -163,10 +163,10 @@ public class WSMethodImpl implements WSMethod {
      * {@inheritDoc}
      * 
      * @see org.jboss.wise.core.client.WSMethod#invoke(java.lang.Object)
-	  * @throws WiseWebServiceException  can indicate login credentials needed
-	  * @throws InvocationException
-	  * @throws IllegalArgumentException
-	  * @throws MappingException
+     * @throws WiseWebServiceException  can indicate login credentials needed
+     * @throws InvocationException    invocation issue
+     * @throws IllegalArgumentException  illegal argument
+     * @throws MappingException  mapping issue
      */
     public InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException {
 	return this.invoke(args, null);

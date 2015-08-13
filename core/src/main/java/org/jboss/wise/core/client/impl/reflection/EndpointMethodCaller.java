@@ -45,9 +45,9 @@ public class EndpointMethodCaller implements Callable<Object> {
     private final Object[] args;
 
     /**
-     * @param epInstance
-     * @param methodPointer
-     * @param args
+     * @param epInstance   endpoint
+     * @param methodPointer   method pointer
+     * @param args   object array
      */
     public EndpointMethodCaller( WSEndpoint epInstance,
                                  Method methodPointer,
