@@ -31,9 +31,9 @@ import org.milyn.javabean.DecodeType;
 
 /**
  * {@link javax.xml.datatype.Duration} data decoder.
- * <p/>
+ *
  * Decodes the supplied string into a {@link javax.xml.bind.JAXBElement} It requires 2 parameter to build QName for JAXBElement.
- * IOW what it does under the wood is: new JAXBElement<String>(new QName(nameSpaceURI, localPart), String.class, data);
+ * IOW what it does under the wood is: new JAXBElement&lt;String&gt;(new QName(nameSpaceURI, localPart), String.class, String data);
  */
 @DecodeType( JAXBElement.class )
 public class JAXBElementDecoder implements DataDecoder {

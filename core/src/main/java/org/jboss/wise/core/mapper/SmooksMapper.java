@@ -130,12 +130,12 @@ public class SmooksMapper implements WiseMapper {
     /**
      * apply this mapping to original object
      * 
-     * @param originalObjects
+     * @param originalObjects  object
      * @return Map returned is typically used to invoke webservice operations.
      *         To do this, beanids defined in smooks config (and used here as
      *         Map's keys) have to be the parameters names as defined in
      *         wsdl/wsconsume generated classes
-     * @throws MappingException
+     * @throws MappingException   mapping issue
      */
     @SuppressWarnings("unchecked")
     public Map<String, Object> applyMapping(Object originalObjects) throws MappingException {

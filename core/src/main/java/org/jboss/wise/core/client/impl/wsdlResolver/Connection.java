@@ -56,9 +56,9 @@ public class Connection {
     /**
      * Open an inputStream from the given URL.
      * 
-     * @param url
+     * @param url  url
      * @return the inputStream of this url
-     * @throws IOException
+     * @throws IOException   io issue
      * 
      */
     public InputStream open(URL url) throws IOException {

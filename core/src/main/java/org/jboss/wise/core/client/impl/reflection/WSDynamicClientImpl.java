@@ -57,11 +57,11 @@ import org.jboss.wise.core.wsextensions.EnablerDelegateProvider;
 import org.milyn.Smooks;
 
 /**
- * This is the Wise core, i.e. the JAX-WS client that handles wsdl retrieval &
+ * This is the Wise core, i.e. the JAX-WS client that handles wsdl retrieval &amp;
  * parsing, invocations, etc.
  * 
  * @author Stefano Maestri, stefano.maestri@javalinux.it
- * @since
+ *
  */
 @ThreadSafe
 public class WSDynamicClientImpl implements WSDynamicClient {
@@ -90,7 +90,7 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     protected final int maxThreadPoolSize;
 
     /**
-     * @param builder
+     * @param builder  client builder
      * @return consumer
      */
     private static WSConsumer createConsumer(WSDynamicClientBuilder builder) {
@@ -141,8 +141,8 @@ public class WSDynamicClientImpl implements WSDynamicClient {
     }
 
     /**
-     * @param outputDir
-     * @throws WiseRuntimeException
+     * @param outputDir  file
+     * @throws WiseRuntimeException wapper of runtime exception
      */
 
     private synchronized void initClassLoader(File outputDir) throws WiseRuntimeException {

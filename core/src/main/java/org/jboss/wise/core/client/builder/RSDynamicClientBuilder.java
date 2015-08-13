@@ -42,9 +42,8 @@ public interface RSDynamicClientBuilder {
      * Build the {@link WSDynamicClient} with all parameters set on this class
      * 
      * @return {@link WSDynamicClient}
-     * @throws IllegalStateException
-     * @throws ConnectException
-     * @throws WiseRuntimeException
+     * @throws IllegalStateException   illegal state
+     * @throws WiseRuntimeException  srapper for runtime issue
      */
     public RSDynamicClient build() throws IllegalStateException, WiseRuntimeException;
 

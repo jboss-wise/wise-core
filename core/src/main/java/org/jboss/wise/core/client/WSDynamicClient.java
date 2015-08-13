@@ -32,7 +32,7 @@ import net.jcip.annotations.ThreadSafe;
 
 /**
  * This is the Wise core class responsible to invoke the JAX-WS tools that
- * handles wsdl retrieval & parsing. It is used to build the list of WSService
+ * handles wsdl retrieval &amp; parsing. It is used to build the list of WSService
  * representing the services available in parsed wsdl.
  * 
  * @author Stefano Maestri, stefano.maestri@javalinux.it
@@ -67,9 +67,9 @@ public interface WSDynamicClient {
      * "one line of code invocation" (see "Wise-core Programmers guide" for more
      * information)
      * 
-     * @param serviceName
-     * @param portName
-     * @param operationName
+     * @param serviceName  string
+     * @param portName   string
+     * @param operationName string
      * @throws ResourceNotAvailableException
      *             when the specified service, port or operation can not be
      *             found

@@ -45,16 +45,16 @@ public interface WSDynamicClientBuilder {
      * Build the {@link WSDynamicClient} with all parameters set on this class
      * 
      * @return {@link WSDynamicClient}
-     * @throws IllegalStateException
-     * @throws ConnectException
-     * @throws WiseRuntimeException
+     * @throws IllegalStateException   illegal state
+     * @throws ConnectException       connection issue
+     * @throws WiseRuntimeException   wrapper for runtime issue
      */
     public WSDynamicClient build() throws IllegalStateException, ConnectException, WiseRuntimeException;
 
     /**
      * Set the wsdlURL to generate WS client
      * 
-     * @param wsdlURL
+     * @param wsdlURL  string
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder wsdlURL(String wsdlURL);
@@ -63,7 +63,7 @@ public interface WSDynamicClientBuilder {
      * set the userName used in Basic Auth both for downloading wsdl and calling
      * service
      * 
-     * @param userName
+     * @param userName  string
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder userName(String userName);
@@ -72,7 +72,7 @@ public interface WSDynamicClientBuilder {
      * set the password used in Basic Auth both for downloading wsdl and calling
      * service
      * 
-     * @param password
+     * @param password  string
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder password(String password);
@@ -83,7 +83,7 @@ public interface WSDynamicClientBuilder {
      * {@link WSDynamicClient} and take care of all cleanup when
      * WSDynamicClient.close() is called
      * 
-     * @param tmpDir
+     * @param tmpDir string
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder tmpDir(String tmpDir);
@@ -92,7 +92,7 @@ public interface WSDynamicClientBuilder {
      * force the package name used for generated client classes. If it is't set
      * wsconsume rules will e used: namespaces and/or bindingfiles
      * 
-     * @param targetPackage
+     * @param targetPackage  string
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder targetPackage(String targetPackage);
@@ -100,7 +100,7 @@ public interface WSDynamicClientBuilder {
     /**
      * set the list of JAXB bindings files used by wsconsume
      * 
-     * @param bindings
+     * @param bindings  list of files
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder bindingFiles(List<File> bindings);
@@ -108,7 +108,7 @@ public interface WSDynamicClientBuilder {
     /**
      * set the catelog file
      * 
-     * @param catelog
+     * @param catelog   file
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder catalogFile(File catelog);
@@ -118,7 +118,7 @@ public interface WSDynamicClientBuilder {
      * information about this file refer to our samples and/or to JBossWS
      * documentation
      * 
-     * @param url
+     * @param url  string
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder securityConfigUrl(String url);
@@ -128,7 +128,7 @@ public interface WSDynamicClientBuilder {
      * information about this file refer to our samples and/or to JBossWS
      * documentation
      * 
-     * @param name
+     * @param name  string
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder securityConfigName(String name);
@@ -137,7 +137,7 @@ public interface WSDynamicClientBuilder {
      * if it it set to true source code generated for client classes will be
      * kept in {@link #tmpDir(String)}
      * 
-     * @param bool
+     * @param bool  flag
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder keepSource(boolean bool);
@@ -147,15 +147,15 @@ public interface WSDynamicClientBuilder {
      * will be verbose and its messages will be put on
      * {@link #messageStream(PrintStream)}
      * 
-     * @param bool
+     * @param bool  flag
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder verbose(boolean bool);
     
     /**
      * if it set to true non-SOAP wsdl ports will be excluded
-     * 
-     * @param bool
+     *
+     * @param exclude boolean
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude);
@@ -164,7 +164,7 @@ public interface WSDynamicClientBuilder {
      * Sets the PrintStream to use for status feedback. The simplest example
      * would be to use System.out.
      * 
-     * @param messageStream
+     * @param messageStream  print stream
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder messageStream(PrintStream messageStream);
@@ -174,7 +174,7 @@ public interface WSDynamicClientBuilder {
      * {@link WSMethod} on the build {@link WSDynamicClient}. default value is
      * 100.
      * 
-     * @param maxThreadPoolSize
+     * @param maxThreadPoolSize int
      * @return {@link WSDynamicClient}
      */
     public WSDynamicClientBuilder maxThreadPoolSize(int maxThreadPoolSize);

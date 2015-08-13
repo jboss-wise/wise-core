@@ -56,8 +56,8 @@ public class ReflectionUtils {
     /**
      * Get setter method name of given fieldName
      * 
-     * @param fieldName
-     * @param isBoolean
+     * @param fieldName  string
+     * @param isBoolean   boolean
      * @return String
      */
     public static String setterMethodName( String fieldName,
@@ -72,8 +72,8 @@ public class ReflectionUtils {
     /**
      * Get getter method name of given fieldName
      * 
-     * @param fieldName
-     * @param isBoolean
+     * @param fieldName  string
+     * @param isBoolean  boolean
      * @return String
      */
     public static String getterMethodName( String fieldName,
@@ -88,7 +88,8 @@ public class ReflectionUtils {
     /**
      * Get getter method name of given field
      * 
-     * @param field
+     * @param field  field
+     * @param xmlName string
      * @return String
      */
     public static String getGetter( Field field, String xmlName ) {

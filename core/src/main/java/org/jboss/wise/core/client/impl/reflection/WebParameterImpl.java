@@ -46,10 +46,10 @@ public class WebParameterImpl implements WebParameter {
     private final Enum<WebParam.Mode> mode;
 
     /**
-     * @param type
-     * @param name
-     * @param position
-     * @param mode
+     * @param type  type
+     * @param name  string
+     * @param position int
+     * @param mode enum
      */
     public WebParameterImpl( Type type,
                              String name,

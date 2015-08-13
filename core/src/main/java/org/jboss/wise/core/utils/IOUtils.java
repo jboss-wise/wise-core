@@ -36,10 +36,10 @@ public final class IOUtils {
     
     /**
      * True if the given type name is the source notation of a primitive or array of which.
-     * 
-     * @param outs
-     * @param ins
-     * @throws WiseRuntimeException
+     *
+     * @param outs output stream
+     * @param ins  input stream
+     * @throws WiseRuntimeException  wrapped runtime exception
      */
     public static void copyStreamAndClose( OutputStream outs,
                                     InputStream ins ) throws WiseRuntimeException {

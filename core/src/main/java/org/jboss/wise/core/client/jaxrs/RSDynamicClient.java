@@ -87,7 +87,7 @@ public interface RSDynamicClient {
     /**
      * Invoke JAXRS service.
      * 
-     * @param request
+     * @param request  input stream
      * @param mapper {@link WiseMapper} used to map inputObject to stream representation used to call the service
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */
@@ -97,7 +97,7 @@ public interface RSDynamicClient {
     /**
      * Invoke JAXRS service.
      * 
-     * @param request
+     * @param request  string
      * @param mapper {@link WiseMapper} used to map inputObject to stream representation used to call the service
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */
@@ -107,7 +107,7 @@ public interface RSDynamicClient {
     /**
      * Invoke JAXRS service.
      * 
-     * @param request
+     * @param request   byte[]
      * @param mapper {@link WiseMapper} used to map inputObject to stream representation used to call the service
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */

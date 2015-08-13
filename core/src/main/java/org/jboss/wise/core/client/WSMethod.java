@@ -59,10 +59,10 @@ public interface WSMethod {
      * @return return an {@link InvocationResult} object populated with returned
      *         values (implementation will process both directed returned values
      *         and OUT parameters as defined in wsdl)
-     * @throws WiseWebServiceException
-     * @throws InvocationException
-     * @throws IllegalArgumentException
-     * @throws MappingException
+     * @throws WiseWebServiceException  issue calling the service
+     * @throws InvocationException      issue invoking service
+     * @throws IllegalArgumentException   illegal argument
+     * @throws MappingException     mapping issue
      */
     public InvocationResult invoke(Object args, WiseMapper mapper) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException;
 
@@ -70,24 +70,24 @@ public interface WSMethod {
      * Invokes this method with the provided arguments
      * 
      * @param args
-     *            the arguments to call operation. args must be a Map<String,
-     *            Object>. This Map have to contain entries for all needed
+     *            the arguments to call operation. args must be a Map&lt;String,
+     *            Object&gt;. This Map have to contain entries for all needed
      *            parameters, keys have to reflect operation parameter name as
      *            defined in wsdl. Keys which names are not defined in wsdls
      *            will be simply ignored. Implementation will take care values
      *            nullability will reflect "nillable" properties defined in
      *            wsdl. order isn't important since WSMethod implementation will
      *            take care of reorder parameters in right position to make
-     *            operation call. If it isn't a Map<String, Object> or keys
+     *            operation call. If it isn't a Map&lt;String, Object&gt; or keys
      *            don't contain all parameters name an
      *            {@link IllegalArgumentException} is thrown.
      * @return return an {@link InvocationResult} object populated with returned
      *         values (implementation will process both directed returned values
      *         and OUT parameters as defined in wsdl)
      * @throws WiseWebServiceException  can indicate login credentials needed
-     * @throws InvocationException
-     * @throws IllegalArgumentException
-     * @throws MappingException
+     * @throws InvocationException      issue invoking service
+     * @throws IllegalArgumentException  illegal argument
+     * @throws MappingException     mapping issue
      */
     public InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException;
     
@@ -95,9 +95,9 @@ public interface WSMethod {
      * Generates and writes a preview of the request message for invoking this
      * method with the provided arguments.
      * 
-     * @param args
-     * @param os
-     * @throws InvocationException
+     * @param args   map
+     * @param os    output stream
+     * @throws InvocationException  issue invoking service
      */
     public void writeRequestPreview(Map<String, Object> args, OutputStream os) throws InvocationException;
 
@@ -105,7 +105,7 @@ public interface WSMethod {
      * Gets the map of {@link WebParameter} for the webserice method represented
      * by instance of this type
      * 
-     * @return a Map<String, Object> representing valid webparameters where keys
+     * @return a Map&lt;String, Object&gt; representing valid webparameters where keys
      *         contain symbolic names as defined by wsdl. It may be null in case
      *         of selected operation haven't parameter.
      */
