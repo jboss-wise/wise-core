@@ -28,9 +28,9 @@ import org.jboss.wise.core.mapper.WiseMapper;
 
 /**
  * Holds the webservice's (JAXWS or JAXRS) invocation result's data. Normally
- * this data are kept in Map<String, Object> for JAXWS and a Stream or String
+ * this data are kept in Map&lt;String, Object&gt; for JAXWS and a Stream or String
  * for JAXR, but implementor are free to change internal data structure. Anyway
- * it return a Map<String, Object> with webservice's call results, eventually
+ * it return a Map&lt;String, Object&gt; with webservice's call results, eventually
  * applying a mapping to custom object using a WiseMapper passed to
  * {@link #getMapRequestAndResult(WiseMapper, Map)} methods
  * 
@@ -62,7 +62,7 @@ public interface InvocationResult {
      *            output. It's useful when they are needed by wise's client in
      *            same classLoader used by smooks (i.e when wise is used to
      *            enrich set of objects like in ESB action pipeline)
-     * @return a Map<String, Object> containing the result of ws calls
+     * @return a Map&lt;String, Object&gt; containing the result of ws calls
      *         eventually mapped using WiseMapper provided
      * @throws MappingException
      *             rethrown exception got from provided {@link WiseMapper}
@@ -82,7 +82,7 @@ public interface InvocationResult {
      *            a WiseMapper used to map JAX-WS generated object returned by
      *            method call to arbitrary custom object model. It could be null
      *            to don't apply any kind of mappings
-     * @return a Map<String, Object> containing the result of ws calls
+     * @return a Map&lt;String, Object&gt; containing the result of ws calls
      *         eventually mapped using WiseMapper provided
      * @throws MappingException
      *             rethrown exception got from provided {@link WiseMapper}
@@ -94,7 +94,7 @@ public interface InvocationResult {
      * return value and OUT Holders parameters are considered ; For JAXRS a Map
      * contains 2 key/valuepair with keys "ContentType" and "JAXRSStream"
      * 
-     * @return a Map<String, Object> containing the result of ws calls
+     * @return a Map&lt;String, Object&gt; containing the result of ws calls
      *         eventually mapped using WiseMapper provided
      */
     public Map<String, Object> getResult();

@@ -47,10 +47,10 @@ public class JavaUtils {
     /**
      * Load a Java type from a given class loader.
      * 
-     * @param typeName
-     * @param classLoader
+     * @param typeName  string
+     * @param classLoader  lclassloader
      * @return Class
-     * @throws ClassNotFoundException
+     * @throws ClassNotFoundException  class not found
      */
     public static Class<?> loadJavaType(String typeName, ClassLoader classLoader) throws ClassNotFoundException {
 	if (classLoader == null)
@@ -152,7 +152,7 @@ public class JavaUtils {
      * Get the corresponding wrapper type for a give primitive. Also handles
      * arrays of which.
      * 
-     * @param javaType
+     * @param javaType   class
      * @return Class
      */
     public static Class<?> getWrapperType(Class<?> javaType) {

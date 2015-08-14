@@ -67,8 +67,8 @@ public class WiseEntityResolver extends JBossEntityResolver {
      * Use a ResourceURL to access the resource. This method should be protected
      * in the super class.
      * 
-     * @param id
-     * @param trace
+     * @param id  string
+     * @param trace  boolean
      * @return an InputSource
      */
     protected InputSource resolveSystemIDAsURL(String id, boolean trace) {

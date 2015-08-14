@@ -40,7 +40,7 @@ public interface WSExtensionEnabler {
      * This is the call back method invoked by {@link WSEndpoint} to ask this extension to enable itself. Implementer should
      * delegate the effective job to {@link EnablerDelegate} implementation for the right JAX-WS stack in use.
      * 
-     * @param endpointInstance
+     * @param endpointInstance  object
      */
     public abstract void enable( Object endpointInstance );
 

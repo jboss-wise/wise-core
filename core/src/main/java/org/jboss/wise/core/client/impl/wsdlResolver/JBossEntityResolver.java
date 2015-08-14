@@ -44,7 +44,7 @@ import org.xml.sax.SAXException;
  * 
  * Local entity resolver to handle standard J2EE DTDs and Schemas as well as
  * JBoss specific DTDs.
- * <p/>
+ *
  * Function boolean isEntityResolved() is here to avoid validation errors in
  * descriptors that do not have a DOCTYPE declaration.
  * 
@@ -207,7 +207,7 @@ public class JBossEntityResolver implements EntityResolver {
     /**
      * Obtain a read-only view of the current entity map.
      * 
-     * @return Map<String, String> of the publicID/systemID to dtd/schema file
+     * @return Map&lt;String, String&gt; of the publicID/systemID to dtd/schema file
      *         name
      */
     public static Map getEntityMap() {
@@ -347,7 +347,7 @@ public class JBossEntityResolver implements EntityResolver {
      * Returns the boolean value to inform id DTD was found in the XML file or
      * not
      * 
-     * @todo this is not thread safe and should be removed?
+     * todo this is not thread safe and should be removed?
      * 
      * @return boolean - true if DTD was found in XML
      */

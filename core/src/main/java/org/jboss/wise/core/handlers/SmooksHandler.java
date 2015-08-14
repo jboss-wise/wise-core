@@ -94,8 +94,8 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
      *            URI of smooks config file
      * @param beans
      *            used for smooks BeanAccessor
-     * @param client
-     * @param smooksReport
+     * @param client  a dynamic client
+     * @param smooksReport  string
      */
     public SmooksHandler(String smooksResource, Map<String, Object> beans, WSDynamicClient client, String smooksReport) {
 

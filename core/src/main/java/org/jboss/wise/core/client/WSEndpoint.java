@@ -49,7 +49,7 @@ public interface WSEndpoint {
     /**
      * Set username for endpoint authentication
      * 
-     * @param username
+     * @param username  string
      */
     @GuardedBy("this")
     public void setUsername(String username);
@@ -57,7 +57,7 @@ public interface WSEndpoint {
     /**
      * Set password for endpoint authentication
      * 
-     * @param password
+     * @param password  string
      */
     @GuardedBy("this")
     public void setPassword(String password);
@@ -77,7 +77,7 @@ public interface WSEndpoint {
      * method called
      * 
      * @see #getWSMethods()
-     * @param handler
+     * @param handler  handler
      */
     @GuardedBy("this")
     public void addHandler(Handler<?> handler);
@@ -140,7 +140,7 @@ public interface WSEndpoint {
      * it give the opportunity to change target url of the endpoint defined in
      * the wsdl
      * 
-     * @param targetUrl
+     * @param targetUrl string
      */
     @GuardedBy("this")
     public void setTargetUrl(String targetUrl);

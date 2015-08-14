@@ -127,7 +127,7 @@ public class WSEndpointImpl implements WSEndpoint {
     /**
      * Set username used for Basic HTTP auth in calling ws
      * 
-     * @param username
+     * @param username string
      */
     public synchronized void setUsername(String username) {
 	this.userName = username;
@@ -141,7 +141,7 @@ public class WSEndpointImpl implements WSEndpoint {
     /**
      * Set password used for Basic HTTP auth in calling ws
      * 
-     * @param password
+     * @param password  string
      */
     public synchronized void setPassword(String password) {
 	this.password = password;
@@ -160,7 +160,7 @@ public class WSEndpointImpl implements WSEndpoint {
      * method called
      * 
      * @see #getWSMethods()
-     * @param handler
+     * @param handler  handler
      */
     public void addHandler(Handler<?> handler) {
 	handlers.add(handler);

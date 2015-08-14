@@ -52,8 +52,8 @@ public class SpiLoader {
      * 
      * 3. Finally, a default implementation class name is used.
      * 
-     * @param propertyName
-     * @param defaultFactory
+     * @param propertyName  string
+     * @param defaultFactory  string
      * @return the instance
      */
     public static Object loadService(String propertyName, String defaultFactory) {
@@ -73,7 +73,7 @@ public class SpiLoader {
      * Use the Services API (as detailed in the JAR specification), if
      * available, to determine the classname.
      * 
-     * @param propertyName
+     * @param propertyName  string
      * @return the instance
      */
     public static Object loadFromServices(String propertyName) {
@@ -105,7 +105,7 @@ public class SpiLoader {
     /**
      * Use the system property
      * 
-     * @param propertyName
+     * @param propertyName string
      * @return the instance
      */
     public static Object loadFromSystemProperty(String propertyName) {
