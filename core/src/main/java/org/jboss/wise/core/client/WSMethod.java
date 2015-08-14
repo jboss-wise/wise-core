@@ -26,7 +26,7 @@ import java.util.Map;
 import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.exception.InvocationException;
 import org.jboss.wise.core.exception.MappingException;
-import org.jboss.wise.gwt.shared.WiseWebServiceException;
+import org.jboss.wise.core.exception.WiseWebServiceException;
 import org.jboss.wise.core.mapper.WiseMapper;
 
 /**

@@ -1,4 +1,4 @@
-package org.jboss.wise.gwt.shared;
+package org.jboss.wise.core.exception;
 
 import java.io.Serializable;
 
