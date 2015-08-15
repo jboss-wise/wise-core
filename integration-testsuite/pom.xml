@@ -140,25 +140,28 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jboss711</id>
-			<activation>
-			  <property>
-				<name>!no-jboss711.stack</name>
-			  </property>
-			</activation>
+			<id>wildfly800</id>
+			<properties>
+				<jbossws.deployer.port>9990</jbossws.deployer.port>
+				<jbossws.deployer.protocol>http-remoting</jbossws.deployer.protocol>
+			</properties>
 			<dependencies>
 				<dependency>
-					<groupId>org.jboss.as</groupId>
-					<artifactId>jboss-as-webservices-tests-integration</artifactId>
-					<version>7.1.1.Final</version>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-webservices-tests-integration</artifactId>
+					<version>8.0.0.Final</version>
 					<exclusions>
 						<exclusion>
-							<groupId>org.jboss.as</groupId>
-							<artifactId>jboss-as-clustering-infinispan</artifactId>
+							<groupId>org.wildfly</groupId>
+							<artifactId>wildfly-clustering-infinispan</artifactId>
 						</exclusion>
 						<exclusion>
-							<groupId>org.jboss.as</groupId>
-							<artifactId>jboss-as-transactions</artifactId>
+							<groupId>org.wildfly</groupId>
+							<artifactId>wildfly-transactions</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.remoting3</groupId>
+							<artifactId>jboss-remoting</artifactId>
 						</exclusion>
 					</exclusions>
 					<scope>test</scope>
@@ -166,12 +169,45 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>wildfly800</id>
+			<id>wildfly810</id>
+			<properties>
+				<jbossws.deployer.port>9990</jbossws.deployer.port>
+				<jbossws.deployer.protocol>http-remoting</jbossws.deployer.protocol>
+			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-webservices-tests-integration</artifactId>
-					<version>8.0.0.CR1</version>
+					<version>8.1.0.Final</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.wildfly</groupId>
+							<artifactId>wildfly-clustering-infinispan</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.wildfly</groupId>
+							<artifactId>wildfly-transactions</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.jboss.remoting3</groupId>
+							<artifactId>jboss-remoting</artifactId>
+						</exclusion>
+					</exclusions>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>wildfly820</id>
+			<properties>
+				<jbossws.deployer.port>9990</jbossws.deployer.port>
+				<jbossws.deployer.protocol>http-remoting</jbossws.deployer.protocol>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-webservices-tests-integration</artifactId>
+					<version>8.2.0.Final</version>
 					<exclusions>
 						<exclusion>
 							<groupId>org.wildfly</groupId>

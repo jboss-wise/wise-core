@@ -71,10 +71,10 @@ public class RSDynamicClientImpl implements RSDynamicClient {
     /**
      * Invoke JAXRS service.
      * 
-     * @param resourceURI
+     * @param resourceURI   string
      * @param produceMediaTypes default to "* / *"
      * @param consumeMediaTypes default to "* / *"
-     * @param httpMethod
+     * @param httpMethod    http method
      */
     public RSDynamicClientImpl( String resourceURI,
                                 String produceMediaTypes,
