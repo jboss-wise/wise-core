@@ -74,13 +74,13 @@ public class WSMethodImpl implements WSMethod {
      * 
      * @param args @return @throws WiseException If an unknown exception is
      * received
-	  * @throws WiseWebServiceException  There are 4 known failure conditions
-	  *                                  - The wsdl (url) could not be found
-	  *                                  - The wsdl is password protected
-	  *                                  - The endpoint (url) could not be found
-	  *                                  - The endpoint is password protected
-	  * @throws InvocationException
-	  * @throws IllegalArgumentException
+     * @throws WiseWebServiceException  There are 4 known failure conditions
+     *                                  - The wsdl (url) could not be found
+     *                                  - The wsdl is password protected
+     *                                  - The endpoint (url) could not be found
+     *                                  - The endpoint is password protected
+     * @throws InvocationException
+     * @throws IllegalArgumentException
      */
     InvocationResultImpl invoke(Map<String, Object> args) throws WiseWebServiceException, InvocationException, IllegalArgumentException {
 //	Method methodPointer = null;
@@ -141,11 +141,11 @@ public class WSMethodImpl implements WSMethod {
      *            parameters names as defined in wsdl/wsconsume generated
      *            classes
      * @return {@link InvocationResultImpl}
-	  * @throws WiseWebServiceException There are 4 known failure conditions
-	  *                                  - The wsdl (url) could not be found
-	  *                                  - The wsdl is password protected
-	  *                                  - The endpoint (url) could not be found
-	  *                                  - The endpoint is password protected
+     * @throws WiseWebServiceException There are 4 known failure conditions
+     *                                  - The wsdl (url) could not be found
+     *                                  - The wsdl is password protected
+     *                                  - The endpoint (url) could not be found
+     *                                  - The endpoint is password protected
      * @throws InvocationException   invocation issue
      * @throws IllegalArgumentException  illegal argument
      * @throws MappingException  mapping issue
@@ -171,14 +171,14 @@ public class WSMethodImpl implements WSMethod {
      * {@inheritDoc}
      * 
      * @see org.jboss.wise.core.client.WSMethod#invoke(java.lang.Object)
-	  * @throws WiseWebServiceException There are 4 known failure conditions
-	  *                                  - The wsdl (url) could not be found
-	  *                                  - The wsdl is password protected
-	  *                                  - The endpoint (url) could not be found
-	  *                                  - The endpoint is password protected
-	  * @throws InvocationException    invocation issue
-	  * @throws IllegalArgumentException  illegal argument
-	  * @throws MappingException  mapping issue
+     * @throws WiseWebServiceException There are 4 known failure conditions
+     *                                  - The wsdl (url) could not be found
+     *                                  - The wsdl is password protected
+     *                                  - The endpoint (url) could not be found
+     *                                  - The endpoint is password protected
+     * @throws InvocationException    invocation issue
+     * @throws IllegalArgumentException  illegal argument
+     * @throws MappingException  mapping issue
      */
     public InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException, MappingException {
 	return this.invoke(args, null);
