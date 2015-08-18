@@ -99,7 +99,7 @@ public class WSMethodImpl implements WSMethod {
 
 	    }
 	} catch (java.util.concurrent.ExecutionException wse) {
-		throw new WiseWebServiceException(wse.getMessage(), wse);
+		throw new WiseWebServiceException("Invocation error: " + this.getEndpoint().getTargetUrl(), wse);
 	} catch (Exception ite) {
 	    Logger.getLogger(WSMethodImpl.class).info("Error invoking method " + this.getMethod() + ", arguments: " + args != null ? args.values().toArray() : null);
 //	    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
