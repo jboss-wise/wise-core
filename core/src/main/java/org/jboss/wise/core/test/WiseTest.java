@@ -46,7 +46,10 @@ public class WiseTest {
     private static final String SYSPROP_JBOSS_BIND_ADDRESS = "jboss.bind.address";
     private static final String SYSPROP_JBOSS_HTTP_PORT = "jboss.http.port";
     private static Deployer DEPLOYER;
-    
+
+    private static final String SYSPROP_TEST_RESOURCES_DIRECTORY = "test.resources.directory";
+    private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
+
     private static synchronized Deployer getDeployer()
     {
        //lazy loading of deployer
@@ -136,4 +139,11 @@ public class WiseTest {
 	    throw new RuntimeException(e);
 	}
     }
- }
+
+
+    public static String getTestResourcesDir()
+    {
+        return testResourcesDir;
+    }
+
+}

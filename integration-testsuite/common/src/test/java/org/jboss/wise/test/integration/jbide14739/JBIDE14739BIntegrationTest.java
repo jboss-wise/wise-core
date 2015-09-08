@@ -19,61 +19,40 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wise.test.integration.incontainer;
+package org.jboss.wise.test.integration.jbide14739;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.test.WiseTest;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 @RunWith(Arquillian.class)
-public class WiseIntegrationInContainerTest extends WiseTest {
+public class JBIDE14739BIntegrationTest extends WiseTest {
 
-    private static final String WAR = "basic";
-    private static final String SERVLET_WAR = "incontainer";
+    private static final String WARB = "jbide14739B";
 
-    @Deployment(name = WAR, order = 1)
-    public static WebArchive createDeploymentA() {
-        // retrieve a pre-built archive
-        WebArchive archive = ShrinkWrap
-                .create(ZipImporter.class, WAR + ".war")
-                .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + WAR + ".war"))
-                .as(WebArchive.class);
-        return archive;
-    }
-
-
-    @Deployment(name = SERVLET_WAR, order = 2)
+    @Deployment
     public static WebArchive createDeploymentB() {
-        // retrieve a pre-built archive
-        WebArchive archive = ShrinkWrap
-                .create(ZipImporter.class, SERVLET_WAR + ".war")
-                .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + SERVLET_WAR + ".war"))
-                .as(WebArchive.class);
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, WARB + ".war");
+        archive
+                .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldBInterface.class)
+                .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldBBean.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/jbide14739B/web.xml"));
         return archive;
     }
 
     @Test
     @RunAsClient
-    public void test() throws Exception {
-        URL url = new URL(getServerHostAndPort() + "/incontainer/HelloWorldServlet?name=foo");
-        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-        String result = br.readLine();
-        if (result.startsWith("[FIXME]")) {
-            System.out.println(result);
-        } else {
-            Assert.assertEquals("WS return: foo", result);
-        }
+    public void shouldConsumeNewWsdlAfterEndpointRefreshB() throws Exception {
+        URL wsdlURL = new URL(getServerHostAndPort() + "/jbide14739/HelloWorld?wsdl");
+        JBIDE14739IntegrationTest.runWise(wsdlURL, "target/temp/wise/jbide14739B", "echoB");
     }
 }
+

@@ -21,10 +21,11 @@
  */
 package org.jboss.wise.test.integration.jbide14739;
 
-import java.io.ByteArrayOutputStream;
-import java.net.URL;
-import java.util.Map;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
@@ -33,46 +34,50 @@ import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.test.WiseTest;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.net.URL;
+import java.util.Map;
+
+@RunWith(Arquillian.class)
 public class JBIDE14739IntegrationTest extends WiseTest {
-    
-    @Test
-    public void shouldConsumeNewWsdlAfterEndpointRefresh() throws Exception {
-	URL warUrl = JBIDE14739IntegrationTest.class.getClassLoader().getResource("jbide14739.war");
-	URL wsdlURL = new URL(getServerHostAndPort() + "/jbide14739/HelloWorld?wsdl");
-	try {
-	    deployWS(warUrl);
-	    runWise(wsdlURL, "target/temp/wise/jbide14739", "echo");
-	} finally {
-	    undeployWS(warUrl);
-	}
-	
-	warUrl = JBIDE14739IntegrationTest.class.getClassLoader().getResource("jbide14739B.war");
-	
-	wsdlURL = new URL(getServerHostAndPort() + "/jbide14739/HelloWorld?wsdl");
-	try {
-	    deployWS(warUrl);
-	    runWise(wsdlURL, "target/temp/wise/jbide14739B", "echoB");
-	} finally {
-	    undeployWS(warUrl);
-	}
+
+    private static final String WAR = "jbide14739";
+
+    @Deployment
+    public static WebArchive createDeploymentA() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
+        archive
+                .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldInterface.class)
+                .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldBean.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/jbide14739/web.xml"));
+        return archive;
     }
-    
-    private void runWise(URL wsdlURL, String tempDir, String methodName) throws Exception {
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	WSDynamicClient client = clientBuilder.tmpDir(tempDir).verbose(true).keepSource(true).wsdlURL(wsdlURL
-		.toString()).build();
-	WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", methodName);
-	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("arg0", "from-wise-client");
-	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	method.writeRequestPreview(args, bos);
-	Assert.assertTrue("Expected string containing '<arg0>from-wise-client</arg0>' but got: " + bos.toString(), bos.toString().contains("<arg0>from-wise-client</arg0>"));
-	InvocationResult result = method.invoke(args, null);
-	Map<String, Object> res = result.getMapRequestAndResult(null, null);
-	@SuppressWarnings("unchecked")
-	Map<String, Object> test = (Map<String, Object>) res.get("results");
-	client.close();
-	Assert.assertEquals("from-wise-client", test.get("result"));
+
+    @Test
+    @RunAsClient
+    public void shouldConsumeNewWsdlAfterEndpointRefresh() throws Exception {
+        URL wsdlURL = new URL(getServerHostAndPort() + "/jbide14739/HelloWorld?wsdl");
+        runWise(wsdlURL, "target/temp/wise/jbide14739", "echo");
+    }
+
+    public static void runWise(URL wsdlURL, String tempDir, String methodName) throws Exception {
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        WSDynamicClient client = clientBuilder.tmpDir(tempDir).verbose(true).keepSource(true).wsdlURL(wsdlURL
+                .toString()).build();
+        WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", methodName);
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        args.put("arg0", "from-wise-client");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        method.writeRequestPreview(args, bos);
+        Assert.assertTrue("Expected string containing '<arg0>from-wise-client</arg0>' but got: " + bos.toString(), bos.toString().contains("<arg0>from-wise-client</arg0>"));
+        InvocationResult result = method.invoke(args, null);
+        Map<String, Object> res = result.getMapRequestAndResult(null, null);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> test = (Map<String, Object>) res.get("results");
+        client.close();
+        Assert.assertEquals("from-wise-client", test.get("result"));
     }
 }

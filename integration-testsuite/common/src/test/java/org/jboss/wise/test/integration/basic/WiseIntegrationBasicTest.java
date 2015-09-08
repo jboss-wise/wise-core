@@ -21,96 +21,101 @@
  */
 package org.jboss.wise.test.integration.basic;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wise.core.client.InvocationResult;
+import org.jboss.wise.core.client.WSDynamicClient;
+import org.jboss.wise.core.client.WSMethod;
+import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
+import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
+import org.jboss.wise.core.exception.WiseWebServiceException;
+import org.jboss.wise.core.test.WiseTest;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Map;
 
-import org.jboss.wise.core.client.InvocationResult;
-import org.jboss.wise.core.client.WSDynamicClient;
-import org.jboss.wise.core.client.WSMethod;
-import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
-import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
-import org.jboss.wise.core.test.WiseTest;
-import org.jboss.wise.core.exception.WiseWebServiceException;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+@RunWith(Arquillian.class)
 public class WiseIntegrationBasicTest extends WiseTest {
-    private static URL warUrl = null;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-	warUrl = WiseIntegrationBasicTest.class.getClassLoader().getResource("basic.war");
-	deployWS(warUrl);
-    }
+   private static final String WAR = "basic";
 
-    @Test
-    public void shouldRunWithoutMK() throws Exception {
+   @Deployment
+   public static WebArchive createDeploymentA() {
+      // retrieve a pre-built archive
+      WebArchive archive = ShrinkWrap
+          .create(ZipImporter.class, WAR + ".war")
+          .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + WAR + ".war"))
+          .as(WebArchive.class);
+      return archive;
+   }
 
-	URL wsdlURL = new URL(getServerHostAndPort() + "/basic/HelloWorld?wsdl");
 
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-		.toString()).build();
-	WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
-	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("arg0", "from-wise-client");
-	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	method.writeRequestPreview(args, bos);
-	Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
-	InvocationResult result = method.invoke(args, null);
-	Map<String, Object> res = result.getMapRequestAndResult(null, null);
-	@SuppressWarnings("unchecked")
-	Map<String, Object> test = (Map<String, Object>) res.get("results");
-	client.close();
-	Assert.assertEquals("from-wise-client", test.get("result"));
-    }
+   @Test
+   @RunAsClient
+   public void shouldRunWithoutMK() throws Exception {
 
-    @Test
-    public void shouldAllowOverridingTargetEndpoint() throws Exception {
+      URL wsdlURL = new URL(getServerHostAndPort() + "/basic/HelloWorld?wsdl");
 
-	final File targetDir = new File("target", "test-classes");
-	URL wsdlURL = new File(targetDir, "basic-local.wsdl").toURI().toURL();
+      WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+      WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
+         .toString()).build();
+      WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
+      Map<String, Object> args = new java.util.HashMap<String, Object>();
+      args.put("arg0", "from-wise-client");
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      method.writeRequestPreview(args, bos);
+      Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
+      InvocationResult result = method.invoke(args, null);
+      Map<String, Object> res = result.getMapRequestAndResult(null, null);
+      @SuppressWarnings("unchecked")
+      Map<String, Object> test = (Map<String, Object>) res.get("results");
+      client.close();
+      Assert.assertEquals("from-wise-client", test.get("result"));
+   }
 
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-		.toString()).build();
-	WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
-	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("arg0", "from-wise-client");
-	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	method.writeRequestPreview(args, bos);
-	Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
-	
-	InvocationResult result;
-	try {
-	    result = method.invoke(args, null);
-	    Assert.fail("Invocation should have failed because of invalid target endpoint address");
-	} catch (WiseWebServiceException ie) {
-	    //expected
-	    Assert.assertTrue(ie.getCause().getCause() instanceof InvocationTargetException);
-	}
-	
-	method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
-	result = method.invoke(args, null);
-	
-	Map<String, Object> res = result.getMapRequestAndResult(null, null);
-	@SuppressWarnings("unchecked")
-	Map<String, Object> test = (Map<String, Object>) res.get("results");
-	client.close();
-	Assert.assertEquals("from-wise-client", test.get("result"));
-    }
+   @Test
+   @RunAsClient
+   public void shouldAllowOverridingTargetEndpoint() throws Exception {
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-	try {
-	    undeployWS(warUrl);
-	} finally {
-	    warUrl = null;
-	}
-    }
+      final File targetDir = new File("target", "test-classes");
+      URL wsdlURL = new File(targetDir, "basic-local.wsdl").toURI().toURL();
+
+      WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+      WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
+         .toString()).build();
+      WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
+      Map<String, Object> args = new java.util.HashMap<String, Object>();
+      args.put("arg0", "from-wise-client");
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      method.writeRequestPreview(args, bos);
+      Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
+
+      InvocationResult result;
+      try {
+         result = method.invoke(args, null);
+         Assert.fail("Invocation should have failed because of invalid target endpoint address");
+      } catch (WiseWebServiceException ie) {
+         //expected
+         Assert.assertTrue(ie.getCause().getCause() instanceof InvocationTargetException);
+      }
+
+      method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
+      result = method.invoke(args, null);
+
+      Map<String, Object> res = result.getMapRequestAndResult(null, null);
+      @SuppressWarnings("unchecked")
+      Map<String, Object> test = (Map<String, Object>) res.get("results");
+      client.close();
+      Assert.assertEquals("from-wise-client", test.get("result"));
+   }
 }

@@ -21,14 +21,11 @@
  */
 package org.jboss.wise.test.integration.complex;
 
-import java.io.ByteArrayOutputStream;
-import java.lang.reflect.ParameterizedType;
-import java.net.URL;
-import java.util.Map;
-
-import javax.jws.WebParam;
-import javax.xml.ws.Holder;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
@@ -36,104 +33,138 @@ import org.jboss.wise.core.client.WebParameter;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.test.WiseTest;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import javax.jws.WebParam;
+import javax.xml.ws.Holder;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.lang.reflect.ParameterizedType;
+import java.net.URL;
+import java.util.Map;
 
 /**
- * 
  * @author alessio.soldano@jboss.com
- *
  */
+@RunWith(Arquillian.class)
 public class WiseIntegrationComplexTest extends WiseTest {
-    
-    private static URL warUrl = null;
+
     private static WSDynamicClient client;
 
-    @BeforeClass
+    @Deployment
+    public static WebArchive createDeployment() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "complex.war");
+        archive
+                .addClass(org.jboss.wise.test.integration.complex.Address.class)
+                .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
+                .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
+                .addClass(org.jboss.wise.test.integration.complex.BulkRegisterResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.BulkRegister.class)
+                .addClass(org.jboss.wise.test.integration.complex.Customer.class)
+                .addClass(org.jboss.wise.test.integration.complex.Echo.class)
+                .addClass(org.jboss.wise.test.integration.complex.EchoResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.GetStatistics.class)
+                .addClass(org.jboss.wise.test.integration.complex.GetStatisticsResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.InvoiceCustomer.class)
+                .addClass(org.jboss.wise.test.integration.complex.Name.class)
+                .addClass(org.jboss.wise.test.integration.complex.PhoneNumber.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoice.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoiceResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.Register.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.Registration.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegistrationFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegistrationServiceImpl.class)
+                .addClass(org.jboss.wise.test.integration.complex.Statistics.class)
+                .addClass(org.jboss.wise.test.integration.complex.ValidationFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.ValidationFault_Exception.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/complex/web.xml"));
+        return archive;
+    }
+
     public static void setUp() throws Exception {
-	warUrl = WiseIntegrationComplexTest.class.getClassLoader().getResource("complex.war");
-	deployWS(warUrl);
-	
-	URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
 
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-		.toString()).build();
+        URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
+
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
+                .toString()).build();
     }
 
     @Test
+    @RunAsClient
     public void shouldInvokeRegisterOperation() throws Exception {
-	WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Register");
-	Map<String, ? extends WebParameter> pars = method.getWebParams();
-	WebParameter customerPar = pars.get("Customer");
-	Class<?> customerClass = (Class<?>)customerPar.getType();
-	Object customer = customerClass.newInstance();
-	customerClass.getMethod("setId", long.class).invoke(customer, new Long(1234));
-	Class<?> nameClass = (Class<?>)customerClass.getDeclaredField("name").getType();
-	Object name = nameClass.newInstance();
-	nameClass.getMethod("setFirstName", String.class).invoke(name, "Foo");
-	nameClass.getMethod("setLastName", String.class).invoke(name, "Bar");
-	nameClass.getMethod("setMiddleName", String.class).invoke(name, "The");
-	customerClass.getMethod("setName", nameClass).invoke(customer, name);
-	
-	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("Customer", customer);
-	args.put("When", null);
-	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	method.writeRequestPreview(args, bos);
-	Assert.assertTrue(bos.toString().contains("<id>1234</id>"));
-	InvocationResult result = method.invoke(args, null);
-	Map<String, Object> res = result.getMapRequestAndResult(null, null);
-	Map<String, Object> test = (Map<String, Object>) res.get("results");
-	Assert.assertEquals(new Long(1234).longValue(), test.get("result"));
-	Assert.assertEquals(long.class, test.get("type.result"));
+        setUp();
+        WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Register");
+        Map<String, ? extends WebParameter> pars = method.getWebParams();
+        WebParameter customerPar = pars.get("Customer");
+        Class<?> customerClass = (Class<?>) customerPar.getType();
+        Object customer = customerClass.newInstance();
+        customerClass.getMethod("setId", long.class).invoke(customer, new Long(1234));
+        Class<?> nameClass = (Class<?>) customerClass.getDeclaredField("name").getType();
+        Object name = nameClass.newInstance();
+        nameClass.getMethod("setFirstName", String.class).invoke(name, "Foo");
+        nameClass.getMethod("setLastName", String.class).invoke(name, "Bar");
+        nameClass.getMethod("setMiddleName", String.class).invoke(name, "The");
+        customerClass.getMethod("setName", nameClass).invoke(customer, name);
+
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        args.put("Customer", customer);
+        args.put("When", null);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        method.writeRequestPreview(args, bos);
+        Assert.assertTrue(bos.toString().contains("<id>1234</id>"));
+        InvocationResult result = method.invoke(args, null);
+        Map<String, Object> res = result.getMapRequestAndResult(null, null);
+        Map<String, Object> test = (Map<String, Object>) res.get("results");
+        Assert.assertEquals(new Long(1234).longValue(), test.get("result"));
+        Assert.assertEquals(long.class, test.get("type.result"));
+        tearDown();
     }
 
     @Test
+    @RunAsClient
     public void shouldInvokeEchoOperation() throws Exception {
-	WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Echo");
-	Map<String, ? extends WebParameter> pars = method.getWebParams();
-	WebParameter customerPar = pars.get("Customer");
-	Assert.assertEquals(WebParam.Mode.INOUT, customerPar.getMode());
-	Assert.assertEquals(Holder.class, (Class<?>)((ParameterizedType)customerPar.getType()).getRawType());
-	Class<?> customerClass = (Class<?>)((ParameterizedType)customerPar.getType()).getActualTypeArguments()[0];
-	Object customer = customerClass.newInstance();
-	customerClass.getMethod("setId", long.class).invoke(customer, new Long(1235));
-	Class<?> nameClass = (Class<?>)customerClass.getDeclaredField("name").getType();
-	Object name = nameClass.newInstance();
-	nameClass.getMethod("setFirstName", String.class).invoke(name, "Foo");
-	nameClass.getMethod("setLastName", String.class).invoke(name, "Bar");
-	nameClass.getMethod("setMiddleName", String.class).invoke(name, "The");
-	customerClass.getMethod("setName", nameClass).invoke(customer, name);
-	
-	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("Customer", new Holder(customer));
-	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	method.writeRequestPreview(args, bos);
-	Assert.assertTrue(bos.toString().contains("<firstName>Foo</firstName>"));
-	InvocationResult result = method.invoke(args, null);
-	Map<String, Object> res = result.getMapRequestAndResult(null, null);
-	Map<String, Object> test = (Map<String, Object>) res.get("results");
-	Assert.assertEquals(void.class, test.get("type.result"));
-	ParameterizedType returnType = (ParameterizedType)test.get("type.Customer");
-	Assert.assertEquals(Holder.class, returnType.getRawType());
-	Assert.assertEquals(customerClass, returnType.getActualTypeArguments()[0]);
-	Assert.assertNull(test.get("result"));
-	Object returnObj = ((Holder<?>)test.get("Customer")).value;
-	Object returnNameObj = customerClass.getMethod("getName").invoke(returnObj);
-	Assert.assertEquals("Foo", nameClass.getMethod("getFirstName").invoke(returnNameObj));
+        setUp();
+        WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Echo");
+        Map<String, ? extends WebParameter> pars = method.getWebParams();
+        WebParameter customerPar = pars.get("Customer");
+        Assert.assertEquals(WebParam.Mode.INOUT, customerPar.getMode());
+        Assert.assertEquals(Holder.class, (Class<?>) ((ParameterizedType) customerPar.getType()).getRawType());
+        Class<?> customerClass = (Class<?>) ((ParameterizedType) customerPar.getType()).getActualTypeArguments()[0];
+        Object customer = customerClass.newInstance();
+        customerClass.getMethod("setId", long.class).invoke(customer, new Long(1235));
+        Class<?> nameClass = (Class<?>) customerClass.getDeclaredField("name").getType();
+        Object name = nameClass.newInstance();
+        nameClass.getMethod("setFirstName", String.class).invoke(name, "Foo");
+        nameClass.getMethod("setLastName", String.class).invoke(name, "Bar");
+        nameClass.getMethod("setMiddleName", String.class).invoke(name, "The");
+        customerClass.getMethod("setName", nameClass).invoke(customer, name);
+
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        args.put("Customer", new Holder(customer));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        method.writeRequestPreview(args, bos);
+        Assert.assertTrue(bos.toString().contains("<firstName>Foo</firstName>"));
+        InvocationResult result = method.invoke(args, null);
+        Map<String, Object> res = result.getMapRequestAndResult(null, null);
+        Map<String, Object> test = (Map<String, Object>) res.get("results");
+        Assert.assertEquals(void.class, test.get("type.result"));
+        ParameterizedType returnType = (ParameterizedType) test.get("type.Customer");
+        Assert.assertEquals(Holder.class, returnType.getRawType());
+        Assert.assertEquals(customerClass, returnType.getActualTypeArguments()[0]);
+        Assert.assertNull(test.get("result"));
+        Object returnObj = ((Holder<?>) test.get("Customer")).value;
+        Object returnNameObj = customerClass.getMethod("getName").invoke(returnObj);
+        Assert.assertEquals("Foo", nameClass.getMethod("getFirstName").invoke(returnNameObj));
+        tearDown();
     }
 
-    @AfterClass
     public static void tearDown() throws Exception {
-	try {
-	    undeployWS(warUrl);
-	} finally {
-	    warUrl = null;
-	    client.close();
-	    client = null;
-	}
+        client.close();
+        client = null;
     }
 }

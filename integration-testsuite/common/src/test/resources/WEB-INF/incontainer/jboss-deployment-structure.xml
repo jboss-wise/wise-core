@@ -7,6 +7,7 @@
 	      <module name="org.jboss.common-core"/>
 	      <module name="org.apache.cxf"/>
 	      <module name="org.apache.cxf.impl" optional="true" /> <!-- impl submodule is available since AS 7.2 -->
+				<module name="org.jaxen"/>
 	    </dependencies>
     </deployment>
 </jboss-deployment-structure>

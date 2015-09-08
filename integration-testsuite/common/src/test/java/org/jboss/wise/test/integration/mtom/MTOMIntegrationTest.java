@@ -21,12 +21,12 @@
  */
 package org.jboss.wise.test.integration.mtom;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.Assert;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
@@ -34,50 +34,51 @@ import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.test.WiseTest;
 import org.jboss.wise.core.wsextensions.impl.MTOMEnabler;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author stefano.maestri@javalinux.it
  * @author alessio.soldano@jboss.com
  */
+@RunWith(Arquillian.class)
 public class MTOMIntegrationTest extends WiseTest {
-    
+
     private URL warUrl = null;
 
-    @Before
-    public void setUp() throws Exception {
-	warUrl = this.getClass().getClassLoader().getResource("mtom-tests.jar");
-	deployWS(warUrl);
+    @Deployment
+    public static JavaArchive createDeployment() {
+        // archive is empty by design
+        JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "mtom-tests.jar");
+        return archive;
     }
-    
+
     @Test
+    @RunAsClient
     public void test() {
-	System.out.println("[FIXME] [WISE-45] MTOMSample fails returning empty binaries");
+        System.out.println("[FIXME] [WISE-45] MTOMSample fails returning empty binaries");
     }
-    
+
     public void shouldRunWithoutMK() throws Exception {
-	URL wsdlURL = new URL(getServerHostAndPort() + "/mtom-tests/MTOMWS?wsdl");
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
-	try {
-	    WSMethod method = client.getWSMethod("MTOMWSService", "MTOMPort", "sayHello");
-	    method.getEndpoint().addWSExtension(new MTOMEnabler(client));
-	    HashMap<String, Object> requestMap = new HashMap<String, Object>();
-	    requestMap.put("toWhom", "SpiderMan");
-	    InvocationResult result = method.invoke(requestMap, null);
-	    Map map = (Map) result.getMapRequestAndResult(null, null).get("results");
-	    byte[] bytes = (byte[]) map.get("result");
-	    System.out.println("bytes: "+bytes);
-	    Assert.assertNotNull(bytes);
-	} finally {
-	    client.close();
-	}
-    }
-    
-    @After
-    public void tearDown() throws Exception {
-	undeployWS(warUrl);
+        URL wsdlURL = new URL(getServerHostAndPort() + "/mtom-tests/MTOMWS?wsdl");
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
+        try {
+            WSMethod method = client.getWSMethod("MTOMWSService", "MTOMPort", "sayHello");
+            method.getEndpoint().addWSExtension(new MTOMEnabler(client));
+            HashMap<String, Object> requestMap = new HashMap<String, Object>();
+            requestMap.put("toWhom", "SpiderMan");
+            InvocationResult result = method.invoke(requestMap, null);
+            Map map = (Map) result.getMapRequestAndResult(null, null).get("results");
+            byte[] bytes = (byte[]) map.get("result");
+            System.out.println("bytes: " + bytes);
+            Assert.assertNotNull(bytes);
+        } finally {
+            client.close();
+        }
     }
 }

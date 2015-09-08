@@ -21,13 +21,12 @@
  */
 package org.jboss.wise.test.integration.tree;
 
-import java.io.ByteArrayOutputStream;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.client.WebParameter;
@@ -39,25 +38,30 @@ import org.jboss.wise.core.utils.JavaUtils;
 import org.jboss.wise.tree.Element;
 import org.jboss.wise.tree.ElementBuilder;
 import org.jboss.wise.tree.ElementBuilderFactory;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
- * 
  * @author alessio.soldano@jboss.com
- *
  */
+@RunWith(Arquillian.class)
 public class MessagePreviewIntegrationTest extends WiseTest {
-    
-    private static URL warUrl = null;
+
     private static WSDynamicClient client;
-    private final String registerOpRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+    private final String registerOpRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
             "  <soap:Header/>\n" +
             "  <soap:Body>\n" +
-            "    <ns2:Register xmlns=\"http://complex.jaxws.ws.test.jboss.org/\" xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\" xmlns:ns3=\"http://extra.complex.jaxws.ws.test.jboss.org/\">\n" +
+            "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\" xmlns=\"http://complex.jaxws.ws.test.jboss.org/\" xmlns:ns3=\"http://extra.complex.jaxws.ws.test.jboss.org/\">\n" +
             "      <ns2:Customer>\n" +
             "        <address>\n" +
             "          <city>?</city>\n" +
@@ -108,118 +112,124 @@ public class MessagePreviewIntegrationTest extends WiseTest {
             "  </soap:Body>\n" +
             "</soap:Envelope>\n";
 
-    @BeforeClass
+    @Deployment
+    public static WebArchive createDeployment() {
+        // retrieve a pre-built archive
+        WebArchive archive = ShrinkWrap
+                .create(ZipImporter.class, "complex.war")
+                .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/complex.war"))
+                .as(WebArchive.class);
+        return archive;
+    }
+
     public static void setUp() throws Exception {
-	warUrl = MessagePreviewIntegrationTest.class.getClassLoader().getResource("complex.war");
-	deployWS(warUrl);
-	
-	URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
+        URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
 
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-		.toString()).build();
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
+                .toString()).build();
     }
 
     @Test
+    @RunAsClient
     public void shouldPreviewRegisterOperation() throws Exception {
-	WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Register");
-	String messagePreview = previewMessage(method);
-	Assert.assertEquals(registerOpRequest, messagePreview); //TODO improve check...
+        setUp();
+        WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Register");
+        String messagePreview = previewMessage(method);
+        Assert.assertEquals(registerOpRequest, messagePreview); //TODO improve check...
+        tearDown();
     }
-    
+
     @Test
+    @RunAsClient
     public void shouldPreviewEchoOperation() throws Exception {
-	WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Echo");
-	String messagePreview = previewMessage(method);
-//	System.out.println("--> " + messagePreview); //TODO check...
+        setUp();
+        WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Echo");
+        String messagePreview = previewMessage(method);
+        //	System.out.println("--> " + messagePreview); //TODO check...
+        tearDown();
     }
 
     private String previewMessage(WSMethod method) throws InvocationException {
-	Map<String, ? extends WebParameter> pars = method.getWebParams();
-	ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true).useDefautValuesForNullLeaves(false);
-	Map<String, Element> elementsMap = new HashMap<String, Element>();
-	for (Entry<String, ? extends WebParameter> par : pars.entrySet()) {
-	    String parName = par.getKey();
-	    Element parElement = builder.buildTree(par.getValue().getType(), parName, null, true);
-	    populateElement(parElement, 1);
-	    elementsMap.put(parName, parElement);
-	}
-	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	for (Entry<String, Element> elem : elementsMap.entrySet()) {
-	    args.put(elem.getKey(), elem.getValue().toObject());
-	}
-	
-	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	method.writeRequestPreview(args, bos);
-	return bos.toString();
-    }
-    
-    private void populateElement(Element element, int remainingLazyExpansions) {
-	if (element.isLazy()) {
-	    if (!element.isResolved()) {
-		if (remainingLazyExpansions > 0) {
-		    element.getChildrenCount(); // force resolution
-		    populateElement(element, --remainingLazyExpansions);
-		} else {
-		    return;
-		}
-	    }
-	}
-	element.setNil(false);
-	if (element.isLeaf()) {
-	    element.setValue(getDefaultValue((Class<?>) element.getClassType()));
-	} else {
-	    if (element.isGroup()) {
-		element.incrementChildren();
-	    }
-	    for (Iterator<? extends Element> it = element.getChildren(); it.hasNext();) {
-		populateElement(it.next(), remainingLazyExpansions);
-	    }
-	}
-    }
-    
-    protected static String getDefaultValue(Class<?> cl) {
-	if (cl.isPrimitive()) {
-	    cl = JavaUtils.getWrapperType(cl);
-	}
-	String cn = cl.getName();
-	if ("java.lang.Boolean".equals(cn)) {
-	    return "false";
-	} else if ("java.lang.String".equals(cn)) {
-	    return "?";
-	} else if ("java.lang.Byte".equals(cn)) {
-	    return "0";
-	} else if ("java.lang.Double".equals(cn)) {
-	    return "0.0";
-	} else if ("java.lang.Float".equals(cn)) {
-	    return "0.0";
-	} else if ("java.lang.Integer".equals(cn)) {
-	    return "0";
-	} else if ("java.lang.Long".equals(cn)) {
-	    return "0";
-	} else if ("java.lang.Short".equals(cn)) {
-	    return "0";
-	} else if ("java.math.BigDecimal".equals(cn)) {
-	    return "0.0";
-	} else if ("java.math.BigInteger".equals(cn)) {
-	    return "0";
-	} else if ("javax.xml.datatype.Duration".equals(cn)) {
-	    return "0";
-	} else if ("javax.xml.datatype.XMLGregorianCalendar".equals(cn)) {
-	    return "1970-01-01T00:00:00.000Z";
-	} else {
-	    return "";
-	}
+        Map<String, ? extends WebParameter> pars = method.getWebParams();
+        ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true).useDefautValuesForNullLeaves(false);
+        Map<String, Element> elementsMap = new HashMap<String, Element>();
+        for (Entry<String, ? extends WebParameter> par : pars.entrySet()) {
+            String parName = par.getKey();
+            Element parElement = builder.buildTree(par.getValue().getType(), parName, null, true);
+            populateElement(parElement, 1);
+            elementsMap.put(parName, parElement);
+        }
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        for (Entry<String, Element> elem : elementsMap.entrySet()) {
+            args.put(elem.getKey(), elem.getValue().toObject());
+        }
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        method.writeRequestPreview(args, bos);
+        return bos.toString();
     }
 
-    @AfterClass
+    private void populateElement(Element element, int remainingLazyExpansions) {
+        if (element.isLazy()) {
+            if (!element.isResolved()) {
+                if (remainingLazyExpansions > 0) {
+                    element.getChildrenCount(); // force resolution
+                    populateElement(element, --remainingLazyExpansions);
+                } else {
+                    return;
+                }
+            }
+        }
+        element.setNil(false);
+        if (element.isLeaf()) {
+            element.setValue(getDefaultValue((Class<?>) element.getClassType()));
+        } else {
+            if (element.isGroup()) {
+                element.incrementChildren();
+            }
+            for (Iterator<? extends Element> it = element.getChildren(); it.hasNext(); ) {
+                populateElement(it.next(), remainingLazyExpansions);
+            }
+        }
+    }
+
+    protected static String getDefaultValue(Class<?> cl) {
+        if (cl.isPrimitive()) {
+            cl = JavaUtils.getWrapperType(cl);
+        }
+        String cn = cl.getName();
+        if ("java.lang.Boolean".equals(cn)) {
+            return "false";
+        } else if ("java.lang.String".equals(cn)) {
+            return "?";
+        } else if ("java.lang.Byte".equals(cn)) {
+            return "0";
+        } else if ("java.lang.Double".equals(cn)) {
+            return "0.0";
+        } else if ("java.lang.Float".equals(cn)) {
+            return "0.0";
+        } else if ("java.lang.Integer".equals(cn)) {
+            return "0";
+        } else if ("java.lang.Long".equals(cn)) {
+            return "0";
+        } else if ("java.lang.Short".equals(cn)) {
+            return "0";
+        } else if ("java.math.BigDecimal".equals(cn)) {
+            return "0.0";
+        } else if ("java.math.BigInteger".equals(cn)) {
+            return "0";
+        } else if ("javax.xml.datatype.Duration".equals(cn)) {
+            return "0";
+        } else if ("javax.xml.datatype.XMLGregorianCalendar".equals(cn)) {
+            return "1970-01-01T00:00:00.000Z";
+        } else {
+            return "";
+        }
+    }
+
     public static void tearDown() throws Exception {
-	try {
-	    undeployWS(warUrl);
-	} finally {
-	    warUrl = null;
-	    client.close();
-	    client = null;
-	}
+        client.close();
+        client = null;
     }
 }

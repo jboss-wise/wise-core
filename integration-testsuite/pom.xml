@@ -29,7 +29,7 @@
 	</parent>
 
     <modules>
-		<module>common</module>
+			<module>common</module>
     </modules>
 
 	<dependencies>
@@ -59,6 +59,25 @@
 			<artifactId>jcip-annotations</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap</groupId>
+			<artifactId>shrinkwrap-depchain</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<version>${arquillian.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -101,6 +120,11 @@
 							<includes>
 								<include>**/*Integration*Test.java</include>
 							</includes>
+							<systemPropertyVariables>
+								<java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
+								<jboss.home>${jboss.home}</jboss.home>
+								<test.resources.directory>${test.resources.directory}</test.resources.directory>
+							</systemPropertyVariables>
 							<systemProperties>
 								<property>
 									<name>log4j.configuration</name>
@@ -111,121 +135,452 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>validate-jboss-home</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<echo />
+								<echo message="profile=${jbossws.integration.target}" />
+								<echo message="jboss.home=${jboss.home}" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 	
 	<profiles>
 		<profile>
-			<id>cxf</id>
+			<id>ipv6</id>
 			<activation>
 				<property>
-					<name>!no-cxf.stack</name>
+					<name>ipv6</name>
 				</property>
 			</activation>
-			<modules>
-				<module>cxf</module>
-			</modules>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.ws.cxf</groupId>
-					<artifactId>jbossws-cxf-client</artifactId>
-					<scope>runtime</scope> <!-- runtime scope to avoid having the dependency while compiling -->
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.wise</groupId>
-					<artifactId>wise-core-cxf</artifactId>
-					<version>${project.version}</version>
-					<scope>runtime</scope> <!-- runtime scope to avoid having the dependency while compiling -->
-				</dependency>
-			</dependencies>
+			<properties>
+				<ipVerArgs>-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true</ipVerArgs>
+			</properties>
 		</profile>
+		<profile>
+			<id>ipv4</id>
+			<activation>
+				<property>
+					<name>!ipv6</name>
+				</property>
+			</activation>
+			<properties>
+				<ipVerArgs>-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false</ipVerArgs>
+			</properties>
+		</profile>
+
+		<!--
+        Name:  download
+        Descr: Download WildFly
+     -->
+		<profile>
+			<id>download</id>
+			<activation>
+				<property>
+					<name>!server.home</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>unpack</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.wildfly</groupId>
+											<artifactId>wildfly-dist</artifactId>
+											<version>${jboss.version}</version>
+											<type>zip</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<jboss.home>${project.build.directory}/test-server/jbossws-cxf-dist-${project.version}/wildfly-${jboss.version}</jboss.home>
+			</properties>
+		</profile>
+
+		<!--
+        Name:  wildfly800
+        Descr: WildFly-8.0.0 specific options
+     -->
 		<profile>
 			<id>wildfly800</id>
 			<properties>
-				<jbossws.deployer.port>9990</jbossws.deployer.port>
-				<jbossws.deployer.protocol>http-remoting</jbossws.deployer.protocol>
+				<server.home>target/wildfly-${wildfly800.version}</server.home>
+				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
+				<jbossws.integration.target>wildfly800</jbossws.integration.target>
+				<jboss.home>${server.home}</jboss.home>
+				<jboss.version>${wildfly800.version}</jboss.version>
+				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
 			</properties>
 			<dependencies>
 				<dependency>
-					<groupId>org.wildfly</groupId>
-					<artifactId>wildfly-webservices-tests-integration</artifactId>
-					<version>8.0.0.Final</version>
-					<exclusions>
-						<exclusion>
-							<groupId>org.wildfly</groupId>
-							<artifactId>wildfly-clustering-infinispan</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.wildfly</groupId>
-							<artifactId>wildfly-transactions</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.remoting3</groupId>
-							<artifactId>jboss-remoting</artifactId>
-						</exclusion>
-					</exclusions>
+					<groupId>org.jboss.ws</groupId>
+					<artifactId>jbossws-wildfly800-tests-integration</artifactId>
+					<version>${jbossws.wildfly800.version}</version>
+				</dependency>
+				<!-- Arquillian container integration -->
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.protocol</groupId>
+					<artifactId>arquillian-protocol-servlet</artifactId>
+					<version>${arquillian.version}</version>
 					<scope>test</scope>
 				</dependency>
+				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+				<dependency>
+					<groupId>org.littleshoot</groupId>
+					<artifactId>littleproxy</artifactId>
+					<version>${org.littleshoot.littleproxy.version}</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-log4j12</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>net.sf.ehcache</groupId>
+							<artifactId>ehcache-core</artifactId>
+						</exclusion>
+						<!-- Let the container messaging subsystem control the Netty dependency version  -->
+						<exclusion>
+							<groupId>io.netty</groupId>
+							<artifactId>netty-all</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
 			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<compilerArguments>
+								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+							</compilerArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
+
+		<!--
+			Name:  wildfly810
+			Descr: WildFly-8.1.0 specific options
+    	-->
 		<profile>
 			<id>wildfly810</id>
 			<properties>
-				<jbossws.deployer.port>9990</jbossws.deployer.port>
-				<jbossws.deployer.protocol>http-remoting</jbossws.deployer.protocol>
+				<server.home>target/wildfly-${wildfly810.version}</server.home>
+				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
+				<jbossws.integration.target>wildfly810</jbossws.integration.target>
+				<jboss.home>${server.home}</jboss.home>
+				<jboss.version>${wildfly810.version}</jboss.version>
+				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
 			</properties>
 			<dependencies>
 				<dependency>
-					<groupId>org.wildfly</groupId>
-					<artifactId>wildfly-webservices-tests-integration</artifactId>
-					<version>8.1.0.Final</version>
-					<exclusions>
-						<exclusion>
-							<groupId>org.wildfly</groupId>
-							<artifactId>wildfly-clustering-infinispan</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.wildfly</groupId>
-							<artifactId>wildfly-transactions</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.remoting3</groupId>
-							<artifactId>jboss-remoting</artifactId>
-						</exclusion>
-					</exclusions>
+					<groupId>org.jboss.ws</groupId>
+					<artifactId>jbossws-wildfly810-tests-integration</artifactId>
+					<version>${jbossws.wildfly810.version}</version>
+				</dependency>
+				<!-- Arquillian container integration -->
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.protocol</groupId>
+					<artifactId>arquillian-protocol-servlet</artifactId>
+					<version>${arquillian.version}</version>
 					<scope>test</scope>
 				</dependency>
+				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+				<dependency>
+					<groupId>org.littleshoot</groupId>
+					<artifactId>littleproxy</artifactId>
+					<version>${org.littleshoot.littleproxy.version}</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-log4j12</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>net.sf.ehcache</groupId>
+							<artifactId>ehcache-core</artifactId>
+						</exclusion>
+						<!-- Let the container messaging subsystem control the Netty dependency version  -->
+						<exclusion>
+							<groupId>io.netty</groupId>
+							<artifactId>netty-all</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
 			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<compilerArguments>
+								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+							</compilerArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
+
+		<!--
+			Name:  wildfly820
+			Descr: WildFly-8.2.0 specific options
+    	-->
 		<profile>
 			<id>wildfly820</id>
 			<properties>
-				<jbossws.deployer.port>9990</jbossws.deployer.port>
-				<jbossws.deployer.protocol>http-remoting</jbossws.deployer.protocol>
+				<server.home>target/wildfly-${wildfly820.version}</server.home>
+				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
+				<jbossws.integration.target>wildfly820</jbossws.integration.target>
+				<jboss.home>${server.home}</jboss.home>
+				<jboss.version>${wildfly820.version}</jboss.version>
+				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.ws</groupId>
+					<artifactId>jbossws-wildfly820-tests-integration</artifactId>
+					<version>${jbossws.wildfly820.version}</version>
+				</dependency>
+				<!-- Arquillian container integration -->
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.protocol</groupId>
+					<artifactId>arquillian-protocol-servlet</artifactId>
+					<version>${arquillian.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+				<dependency>
+					<groupId>org.littleshoot</groupId>
+					<artifactId>littleproxy</artifactId>
+					<version>${org.littleshoot.littleproxy.version}</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-log4j12</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>net.sf.ehcache</groupId>
+							<artifactId>ehcache-core</artifactId>
+						</exclusion>
+						<!-- Let the container messaging subsystem control the Netty dependency version  -->
+						<exclusion>
+							<groupId>io.netty</groupId>
+							<artifactId>netty-all</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<compilerArguments>
+								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+							</compilerArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!--
+			Name:  wildfly900
+			Descr: WildFly-9.0.0 specific options
+    	-->
+		<profile>
+			<id>wildfly900</id>
+			<properties>
+				<server.home>target/wildfly-${wildfly900.version}</server.home>
+				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
+				<jbossws.integration.target>wildfly900</jbossws.integration.target>
+				<jboss.home>${server.home}</jboss.home>
+				<jboss.version>${wildfly900.version}</jboss.version>
+				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.ws</groupId>
+					<artifactId>jbossws-wildfly900-tests-integration</artifactId>
+					<version>${jbossws.wildfly900.version}</version>
+				</dependency>
+				<!-- Arquillian container integration -->
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.protocol</groupId>
+					<artifactId>arquillian-protocol-servlet</artifactId>
+					<version>${arquillian.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+				<dependency>
+					<groupId>org.littleshoot</groupId>
+					<artifactId>littleproxy</artifactId>
+					<version>${org.littleshoot.littleproxy.version}</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-log4j12</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>net.sf.ehcache</groupId>
+							<artifactId>ehcache-core</artifactId>
+						</exclusion>
+						<!-- Let the container messaging subsystem control the Netty dependency version  -->
+						<exclusion>
+							<groupId>io.netty</groupId>
+							<artifactId>netty-all</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<compilerArguments>
+								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+							</compilerArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!--
+			Name:  wildfly900
+			Descr: WildFly-9.0.0 specific options
+    	-->
+		<profile>
+			<id>wildfly1000</id>
+			<properties>
+				<server.home>target/wildfly-${wildfly1000.version}</server.home>
+				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
+				<jbossws.integration.target>wildfly1000</jbossws.integration.target>
+				<jboss.home>${server.home}</jboss.home>
+				<jboss.version>${wildfly1000.version}</jboss.version>
+				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
 			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-webservices-tests-integration</artifactId>
-					<version>8.2.0.Final</version>
-					<exclusions>
-						<exclusion>
-							<groupId>org.wildfly</groupId>
-							<artifactId>wildfly-clustering-infinispan</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.wildfly</groupId>
-							<artifactId>wildfly-transactions</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.remoting3</groupId>
-							<artifactId>jboss-remoting</artifactId>
-						</exclusion>
-					</exclusions>
+					<version>${wildfly1000.version}</version>
+				</dependency>
+				<!-- Arquillian container integration -->
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.protocol</groupId>
+					<artifactId>arquillian-protocol-servlet</artifactId>
+					<version>${arquillian.version}</version>
 					<scope>test</scope>
 				</dependency>
+				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+				<dependency>
+					<groupId>org.littleshoot</groupId>
+					<artifactId>littleproxy</artifactId>
+					<version>${org.littleshoot.littleproxy.version}</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-log4j12</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>net.sf.ehcache</groupId>
+							<artifactId>ehcache-core</artifactId>
+						</exclusion>
+						<!-- Let the container messaging subsystem control the Netty dependency version  -->
+						<exclusion>
+							<groupId>io.netty</groupId>
+							<artifactId>netty-all</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
 			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<compilerArguments>
+								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+							</compilerArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
+
 		<profile>
 			<id>use.endorsed.dir</id>
 			<activation>

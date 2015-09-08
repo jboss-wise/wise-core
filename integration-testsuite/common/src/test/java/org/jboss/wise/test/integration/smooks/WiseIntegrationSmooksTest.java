@@ -21,16 +21,13 @@
  */
 package org.jboss.wise.test.integration.smooks;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
-
-import java.net.URL;
-import java.util.Date;
-import java.util.Map;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
@@ -41,54 +38,60 @@ import org.jboss.wise.core.mapper.SmooksMapper;
 import org.jboss.wise.core.test.WiseTest;
 import org.jboss.wise.test.integration.smooks.pojo.clientside.ExternalObject;
 import org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import java.io.File;
+import java.net.URL;
+import java.util.Date;
+import java.util.Map;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
+
+@RunWith(Arquillian.class)
 public class WiseIntegrationSmooksTest extends WiseTest {
 
-    private static URL warUrl = null;
+    private static final String WAR = "smooks";
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-	warUrl = WiseIntegrationSmooksTest.class.getClassLoader().getResource("smooks.war");
-	deployWS(warUrl);
-
+    @Deployment(name = WAR)
+    public static WebArchive createDeployment() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
+        archive
+                .addClass(org.jboss.wise.test.integration.smooks.pojo.clientside.ExternalObject.class)
+                .addClass(org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject.class)
+                .addClass(org.jboss.wise.test.integration.smooks.pojo.serverside.ComplexObject.class)
+                .addClass(org.jboss.wise.test.integration.smooks.ComplexWS.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/smooks/web.xml"));
+        return archive;
     }
 
     @Test
+    @RunAsClient
     public void shouldRunWithoutMKNoCache() throws Exception {
-	URL wsdlURL = new URL(getServerHostAndPort() + "/smooks/ComplexWS?wsdl");
+        URL wsdlURL = new URL(getServerHostAndPort() + "/smooks/ComplexWS?wsdl");
 
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-		.toString()).build();
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
+                .toString()).build();
 
-	WSMethod method = client.getWSMethod("ComplexWSService", "ComplexWSPort", "ping");
-	method.getEndpoint().addHandler(new LoggingHandler(Logger.getLogger(this.getClass()), Level.DEBUG));
-	InternalObject internal = new InternalObject();
-	internal.setNumber(new Integer(1));
-	internal.setText("aa");
-	ExternalObject external = new ExternalObject();
-	external.setDate(new Date(0));
-	external.setInternal(internal);
-	// without smooks debug infos
-	InvocationResult result = method.invoke(external, new SmooksMapper(
-		"META-INF/smooks/smooks-config-XMLGregorianCalendar.xml", "/home/oracle/inputRep.html", client));
-	Map<String, Object> resultMap = result.getMappedResult(new SmooksMapper("META-INF/smooks/smooks-response-config.xml",
-		"/home/oracle/outputRep.html", client));
-	client.close();
-	assertThat(((ExternalObject) resultMap.get("ExternalObject")).getInternal(), equalTo(internal));
-	// just verifying not null, ignoring all annoyance of java TZ
-	assertThat(((ExternalObject) resultMap.get("ExternalObject")).getDate(), notNullValue());
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-	try {
-	    undeployWS(warUrl);
-	} finally {
-	    warUrl = null;
-	}
+        WSMethod method = client.getWSMethod("ComplexWSService", "ComplexWSPort", "ping");
+        method.getEndpoint().addHandler(new LoggingHandler(Logger.getLogger(this.getClass()), Level.DEBUG));
+        InternalObject internal = new InternalObject();
+        internal.setNumber(new Integer(1));
+        internal.setText("aa");
+        ExternalObject external = new ExternalObject();
+        external.setDate(new Date(0));
+        external.setInternal(internal);
+        // without smooks debug infos
+        InvocationResult result = method.invoke(external, new SmooksMapper(
+                "META-INF/smooks/smooks-config-XMLGregorianCalendar.xml", "/home/oracle/inputRep.html", client));
+        Map<String, Object> resultMap = result.getMappedResult(new SmooksMapper("META-INF/smooks/smooks-response-config.xml",
+                "/home/oracle/outputRep.html", client));
+        client.close();
+        assertThat(((ExternalObject) resultMap.get("ExternalObject")).getInternal(), equalTo(internal));
+        // just verifying not null, ignoring all annoyance of java TZ
+        assertThat(((ExternalObject) resultMap.get("ExternalObject")).getDate(), notNullValue());
     }
 }

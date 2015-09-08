@@ -41,7 +41,6 @@
 						<configuration>
 							<finalName>mtom-tests</finalName>
 							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<testClassesDirectory>${project.build.directory}/test-classes/</testClassesDirectory>
 							<includes>
 								<include>**/mtom/*</include>
 							</includes>
@@ -56,6 +55,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<executions>
+					<!-- pre-built archive loaded by arquillian -->
 					<execution>
 						<id>war-it</id>
 						<phase>pre-integration-test</phase>
@@ -83,90 +83,7 @@
 							</webResources>
 						</configuration>
 					</execution>
-					<execution>
-						<id>war-it-jbide14739</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>war</goal>
-						</goals>
-						<configuration>
-							<webXml>${basedir}/src/test/resources/WEB-INF/jbide14739/web.xml</webXml>
-							<warName>jbide14739</warName>
-							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<webappDirectory>${project.build.directory}/jbide14739</webappDirectory>
-							<warSourceExcludes>**/lib/**</warSourceExcludes>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-							<webResources>
-								<webResource>
-									<targetPath>WEB-INF/classes</targetPath>
-									<directory>${basedir}/target/test-classes/</directory>
-									<includes>
-										<include>**/jbide14739/HelloWorldBean.class</include>
-										<include>**/jbide14739/HelloWorldInterface.class</include>
-									</includes>
-								</webResource>
-							</webResources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>war-it-jbide14739-b</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>war</goal>
-						</goals>
-						<configuration>
-							<webXml>${basedir}/src/test/resources/WEB-INF/jbide14739/web-b.xml</webXml>
-							<warName>jbide14739B</warName>
-							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<webappDirectory>${project.build.directory}/jbide14739B</webappDirectory>
-							<warSourceExcludes>**/lib/**</warSourceExcludes>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-							<webResources>
-								<webResource>
-									<targetPath>WEB-INF/classes</targetPath>
-									<directory>${basedir}/target/test-classes/</directory>
-									<includes>
-										<include>**/jbide14739/HelloWorldBBean.class</include>
-										<include>**/jbide14739/HelloWorldBInterface.class</include>
-									</includes>
-								</webResource>
-							</webResources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>war-it-adapter</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>war</goal>
-						</goals>
-						<configuration>
-							<webXml>${basedir}/src/test/resources/WEB-INF/adapter/web.xml</webXml>
-							<warName>adapter</warName>
-							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<webappDirectory>${project.build.directory}/adapter</webappDirectory>
-							<warSourceExcludes>**/lib/**</warSourceExcludes>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-							<webResources>
-								<webResource>
-									<targetPath>WEB-INF/classes</targetPath>
-									<directory>${basedir}/target/test-classes/</directory>
-									<includes>
-										<include>**/adapter/*.class</include>
-									</includes>
-									<excludes>
-										<exclude>**/*Test.class</exclude>
-									</excludes>
-								</webResource>
-								<webResource>
-									<targetPath>WEB-INF</targetPath>
-									<directory>${basedir}/src/test/resources/WEB-INF/adapter/</directory>
-									<includes>
-										<include>**/*.*</include>
-									</includes>
-								</webResource>
-							</webResources>
-						</configuration>
-					</execution>
+					<!-- pre-built archive loaded by arquillian -->
 					<execution>
 						<id>war-it-complex</id>
 						<phase>pre-integration-test</phase>
@@ -194,6 +111,7 @@
 							</webResources>
 						</configuration>
 					</execution>
+					<!-- pre-built archive loaded by arquillian -->
 					<execution>
 						<id>war-it-incontainer</id>
 						<phase>pre-integration-test</phase>
@@ -228,71 +146,122 @@
 							</webResources>
 						</configuration>
 					</execution>
-					<execution>
-						<id>war-wsdlResolver</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>war</goal>
-						</goals>
-						<configuration>
-							<webXml>${basedir}/src/test/resources/WEB-INF/wsdlResolver/web.xml</webXml>
-							<warName>wsdlResolver</warName>
-							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<webappDirectory>${project.build.directory}/wsdlResolver</webappDirectory>
-							<warSourceExcludes>**/lib/**</warSourceExcludes>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
- 							<webResources>
-								<webResource>
-									<targetPath>WEB-INF/classes</targetPath>
-									<directory>${basedir}/target/test-classes/</directory>
-									<includes>
-										<include>**/wsdlResolver/*.class</include>
-									</includes>
-									<excludes>
-										<exclude>**/*Test.class</exclude>
-									</excludes>
-								</webResource>
-								<webResource>
-									<targetPath>WEB-INF</targetPath>
-									<directory>${basedir}/src/test/resources/WEB-INF/wsdlResolver/</directory>
-									<includes>
-										<include>**/*.*</include>
-									</includes>
-								</webResource>
-							</webResources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>war-smooks</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>war</goal>
-						</goals>
-						<configuration>
-							<webXml>${basedir}/src/test/resources/WEB-INF/smooks/web.xml</webXml>
-							<warName>smooks</warName>
-							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<webappDirectory>${project.build.directory}/smooks</webappDirectory>
-							<warSourceExcludes>**/lib/**</warSourceExcludes>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-							<webResources>
-								<webResource>
-									<targetPath>WEB-INF/classes</targetPath>
-									<directory>${basedir}/target/test-classes/</directory>
-									<includes>
-										<include>**/smooks/**/*.class</include>
-									</includes>
-									<excludes>
-										<exclude>**/*Test.class</exclude>
-									</excludes>
-								</webResource>
-							</webResources>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	
-	<profiles/>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- ref by WiseIntegrationInContainerTest during build -->
+		<dependency>
+			<groupId>org.jboss.wise</groupId>
+			<artifactId>wise-core-cxf</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.milyn</groupId>
+			<artifactId>milyn-smooks-rules</artifactId>
+			<version>${milyn.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.milyn</groupId>
+			<artifactId>milyn-smooks-validation</artifactId>
+			<version>${milyn.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.milyn</groupId>
+			<artifactId>milyn-smooks-javabean</artifactId>
+			<version>${milyn.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.milyn</groupId>
+			<artifactId>milyn-commons</artifactId>
+			<version>${milyn.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.milyn</groupId>
+			<artifactId>milyn-smooks-core</artifactId>
+			<version>${milyn.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.wise</groupId>
+			<artifactId>wise-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+
+		<!--
+			Name:  noprepare
+			Descr: Skip test preparation with -Dnoprepare
+		-->
+		<profile>
+			<id>noprepare</id>
+			<activation>
+				<property>
+					<name>!noprepare</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.gmaven</groupId>
+						<artifactId>gmaven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>testsuite-default</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<source>${project.basedir}/src/test/scripts/testsuite_common.groovy</source>
+									<properties>
+										<inputFile>${project.basedir}/${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+										<outputFile>${project.basedir}/${jboss.home}/standalone/configuration/testsuite-standalone.xml</outputFile>
+										<usersPropFile>${project.basedir}/src/test/java/org/jboss/wise/test/integration/wsdlResolver/jbossws-users.properties</usersPropFile>
+										<rolesPropFile>${project.basedir}/src/test/java/org/jboss/wise/test/integration/wsdlResolver/jbossws-roles.properties</rolesPropFile>
+									</properties>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
 </project>

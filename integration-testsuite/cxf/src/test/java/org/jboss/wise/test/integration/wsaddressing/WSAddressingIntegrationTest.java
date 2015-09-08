@@ -28,6 +28,13 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSEndpoint;
@@ -43,45 +50,48 @@ import org.junit.Test;
 
 /**
  * Tests WS-Addressing extension in Wise
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 23-Dic-2008
  */
+@RunWith(Arquillian.class)
 public class WSAddressingIntegrationTest extends WiseTest {
     private URL warUrl = null;
 
-    @Before
-    public void setUp() throws Exception {
-	warUrl = this.getClass().getClassLoader().getResource("wsa.war");
-	deployWS(warUrl);
+    private static final String WAR = "wsa";
+
+    @Deployment
+    public static WebArchive createDeploymentA() {
+        // retrieve a pre-built archive
+        WebArchive archive = ShrinkWrap
+            .create(ZipImporter.class, WAR + ".war")
+            .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + WAR + ".war"))
+            .as(WebArchive.class);
+        return archive;
     }
 
     @Test
+    @RunAsClient
     @SuppressWarnings("unchecked")
     public void shouldRunWithoutMK() throws Exception {
-	URL wsdlURL = new URL(getServerHostAndPort() + "/wsa/Hello?wsdl");
+        URL wsdlURL = new URL(getServerHostAndPort() + "/wsa/Hello?wsdl");
 
-	WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-		.toString()).build();
-	WSMethod method = client.getWSMethod("HelloService", "HelloImplPort", "echoUserType");
-	WSEndpoint wsEndpoint = method.getEndpoint();
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
+            .toString()).build();
+        WSMethod method = client.getWSMethod("HelloService", "HelloImplPort", "echoUserType");
+        WSEndpoint wsEndpoint = method.getEndpoint();
 
-	wsEndpoint.addWSExtension(new WSAddressingEnabler(client));
-	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	wsEndpoint.addHandler(new LoggingHandler(new PrintStream(baos)));
-	
-	Map<String, Object> args = new java.util.HashMap<String, Object>();
-	args.put("user", "test");
-	InvocationResult result = method.invoke(args, null);
-	Map<String, Object> results = (Map<String, Object>) result.getMapRequestAndResult(null, null).get("results");
-	client.close();
-	Assert.assertEquals("Hello WSAddressing", results.get("result"));
-	Assert.assertTrue("Could not find WS-A headers in exchanged messages!", baos.toString().contains("http://www.w3.org/2005/08/addressing"));
-    }
+        wsEndpoint.addWSExtension(new WSAddressingEnabler(client));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        wsEndpoint.addHandler(new LoggingHandler(new PrintStream(baos)));
 
-    @After
-    public void tearDown() throws Exception {
-	undeployWS(warUrl);
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        args.put("user", "test");
+        InvocationResult result = method.invoke(args, null);
+        Map<String, Object> results = (Map<String, Object>) result.getMapRequestAndResult(null, null).get("results");
+        client.close();
+        Assert.assertEquals("Hello WSAddressing", results.get("result"));
+        Assert.assertTrue("Could not find WS-A headers in exchanged messages!", baos.toString().contains("http://www.w3.org/2005/08/addressing"));
     }
 }
