@@ -1,0 +1,12 @@
+------------------------------------
+|       JBOSS WISE - CORE          |
+------------------------------------
+
+
+ Building and running the testsuite
+------------------------------------
+
+The build follows the usual Maven flow; a wilflyXYZ profile has to be specified to tell the project which target container to use for integration tests; if no wildflyXYZ profile is specified, the integration tests are skipped.
+
+> mvn -PwildflyXYZ integration-test
+
