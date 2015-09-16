@@ -654,16 +654,32 @@
       </build>
     </profile>
 
-    <!--
-      Enable integration-testsuite module
-    -->
     <profile>
-      <id>integration-testsuite</id>
-      <activation>
-        <property>
-          <name>jboss.bind.address</name>
-        </property>
-      </activation>
+      <id>wildfly800</id>
+      <modules>
+        <module>integration-testsuite</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>wildfly810</id>
+      <modules>
+        <module>integration-testsuite</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>wildfly820</id>
+      <modules>
+        <module>integration-testsuite</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>wildfly900</id>
+      <modules>
+        <module>integration-testsuite</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>wildfly1000</id>
       <modules>
         <module>integration-testsuite</module>
       </modules>
