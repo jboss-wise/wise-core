@@ -182,6 +182,31 @@
 			</properties>
 		</profile>
 
+		<profile>
+			<id>cxf</id>
+			<activation>
+				<property>
+					<name>!no-cxf.stack</name>
+				</property>
+			</activation>
+			<modules>
+				<module>cxf</module>
+			</modules>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.ws.cxf</groupId>
+					<artifactId>jbossws-cxf-client</artifactId>
+					<scope>runtime</scope> <!-- runtime scope to avoid having the dependency while compiling -->
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.wise</groupId>
+					<artifactId>wise-core-cxf</artifactId>
+					<version>${project.version}</version>
+					<scope>runtime</scope> <!-- runtime scope to avoid having the dependency while compiling -->
+				</dependency>
+			</dependencies>
+		</profile>
+
 		<!--
         Name:  download
         Descr: Download WildFly

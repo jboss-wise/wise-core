@@ -30,6 +30,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.jboss.wise</groupId>
 			<artifactId>wise-core-cxf</artifactId>
 			<version>${project.version}</version>
@@ -60,6 +66,7 @@
 							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
 							<webappDirectory>${project.build.directory}/wsa</webappDirectory>
 							<warSourceExcludes>**/lib/**</warSourceExcludes>
+							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
 							<webResources>
 								<webResource>
 									<targetPath>WEB-INF/classes</targetPath>

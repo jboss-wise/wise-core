@@ -22,6 +22,7 @@
 package org.jboss.wise.test.integration.wsaddressing;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.Map;
@@ -44,9 +45,8 @@ import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.handlers.LoggingHandler;
 import org.jboss.wise.core.test.WiseTest;
 import org.jboss.wise.core.wsextensions.impl.WSAddressingEnabler;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Tests WS-Addressing extension in Wise
@@ -56,7 +56,6 @@ import org.junit.Test;
  */
 @RunWith(Arquillian.class)
 public class WSAddressingIntegrationTest extends WiseTest {
-    private URL warUrl = null;
 
     private static final String WAR = "wsa";
 
