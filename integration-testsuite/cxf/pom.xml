@@ -48,52 +48,6 @@
 		</dependency>
     </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>war-wsaddress</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>war</goal>
-						</goals>
-						<configuration>
-							<webXml>${basedir}/src/test/resources/WEB-INF/wsa/web.xml</webXml>
-							<warName>wsa</warName>
-							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-							<webappDirectory>${project.build.directory}/wsa</webappDirectory>
-							<warSourceExcludes>**/lib/**</warSourceExcludes>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-							<webResources>
-								<webResource>
-									<targetPath>WEB-INF/classes</targetPath>
-									<directory>${basedir}/target/test-classes/</directory>
-									<includes>
-										<include>**/wsaddressing/*.class</include>
-										<include>**/test.wsdl</include>
-									</includes>
-									<excludes>
-										<exclude>**/*Test.class</exclude>
-									</excludes>
-								</webResource>
-								<webResource>
-									<targetPath>WEB-INF</targetPath>
-									<directory>${basedir}/src/test/resources/WEB-INF/wsa/</directory>
-									<includes>
-										<include>**/*.wsdl</include>
-									</includes>
-								</webResource>
-							</webResources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	
 	<profiles/>
 
 </project>

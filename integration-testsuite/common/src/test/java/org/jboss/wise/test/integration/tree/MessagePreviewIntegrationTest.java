@@ -21,11 +21,17 @@
  */
 package org.jboss.wise.test.integration.tree;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSMethod;
@@ -42,14 +48,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 /**
  * @author alessio.soldano@jboss.com
  */
@@ -61,8 +59,8 @@ public class MessagePreviewIntegrationTest extends WiseTest {
             "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
             "  <soap:Header/>\n" +
             "  <soap:Body>\n" +
-            "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\" xmlns=\"http://complex.jaxws.ws.test.jboss.org/\" xmlns:ns3=\"http://extra.complex.jaxws.ws.test.jboss.org/\">\n" +
-            "      <ns2:Customer>\n" +
+            "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\">\n" +
+            "      <Customer>\n" +
             "        <address>\n" +
             "          <city>?</city>\n" +
             "          <state>?</state>\n" +
@@ -106,23 +104,45 @@ public class MessagePreviewIntegrationTest extends WiseTest {
             "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n" +
             "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n" +
             "        </referredCustomers>\n" +
-            "      </ns2:Customer>\n" +
-            "      <ns2:When xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\"/>\n" +
+            "      </Customer>\n" +
+            "      <When xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\"/>\n" +
             "    </ns2:Register>\n" +
             "  </soap:Body>\n" +
             "</soap:Envelope>\n";
 
     @Deployment
     public static WebArchive createDeployment() {
-        // retrieve a pre-built archive
-        WebArchive archive = ShrinkWrap
-                .create(ZipImporter.class, "complex.war")
-                .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/complex.war"))
-                .as(WebArchive.class);
-        return archive;
+       WebArchive archive = ShrinkWrap.create(WebArchive.class, "complex.war");
+       archive
+          .addClass(org.jboss.wise.test.integration.complex.Address.class)
+          .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
+          .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
+          .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
+          .addClass(org.jboss.wise.test.integration.complex.BulkRegisterResponse.class)
+          .addClass(org.jboss.wise.test.integration.complex.BulkRegister.class)
+          .addClass(org.jboss.wise.test.integration.complex.Customer.class)
+          .addClass(org.jboss.wise.test.integration.complex.Echo.class)
+          .addClass(org.jboss.wise.test.integration.complex.EchoResponse.class)
+          .addClass(org.jboss.wise.test.integration.complex.GetStatistics.class)
+          .addClass(org.jboss.wise.test.integration.complex.GetStatisticsResponse.class)
+          .addClass(org.jboss.wise.test.integration.complex.InvoiceCustomer.class)
+          .addClass(org.jboss.wise.test.integration.complex.Name.class)
+          .addClass(org.jboss.wise.test.integration.complex.PhoneNumber.class)
+          .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoice.class)
+          .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoiceResponse.class)
+          .addClass(org.jboss.wise.test.integration.complex.Register.class)
+          .addClass(org.jboss.wise.test.integration.complex.RegisterResponse.class)
+          .addClass(org.jboss.wise.test.integration.complex.Registration.class)
+          .addClass(org.jboss.wise.test.integration.complex.RegistrationFault.class)
+          .addClass(org.jboss.wise.test.integration.complex.RegistrationServiceImpl.class)
+          .addClass(org.jboss.wise.test.integration.complex.Statistics.class)
+          .addClass(org.jboss.wise.test.integration.complex.ValidationFault.class)
+          .addClass(org.jboss.wise.test.integration.complex.ValidationFault_Exception.class)
+          .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/complex/web.xml"));
+       return archive;
     }
 
-    public static void setUp() throws Exception {
+   public static void setUp() throws Exception {
         URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
 
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
@@ -146,7 +166,7 @@ public class MessagePreviewIntegrationTest extends WiseTest {
         setUp();
         WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Echo");
         String messagePreview = previewMessage(method);
-        //	System.out.println("--> " + messagePreview); //TODO check...
+        // System.out.println("--> " + messagePreview); //TODO check...
         tearDown();
     }
 

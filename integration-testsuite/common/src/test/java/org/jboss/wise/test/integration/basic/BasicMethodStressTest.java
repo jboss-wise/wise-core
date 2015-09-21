@@ -21,11 +21,17 @@
  */
 package org.jboss.wise.test.integration.basic;
 
+import java.io.File;
+import java.net.URL;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
@@ -37,14 +43,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-
 @RunWith(Arquillian.class)
 public class BasicMethodStressTest extends WiseTest {
 
@@ -55,12 +53,12 @@ public class BasicMethodStressTest extends WiseTest {
     private static final String WAR = "basic";
 
     @Deployment
-    public static WebArchive createDeploymentA() {
-        // retrieve a pre-built archive
-        WebArchive archive = ShrinkWrap
-            .create(ZipImporter.class, WAR + ".war")
-            .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + WAR + ".war"))
-            .as(WebArchive.class);
+    public static WebArchive createDeployment() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
+        archive
+           .addClass(org.jboss.wise.test.integration.basic.HelloWorldInterface.class)
+           .addClass(org.jboss.wise.test.integration.basic.HelloWorldBean.class)
+           .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/basic/web.xml"));
         return archive;
     }
 
