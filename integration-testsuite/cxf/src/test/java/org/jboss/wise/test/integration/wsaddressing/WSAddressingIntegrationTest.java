@@ -26,16 +26,12 @@ import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSEndpoint;
@@ -60,14 +56,17 @@ public class WSAddressingIntegrationTest extends WiseTest {
     private static final String WAR = "wsa";
 
     @Deployment
-    public static WebArchive createDeploymentA() {
-        // retrieve a pre-built archive
-        WebArchive archive = ShrinkWrap
-            .create(ZipImporter.class, WAR + ".war")
-            .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + WAR + ".war"))
-            .as(WebArchive.class);
+    public static WebArchive createDeployment() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
+        archive
+           .addClass(org.jboss.wise.test.integration.wsaddressing.HelloImpl.class)
+           .addClass(org.jboss.wise.test.integration.wsaddressing.Hello.class)
+           .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsa/Hello.wsdl"))
+           .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsa/test.wsdl"))
+           .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/wsa/web.xml"));
         return archive;
     }
+
 
     @Test
     @RunAsClient

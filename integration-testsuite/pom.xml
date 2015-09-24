@@ -103,8 +103,14 @@
 								<exclude>**/*StressTest.java</exclude>
 								<exclude>**/*$*.java</exclude>
 							</excludes>
+							<systemPropertyVariables>
+								<java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
+								<jboss.home>${jboss.home}</jboss.home>
+								<test.resources.directory>${test.resources.directory}</test.resources.directory>
+							</systemPropertyVariables>
 						</configuration>
 					</execution>
+
 					<execution>
 						<id>integration-tests</id>
 						<phase>integration-test</phase>
@@ -149,6 +155,19 @@
 								<echo />
 								<echo message="profile=${jbossws.integration.target}" />
 								<echo message="jboss.home=${jboss.home}" />
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>debug-system-properties</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<echo message="server.home=${server.home}" />
+								<echo message="test.resources.directory=${test.resources.directory}" />
 							</target>
 						</configuration>
 					</execution>
@@ -247,7 +266,7 @@
 				</plugins>
 			</build>
 			<properties>
-				<jboss.home>${project.build.directory}/test-server/jbossws-cxf-dist-${project.version}/wildfly-${jboss.version}</jboss.home>
+				<jboss.home>${project.build.directory}/wildfly-${jboss.version}</jboss.home>
 			</properties>
 		</profile>
 
@@ -258,7 +277,7 @@
 		<profile>
 			<id>wildfly800</id>
 			<properties>
-				<server.home>target/wildfly-${wildfly800.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly800.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
 				<jbossws.integration.target>wildfly800</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
@@ -329,7 +348,7 @@
 		<profile>
 			<id>wildfly810</id>
 			<properties>
-				<server.home>target/wildfly-${wildfly810.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly810.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
 				<jbossws.integration.target>wildfly810</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
@@ -400,7 +419,7 @@
 		<profile>
 			<id>wildfly820</id>
 			<properties>
-				<server.home>target/wildfly-${wildfly820.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly820.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
 				<jbossws.integration.target>wildfly820</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
@@ -471,7 +490,7 @@
 		<profile>
 			<id>wildfly900</id>
 			<properties>
-				<server.home>target/wildfly-${wildfly900.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly900.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
 				<jbossws.integration.target>wildfly900</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
@@ -542,7 +561,7 @@
 		<profile>
 			<id>wildfly1000</id>
 			<properties>
-				<server.home>target/wildfly-${wildfly1000.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly1000.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
 				<jbossws.integration.target>wildfly1000</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>

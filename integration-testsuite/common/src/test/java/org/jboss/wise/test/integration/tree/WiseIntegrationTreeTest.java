@@ -21,11 +21,16 @@
  */
 package org.jboss.wise.test.integration.tree;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.lang.reflect.Type;
+import java.net.URL;
+import java.util.Map;
+import javax.jws.WebParam;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSDynamicClient;
@@ -41,13 +46,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.jws.WebParam;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.util.Map;
-
 /**
  * @author alessio.soldano@jboss.com
  */
@@ -58,11 +56,33 @@ public class WiseIntegrationTreeTest extends WiseTest {
 
     @Deployment
     public static WebArchive createDeployment() {
-        // retrieve a pre-built archive
-        WebArchive archive = ShrinkWrap
-                .create(ZipImporter.class, "complex.war")
-                .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/complex.war"))
-                .as(WebArchive.class);
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "complex.war");
+        archive
+           .addClass(org.jboss.wise.test.integration.complex.Address.class)
+           .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
+           .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
+           .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
+           .addClass(org.jboss.wise.test.integration.complex.BulkRegisterResponse.class)
+           .addClass(org.jboss.wise.test.integration.complex.BulkRegister.class)
+           .addClass(org.jboss.wise.test.integration.complex.Customer.class)
+           .addClass(org.jboss.wise.test.integration.complex.Echo.class)
+           .addClass(org.jboss.wise.test.integration.complex.EchoResponse.class)
+           .addClass(org.jboss.wise.test.integration.complex.GetStatistics.class)
+           .addClass(org.jboss.wise.test.integration.complex.GetStatisticsResponse.class)
+           .addClass(org.jboss.wise.test.integration.complex.InvoiceCustomer.class)
+           .addClass(org.jboss.wise.test.integration.complex.Name.class)
+           .addClass(org.jboss.wise.test.integration.complex.PhoneNumber.class)
+           .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoice.class)
+           .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoiceResponse.class)
+           .addClass(org.jboss.wise.test.integration.complex.Register.class)
+           .addClass(org.jboss.wise.test.integration.complex.RegisterResponse.class)
+           .addClass(org.jboss.wise.test.integration.complex.Registration.class)
+           .addClass(org.jboss.wise.test.integration.complex.RegistrationFault.class)
+           .addClass(org.jboss.wise.test.integration.complex.RegistrationServiceImpl.class)
+           .addClass(org.jboss.wise.test.integration.complex.Statistics.class)
+           .addClass(org.jboss.wise.test.integration.complex.ValidationFault.class)
+           .addClass(org.jboss.wise.test.integration.complex.ValidationFault_Exception.class)
+           .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/complex/web.xml"));
         return archive;
     }
 
