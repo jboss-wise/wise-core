@@ -19,8 +19,6 @@ public class BookStore {
     private Map<Long, Book> books = new HashMap<Long, Book>();
     private long bookId = 123;
     
-    private String currentBookId;
-
     public BookStore() {
         init();
     }

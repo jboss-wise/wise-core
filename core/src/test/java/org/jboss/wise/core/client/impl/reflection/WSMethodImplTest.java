@@ -218,6 +218,7 @@ public class WSMethodImplTest implements BindingProvider {
 	assertThat(results, hasEntry("type.annotation3", (Object) String.class));
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void shouldRuninvokeForOneWayMethod() throws Exception {
 	Method method = this.getClass().getMethod("methodOneWay", new Class[] {});
@@ -225,7 +226,7 @@ public class WSMethodImplTest implements BindingProvider {
 	when(endPointMock.getService()).thenReturn(Executors.newFixedThreadPool(10));
 	when(endPointMock.createInstance()).thenReturn(this);
 	WSMethodImpl wsMethod = new WSMethodImpl(method, endPointMock);
-	InvocationResult invocationResults = wsMethod.invoke(Collections.EMPTY_MAP);
+	InvocationResult invocationResults = wsMethod.invoke(Collections.<String, Object> emptyMap());
 	Map<String, Object> results = invocationResults.getMapRequestAndResult(null, null);
 	assertThat(this.methodWorked, is(true));
 	assertThat(results.size(), is(1));
@@ -234,6 +235,7 @@ public class WSMethodImplTest implements BindingProvider {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void shouldRuninvokeForMethods() throws Exception {
 	Method method = this.getClass()
 		.getMethod("methodForAnnotation", new Class[] { Integer.class, String.class, String.class });
@@ -247,7 +249,7 @@ public class WSMethodImplTest implements BindingProvider {
 	inputMap.put("annotaion1", Integer.valueOf(3));
 	InvocationResult invocationResults = wsMethod.invoke(inputMap);
 	assertThat(this.methodWorked, is(true));
-	Map<String, Object> results = (Map) invocationResults.getMapRequestAndResult(null, null).get("results");
+	Map<String, Object> results = (Map<String, Object>) invocationResults.getMapRequestAndResult(null, null).get("results");
 	assertThat(results.size(), is(6));
 	assertThat(results, hasEntry("result", (Object) "great"));
 	assertThat(results, hasEntry("annotation2", (Object) "foo2"));
@@ -258,6 +260,7 @@ public class WSMethodImplTest implements BindingProvider {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void shouldRuninvokeForMethodsApplyingMapping() throws Exception {
 	Method method = this.getClass()
 		.getMethod("methodForAnnotation", new Class[] { Integer.class, String.class, String.class });
@@ -273,7 +276,7 @@ public class WSMethodImplTest implements BindingProvider {
 	when(mapper.applyMapping(anyObject())).thenReturn(inputMap);
 	InvocationResult invocationResults = wsMethod.invoke(inputMap, mapper);
 	assertThat(this.methodWorked, is(true));
-	Map<String, Object> results = (Map) invocationResults.getMapRequestAndResult(null, null).get("results");
+	Map<String, Object> results = (Map<String, Object>) invocationResults.getMapRequestAndResult(null, null).get("results");
 	assertThat(results.size(), is(6));
 	assertThat(results, hasEntry("result", (Object) "great"));
 	assertThat(results, hasEntry("annotation2", (Object) "foo2"));
