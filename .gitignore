@@ -30,7 +30,7 @@ distribution/main/resouces/samples/*/build
 
 
 #taget
-*/target
+**/target
 
 #.ext file of smooks plugin for eclipse
 *.ext
