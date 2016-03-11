@@ -413,24 +413,24 @@
 		</profile>
 
 		<!--
-			Name:  wildfly820
-			Descr: WildFly-8.2.0 specific options
+			Name:  wildfly821
+			Descr: WildFly-8.2.1 specific options
     	-->
 		<profile>
-			<id>wildfly820</id>
+			<id>wildfly821</id>
 			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly820.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly821.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly820</jbossws.integration.target>
+				<jbossws.integration.target>wildfly821</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly820.version}</jboss.version>
+				<jboss.version>${wildfly821.version}</jboss.version>
 				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
 			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.jboss.ws</groupId>
-					<artifactId>jbossws-wildfly820-tests-integration</artifactId>
-					<version>${jbossws.wildfly820.version}</version>
+					<artifactId>jbossws-wildfly821-tests-integration</artifactId>
+					<version>${jbossws.wildfly821.version}</version>
 				</dependency>
 				<!-- Arquillian container integration -->
 				<dependency>
@@ -484,24 +484,24 @@
 		</profile>
 
 		<!--
-			Name:  wildfly900
-			Descr: WildFly-9.0.0 specific options
+			Name:  wildfly902
+			Descr: WildFly-9.0.2 specific options
     	-->
 		<profile>
-			<id>wildfly900</id>
+			<id>wildfly902</id>
 			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly900.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly902.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly900</jbossws.integration.target>
+				<jbossws.integration.target>wildfly902</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly900.version}</jboss.version>
+				<jboss.version>${wildfly902.version}</jboss.version>
 				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
 			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.jboss.ws</groupId>
-					<artifactId>jbossws-wildfly900-tests-integration</artifactId>
-					<version>${jbossws.wildfly900.version}</version>
+					<artifactId>jbossws-wildfly902-tests-integration</artifactId>
+					<version>${jbossws.wildfly902.version}</version>
 				</dependency>
 				<!-- Arquillian container integration -->
 				<dependency>
