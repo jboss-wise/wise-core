@@ -30,6 +30,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.helpers.NullEnumeration;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.jboss.wise.core.client.SpiLoader;
+import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.builder.RSDynamicClientBuilder;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.jaxrs.RSDynamicClient;

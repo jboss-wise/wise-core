@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.jboss.wise.core.client.WSService;
+import org.jboss.wise.core.client.builder.BasicWSDynamicClientBuilder;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.impl.reflection.WSDynamicClientImpl;
 import org.jboss.wise.core.consumer.WSConsumer;
@@ -57,7 +58,7 @@ public class CXFDynamicClient extends WSDynamicClientImpl {
     }
     
     @Override
-    protected void prepare(WSDynamicClientBuilder builder, WSConsumer consumer) {
+    protected void prepare(BasicWSDynamicClientBuilder builder, WSConsumer consumer) {
 	this.bus = JBossWSBusFactory.newInstance().createBus();
 	final Bus prevBus = BusFactory.getThreadDefaultBus(false);
 	try {
