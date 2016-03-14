@@ -21,7 +21,6 @@
  */
 package org.jboss.wise.core.client;
 
-import java.net.URLClassLoader;
 import java.util.Map;
 import net.jcip.annotations.ThreadSafe;
 
@@ -43,6 +42,6 @@ public interface WSService {
     /**
      * @return The classLoader used to load generated class.
      */
-    public URLClassLoader getClassLoader();
+    public ClassLoader getClassLoader();
 
 }

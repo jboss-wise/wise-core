@@ -54,7 +54,7 @@ public interface WSDynamicClient {
     /**
      * @return The classLoader used to load generated class.
      */
-    public URLClassLoader getClassLoader();
+    public ClassLoader getClassLoader();
     
     /**
      * @return The ObjectFactory classes for the generated sources

@@ -22,7 +22,6 @@
 package org.jboss.wise.core.client.impl.reflection;
 
 import java.lang.reflect.Method;
-import java.net.URLClassLoader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +42,7 @@ import org.jboss.wise.core.exception.WiseRuntimeException;
 public class WSServiceImpl implements WSService {
 
     private final Class<?> serviceClass;
-    private final URLClassLoader classLoader;
+    private final ClassLoader classLoader;
     private final Object service;
     private final String userName;
     private final String password;
@@ -61,7 +60,7 @@ public class WSServiceImpl implements WSService {
      * @param maxThreadPoolSize the max pool size for method execution of service attached endpoint.
      */
     public WSServiceImpl( Class<?> serviceClass,
-                          URLClassLoader classLoader,
+                          ClassLoader classLoader,
                           Object service,
                           String userName,
                           String password,
@@ -147,7 +146,7 @@ public class WSServiceImpl implements WSService {
         return serviceClass;
     }
 
-    public synchronized final URLClassLoader getClassLoader() {
+    public synchronized final ClassLoader getClassLoader() {
         return classLoader;
     }
 

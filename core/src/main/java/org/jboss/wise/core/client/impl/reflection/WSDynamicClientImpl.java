@@ -224,9 +224,8 @@ public class WSDynamicClientImpl implements WSDynamicClient {
 	return wsMethod;
     }
 
-    //TODO modify API to avoid enforcing a URLClassLoader
-    public synchronized final URLClassLoader getClassLoader() {
-	return (URLClassLoader)classLoader;
+    public synchronized final ClassLoader getClassLoader() {
+	return classLoader;
     }
 
     public synchronized final void setClassLoader(ClassLoader classLoader) {

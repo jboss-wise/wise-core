@@ -28,12 +28,14 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.PrintStream;
+import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,8 +84,10 @@ public class WSDynamicClientImplTest {
                                                (File)anyObject())).thenReturn(new LinkedList<String>());
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         File expectedOutPutDir = new File("target/temp/foo/classes");
-        assertThat(client.getClassLoader().getURLs().length, is(1));
-        assertThat(client.getClassLoader().getURLs()[0], equalTo(expectedOutPutDir.toURI().toURL()));
+        ClassLoader cl = client.getClassLoader();
+        assertTrue("Expected an instance of URLClassLoader, but got " + cl.getClass(), cl instanceof URLClassLoader);
+        assertThat(((URLClassLoader)client.getClassLoader()).getURLs().length, is(1));
+        assertThat(((URLClassLoader)client.getClassLoader()).getURLs()[0], equalTo(expectedOutPutDir.toURI().toURL()));
     }
 
     @SuppressWarnings("unchecked")
