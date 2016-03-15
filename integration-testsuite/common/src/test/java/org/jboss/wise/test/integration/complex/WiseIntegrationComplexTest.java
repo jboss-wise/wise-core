@@ -44,6 +44,7 @@ import java.io.File;
 import java.lang.reflect.ParameterizedType;
 import java.net.URL;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author alessio.soldano@jboss.com
@@ -122,6 +123,33 @@ public class WiseIntegrationComplexTest extends WiseTest {
         Map<String, Object> test = (Map<String, Object>) res.get("results");
         Assert.assertEquals(new Long(1234).longValue(), test.get("result"));
         Assert.assertEquals(long.class, test.get("type.result"));
+        tearDown();
+    }
+
+    @Test
+    @RunAsClient
+    public void shouldInvokeRegisterOperationWithFault() throws Exception {
+        setUp();
+        WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Register");
+        Map<String, ? extends WebParameter> pars = method.getWebParams();
+        WebParameter customerPar = pars.get("Customer");
+        Class<?> customerClass = (Class<?>) customerPar.getType();
+        Object customer = customerClass.newInstance();
+        customerClass.getMethod("setId", long.class).invoke(customer, new Long(1234));
+
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        args.put("Customer", customer);
+        args.put("When", null);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        method.writeRequestPreview(args, bos);
+        Assert.assertTrue(bos.toString().contains("<id>1234</id>"));
+        InvocationResult result = method.invoke(args, null);
+        Map<String, Object> res = result.getMapRequestAndResult(null, null);
+        Map<String, Object> test = (Map<String, Object>) res.get("results");
+        Assert.assertNotNull(test.get("exception"));
+        Assert.assertTrue(test.get("exception").toString().contains("No name!"));
+        Assert.assertEquals(Class.class, test.get("type.result").getClass());
+        Assert.assertEquals("org.jboss.test.ws.jaxws.complex.types.ValidationFaultException", ((Class)(test.get("type.result"))).getName());
         tearDown();
     }
 

@@ -23,19 +23,23 @@ package org.jboss.wise.core.client.impl.reflection;
 
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Future;
 import javax.jws.Oneway;
 import javax.jws.WebParam;
+import javax.xml.ws.WebServiceException;
+
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.log4j.Logger;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.WSMethod;
@@ -83,7 +87,6 @@ public class WSMethodImpl implements WSMethod {
      * @throws IllegalArgumentException
      */
     InvocationResultImpl invoke(Map<String, Object> args) throws WiseWebServiceException, InvocationException, IllegalArgumentException {
-//	Method methodPointer = null;
 	InvocationResultImpl result = null;
 	Map<String, Object> emptyHolder = Collections.emptyMap();
 
@@ -99,23 +102,53 @@ public class WSMethodImpl implements WSMethod {
 
 	    }
 	} catch (java.util.concurrent.ExecutionException wse) {
-		throw new WiseWebServiceException(wse.getMessage(), wse);
-	} catch (Exception ite) {
-	    Logger.getLogger(WSMethodImpl.class).info("Error invoking method " + this.getMethod() + ", arguments: " + args != null ? args.values().toArray() : null);
-//	    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
-//		for (int i = 0; i < methodPointer.getExceptionTypes().length; i++) {
-//		    Class<?> excType = methodPointer.getExceptionTypes()[i];
-//		    if (ite.getCause().getClass().isAssignableFrom(excType)) {
-//			result = new InvocationResultImpl("exception", excType, ite.getCause(), emptyHolder);
-//			return result;
-//		    }
-//		}
-//	    }
-	    throw new InvocationException("Unknown exception received: " + ite.getMessage(), ite);
+	    Throwable ite = wse.getCause();
+	    if (ite != null && ite != wse && ite instanceof InvocationTargetException) {
+		Throwable t = ite.getCause();
+		
+		//unchecked exception ?
+		if (t != null && t != ite && t != wse && t instanceof WebServiceException) {
+		    //authentication exception ?
+		    if (isAuthenticationException(t, new HashSet<Throwable>())) {
+			throw new WiseWebServiceException("Authentication exception", null); //TODO improve this
+		    }
+		    
+		    throw new WiseWebServiceException(wse.getMessage(), wse);
+		}
+		
+		//checked exception ?
+		if (t != null && t != ite && t != wse && t instanceof Exception) {
+		    Method methodPointer = this.getMethod();
+		    if (methodPointer != null && methodPointer.getExceptionTypes() != null) {
+			for (int i = 0; i < methodPointer.getExceptionTypes().length; i++) {
+			    Class<?> excType = methodPointer.getExceptionTypes()[i];
+			    if (t.getClass().isAssignableFrom(excType)) {
+				//checked exception
+				result = new InvocationResultImpl("exception", excType, t, emptyHolder);
+				return result;
+			    }
+			}
+		    }
+		}
+		
+		throw new InvocationException("Unknown exception received: " + ite.getMessage(), ite);
+	    }
+	    throw new WiseWebServiceException(wse.getMessage(), wse);
 	} catch (Throwable e) {
 	    throw new InvocationException("Generic Error during method invocation!", e);
 	}
 	return result;
+    }
+    
+    private static boolean isAuthenticationException(Throwable e, Set<Throwable> stack) {
+	if (e == null || stack.contains(e)) {
+	    return false;
+	} else if (e.getMessage() != null && e.getMessage().contains("401: Unauthorized")) {
+	    return true;
+	} else {
+	    stack.add(e);
+	    return isAuthenticationException(e.getCause(), stack);
+	}
     }
 
     @Override
