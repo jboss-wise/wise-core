@@ -24,8 +24,12 @@ package org.jboss.wise.test.integration.basic;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
+
+import javax.xml.ws.WebServiceException;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -104,7 +108,8 @@ public class WiseIntegrationBasicTest extends WiseTest {
          Assert.fail("Invocation should have failed because of invalid target endpoint address");
       } catch (WiseWebServiceException ie) {
          //expected
-         Assert.assertTrue(ie.getCause().getCause() instanceof InvocationTargetException);
+         Assert.assertTrue(ie.getCause() instanceof WebServiceException);
+         Assert.assertTrue(ie.getCause().getCause() instanceof ConnectException);
       }
 
       method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
