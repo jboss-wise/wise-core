@@ -112,8 +112,7 @@ public class WSMethodImpl implements WSMethod {
 		    if (isAuthenticationException(t, new HashSet<Throwable>())) {
 			throw new WiseWebServiceException("Authentication exception", null); //TODO improve this
 		    }
-		    
-		    throw new WiseWebServiceException(wse.getMessage(), wse);
+		    throw new WiseWebServiceException(t.getMessage(), t);
 		}
 		
 		//checked exception ?
