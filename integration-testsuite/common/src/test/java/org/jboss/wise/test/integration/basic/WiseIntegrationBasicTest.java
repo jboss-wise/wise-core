@@ -109,7 +109,7 @@ public class WiseIntegrationBasicTest extends WiseTest {
       } catch (WiseWebServiceException ie) {
          //expected
          Assert.assertTrue(ie.getCause() instanceof WebServiceException);
-         Assert.assertTrue(ie.getCause().getCause() instanceof ConnectException);
+         Assert.assertTrue("Expected a ConnectException, but got: " + ie.getCause().getCause(), ie.getCause().getCause() instanceof ConnectException);
       }
 
       method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
