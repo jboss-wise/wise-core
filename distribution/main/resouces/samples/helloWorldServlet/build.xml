@@ -21,6 +21,7 @@
 			<lib dir="${lib.dir}">
 			    <include name="wise-*.jar"/>
 			    <include name="milyn-*.jar"/>
+			    <include name="jaxen*.jar"/>
   			</lib>
 			<manifest>
 				<attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl optional,org.apache.commons.io,org.apache.commons.lang"/>
