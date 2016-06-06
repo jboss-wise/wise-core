@@ -23,9 +23,8 @@ package org.jboss.wise.test.integration.basic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.ConnectException;
-import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Map;
 
@@ -111,8 +110,8 @@ public class WiseIntegrationBasicTest extends WiseTest {
          //expected
          Assert.assertTrue(ie.getCause() instanceof WebServiceException);
          final Throwable lowLevelThrowable = ie.getCause().getCause();
-         Assert.assertTrue("Expected a ConnectException or SocketException, but got: " + lowLevelThrowable,
-        	 (lowLevelThrowable instanceof ConnectException) || (lowLevelThrowable instanceof SocketException));
+         Assert.assertTrue("Expected a ConnectException or SocketTimeoutException, but got: " + lowLevelThrowable,
+        	 (lowLevelThrowable instanceof ConnectException) || (lowLevelThrowable instanceof SocketTimeoutException));
       }
 
       method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
