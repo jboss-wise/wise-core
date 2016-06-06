@@ -13,7 +13,7 @@ How to run examples?
 1. Edit ant/sample.properties
 2. Enter in specific example directory
 3. Edit resources/META-INF/wise-log4j.xml and change properties according to your environment if needed.
-4. Start your JBoss AS 7.1.1.Final instance
+4. Start your WildFly instance
 5. Type "ant deployTestWS" to deploy server side content (an archive shipping the WS endpoint invoked by the sample)
 6. Type "ant runTest" to run the client side example
 7. Type "ant undeployTestWS" to undeploy server side content
