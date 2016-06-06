@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.Map;
 
@@ -109,7 +110,9 @@ public class WiseIntegrationBasicTest extends WiseTest {
       } catch (WiseWebServiceException ie) {
          //expected
          Assert.assertTrue(ie.getCause() instanceof WebServiceException);
-         Assert.assertTrue("Expected a ConnectException, but got: " + ie.getCause().getCause(), ie.getCause().getCause() instanceof ConnectException);
+         final Throwable lowLevelThrowable = ie.getCause().getCause();
+         Assert.assertTrue("Expected a ConnectException or SocketException, but got: " + lowLevelThrowable,
+        	 (lowLevelThrowable instanceof ConnectException) || (lowLevelThrowable instanceof SocketException));
       }
 
       method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
