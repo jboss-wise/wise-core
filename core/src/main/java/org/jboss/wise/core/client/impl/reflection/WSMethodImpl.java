@@ -251,10 +251,9 @@ public class WSMethodImpl implements WSMethod {
 	Object[] arrayToReturn = new Object[webParams.size()];
 	Arrays.fill(arrayToReturn, null);
 
-	for (String key : webParams.keySet()) {
-	    WebParameterImpl webPara = webParams.get(key);
-	    int position = webPara.getPosition();
-	    arrayToReturn[position] = originalParams.get(key);
+	for (Map.Entry<String, WebParameterImpl> entry : webParams.entrySet()) {
+	    int position = entry.getValue().getPosition();
+	    arrayToReturn[position] = originalParams.get(entry.getKey());
 	}
 	return arrayToReturn;
     }
@@ -266,11 +265,11 @@ public class WSMethodImpl implements WSMethod {
 	Map<String, Object> holders = new HashMap<String, Object>();
 	Map<String, WebParameterImpl> webParams = this.getWebParams();
 
-	for (String key : paras.keySet()) {
-	    WebParameterImpl wisePara = webParams.get(key);
+	for (Map.Entry<String, Object> parasEntry : paras.entrySet()) {
+	    WebParameterImpl wisePara = webParams.get(parasEntry.getKey());
 	    if (wisePara != null && (wisePara.getMode() == WebParam.Mode.INOUT || wisePara.getMode() == WebParam.Mode.OUT)) {
-		holders.put(key, paras.get(key));
-		holders.put(TYPE_PREFIX + key, wisePara.getType());
+	        holders.put(parasEntry.getKey(), parasEntry.getValue());
+	        holders.put(TYPE_PREFIX + parasEntry.getKey(), wisePara.getType());
 	    }
 	}
 	return holders;
