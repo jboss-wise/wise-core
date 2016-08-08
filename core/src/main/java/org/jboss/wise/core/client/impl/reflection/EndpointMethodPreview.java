@@ -75,7 +75,7 @@ public class EndpointMethodPreview extends EndpointMethodCaller {
 	binding.setHandlerChain(handlerChain);
     }
     
-    private class PreviewHandler implements SOAPHandler<SOAPMessageContext> {
+    private static class PreviewHandler implements SOAPHandler<SOAPMessageContext> {
 	
 	private OutputStream os;
 	
