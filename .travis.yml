@@ -1,7 +1,7 @@
 install:
  - mvn -Pwildfly902 clean
 script:
- - mvn -B -Pwildfly902 integration-test
+ - mvn --settings settings.xml -B -Pwildfly902 integration-test
 
 language: java
 jdk:
