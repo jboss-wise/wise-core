@@ -154,7 +154,7 @@ public class WSServiceImpl implements WSService {
         return service;
     }
 
-    public class WSEndPointbuilder {
+    public static class WSEndPointbuilder {
         private final Class<?> serviceClass;
         private final Object serviceObject;
         private final Method buildMethod;
