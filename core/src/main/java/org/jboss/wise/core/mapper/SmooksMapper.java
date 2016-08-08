@@ -22,6 +22,7 @@
 package org.jboss.wise.core.mapper;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
@@ -73,7 +74,7 @@ public class SmooksMapper implements WiseMapper {
     public SmooksMapper(String smooksResource, String smooksReport, WSDynamicClient client) {
 	ClassLoader oldLoader = getContextClassLoader();
 
-	try {
+	try (InputStream smooksResourceStream = new URIResourceLocator().getResource(smooksResource)) {
 	    setContextClassLoader(client.getClassLoader());
 
 	    smooks = client.getSmooksInstance();
@@ -88,8 +89,7 @@ public class SmooksMapper implements WiseMapper {
 			    .registerProfileSet(DefaultProfileSet.create(Integer.toString(this.hashCode()), new String[] {}), smooks);
 		}
 	    }
-	    SmooksResourceConfigurationList list = XMLConfigDigester.digestConfig(new URIResourceLocator()
-		    .getResource(smooksResource), "wise");
+	    SmooksResourceConfigurationList list = XMLConfigDigester.digestConfig(smooksResourceStream, "wise");
 	    for (int i = 0; i < list.size(); i++) {
 		SmooksResourceConfiguration smookResourceElement = list.get(i);
 		smookResourceElement.setTargetProfile(Integer.toString(this.hashCode()));
