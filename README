@@ -1,6 +1,7 @@
 ------------------------------------
 |       JBOSS WISE - CORE          |
 ------------------------------------
+[![Build Status](https://travis-ci.org/jboss-wise/wise-core.svg?branch=master)](https://travis-ci.org/jboss-wise/wise-core)
 
 
  Building and running the testsuite
