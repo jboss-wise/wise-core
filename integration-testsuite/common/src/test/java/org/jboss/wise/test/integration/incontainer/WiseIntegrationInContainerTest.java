@@ -72,7 +72,7 @@ public class WiseIntegrationInContainerTest extends WiseTest {
          .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-collections:commons-collections").withoutTransitivity().asSingleFile())
          .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-pool:commons-pool").withoutTransitivity().asSingleFile())
          .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-cli:commons-cli").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-httpclient:commons-httpclient").withoutTransitivity().asSingleFile())
+         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.apache.httpcomponents:httpclient").withoutTransitivity().asSingleFile())
          .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-codec:commons-codec").withoutTransitivity().asSingleFile())
          .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-lang:commons-lang").withoutTransitivity().asSingleFile())
          .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.apache.commons:commons-lang3").withoutTransitivity().asSingleFile())
