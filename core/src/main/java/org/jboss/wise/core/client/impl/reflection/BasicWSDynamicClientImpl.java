@@ -40,7 +40,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.BasicWSDynamicClient;
 import org.jboss.wise.core.client.SpiLoader;
 import org.jboss.wise.core.client.WSDLParser;
@@ -62,7 +62,7 @@ import org.jboss.wise.core.utils.JavaUtils;
  */
 @ThreadSafe
 public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
-
+	 private final Logger log = Logger.getLogger(BasicWSDynamicClientImpl.class);
     @GuardedBy("this")
     private ClassLoader classLoader;
 
@@ -169,7 +169,9 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
 			servicesMap.put(annotation.name(), service);
 		    }
 		} catch (Exception e) {
-		    e.printStackTrace();
+         if (log.isDebugEnabled()) {
+            log.error("Error Description", e);
+         }
 		    throw new IllegalStateException(
 			    "Error during loading/instanciating class:" + className + " with exception message: " + e
 				    .getMessage());
@@ -225,7 +227,9 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
 		    //TODO!! Add check on @XmlRegistry
 		    list.add(clazz);
 		} catch (Exception e) {
-		    e.printStackTrace();
+         if (log.isDebugEnabled()) {
+            log.error("Error Description", e);
+         }
 		    throw new IllegalStateException("Error during loading/instanciating class:" + className + " with exception message: " + e.getMessage());
 		}
 	    }

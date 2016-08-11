@@ -42,9 +42,10 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.wise.core.client.WSEndpoint;
+import org.jboss.logging.Logger;
 
 public class EndpointMethodPreview extends EndpointMethodCaller {
-    
+	private static final Logger log = Logger.getLogger(EndpointMethodPreview.class);
     private final PreviewHandler handler;
 
     public EndpointMethodPreview( WSEndpoint epInstance,
@@ -97,7 +98,7 @@ public class EndpointMethodPreview extends EndpointMethodCaller {
 		tf.transform(sc, result);
 		
 	    } catch (Exception e) {
-		e.printStackTrace(new PrintStream(os));
+			 e.printStackTrace(new PrintStream(os));
 	    }
 	    return false; //to stop processing handler chain, reverse direction and eventually get back to caller
 	}

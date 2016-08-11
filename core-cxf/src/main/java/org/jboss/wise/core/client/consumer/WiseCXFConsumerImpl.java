@@ -31,6 +31,7 @@ import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.common.utils.NullPrintStream;
+import org.jboss.logging.Logger;
 
 /**
  * A WSContractConsumer for CXF stack; this is basically a copy of the JBossWS-CXF 4.1.0
@@ -42,6 +43,7 @@ import org.jboss.ws.common.utils.NullPrintStream;
  */
 public class WiseCXFConsumerImpl extends WSContractConsumer
 {
+   private static final Logger log = Logger.getLogger(WiseCXFConsumerImpl.class);
    private List<File> bindingFiles = null;
    private File catalog = null;
    private boolean extension;
@@ -263,9 +265,9 @@ public class WiseCXFConsumerImpl extends WSContractConsumer
 	  try {
 		if (messageStream != null) {
 		    messageStream.println("Failed to invoke WSDLToJava");
-		    t.printStackTrace(messageStream);
+         t.printStackTrace(messageStream);
 		} else {
-		    t.printStackTrace();
+         log.error("Error Description", t);
 		}
 	  } catch (IndexOutOfBoundsException iobe) {
 	      //ignore, caused by CXF-4833
