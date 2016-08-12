@@ -27,9 +27,9 @@
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/wise/core/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/wise/core/trunk</developerConnection>
-    <url>http://fisheye.jboss.org/viewrep/Wise/core/trunk</url>
+    <connection>scm:git:https://github.com/jboss-wise/wise-core.git</connection>
+    <developerConnection>scm:git:git@github.com:jboss-wise/wise-core.git</developerConnection>
+    <url>https://github.com/jboss-wise/wise-core</url>
   </scm>
 
   <developers>
