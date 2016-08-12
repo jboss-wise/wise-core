@@ -59,6 +59,9 @@
     <checkstyle.extension/>
     <milyn.version>1.6</milyn.version>
 
+    <version.checkstyle-plugin>2.17</version.checkstyle-plugin>
+    <version.org.wildfly.checkstyle-config>1.0.5.Final</version.org.wildfly.checkstyle-config>
+
     <!-- Following must stay in synch with the one used within the jbossws-cxf being pulled in wise-core-cxf -->
     <cxf.version>2.6.4</cxf.version>
     <jaxb.impl.version>2.2.5</jaxb.impl.version>
@@ -572,8 +575,44 @@
           <artifactId>gmaven-plugin</artifactId>
           <version>1.5</version>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${version.checkstyle-plugin}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.wildfly.checkstyle</groupId>
+            <artifactId>wildfly-checkstyle-config</artifactId>
+            <version>${version.org.wildfly.checkstyle-config}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <configLocation>wildfly-checkstyle/checkstyle.xml</configLocation>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>false</failsOnError>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <useFile />
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-style</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>checkstyle</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
   </build>
 
   <reporting>

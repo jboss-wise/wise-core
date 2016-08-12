@@ -16,3 +16,7 @@ To run the full integration testsuite against the currently supported target con
 - mvn -Pwildfly902 clean integration-test
 - mvn -Pwildfly1000 clean integration-test
 
+Checkstyle
+-------------------
+Execution of maven-checkstyle-plugin is part of the compile phase, can be skipped by addng `-Dcheckstyle.skip=true` to the mvn command
+Fastest way to get checkstyle reports is by invoking following command `mvn checkstyle:check -Dcheckstyle.failOnViolation=false`
