@@ -29,7 +29,7 @@ import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
 
 /**
  * It is the enabler for MTOM extension
- * 
+ *
  * @author stefano.maestri@javalinux.it
  */
 @ThreadSafe
@@ -38,22 +38,22 @@ public class MTOMEnabler implements WSExtensionEnabler {
 
     private final EnablerDelegate delegate;
 
-    public MTOMEnabler( WSDynamicClient client ) {
+    public MTOMEnabler(WSDynamicClient client) {
         delegate = client.getWSExtensionEnablerDelegate();
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.WSExtensionEnabler#enable(Object)
      */
-    public void enable( Object endpointInstance ) throws UnsupportedOperationException {
+    public void enable(Object endpointInstance) throws UnsupportedOperationException {
         delegate.visitMTOM(endpointInstance);
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.WSExtensionEnabler#getDelegate()
      */
     public EnablerDelegate getDelegate() {

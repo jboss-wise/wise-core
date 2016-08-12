@@ -49,78 +49,76 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class WiseIntegrationBasicTest extends WiseTest {
 
-   private static final String WAR = "basic";
+    private static final String WAR = "basic";
 
-   @Deployment
-   public static WebArchive createDeployment() {
-      WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
-      archive
-         .addClass(org.jboss.wise.test.integration.basic.HelloWorldInterface.class)
-         .addClass(org.jboss.wise.test.integration.basic.HelloWorldBean.class)
-         .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/basic/web.xml"));
-      return archive;
-   }
+    @Deployment
+    public static WebArchive createDeployment() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
+        archive.addClass(org.jboss.wise.test.integration.basic.HelloWorldInterface.class)
+                .addClass(org.jboss.wise.test.integration.basic.HelloWorldBean.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/basic/web.xml"));
+        return archive;
+    }
 
+    @Test
+    @RunAsClient
+    public void shouldRunWithoutMK() throws Exception {
 
-   @Test
-   @RunAsClient
-   public void shouldRunWithoutMK() throws Exception {
+        URL wsdlURL = new URL(getServerHostAndPort() + "/basic/HelloWorld?wsdl");
 
-      URL wsdlURL = new URL(getServerHostAndPort() + "/basic/HelloWorld?wsdl");
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true)
+                .wsdlURL(wsdlURL.toString()).build();
+        WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        args.put("arg0", "from-wise-client");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        method.writeRequestPreview(args, bos);
+        Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
+        InvocationResult result = method.invoke(args, null);
+        Map<String, Object> res = result.getMapRequestAndResult(null, null);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> test = (Map<String, Object>) res.get("results");
+        client.close();
+        Assert.assertEquals("from-wise-client", test.get("result"));
+    }
 
-      WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-      WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-         .toString()).build();
-      WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
-      Map<String, Object> args = new java.util.HashMap<String, Object>();
-      args.put("arg0", "from-wise-client");
-      ByteArrayOutputStream bos = new ByteArrayOutputStream();
-      method.writeRequestPreview(args, bos);
-      Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
-      InvocationResult result = method.invoke(args, null);
-      Map<String, Object> res = result.getMapRequestAndResult(null, null);
-      @SuppressWarnings("unchecked")
-      Map<String, Object> test = (Map<String, Object>) res.get("results");
-      client.close();
-      Assert.assertEquals("from-wise-client", test.get("result"));
-   }
+    @Test
+    @RunAsClient
+    public void shouldAllowOverridingTargetEndpoint() throws Exception {
 
-   @Test
-   @RunAsClient
-   public void shouldAllowOverridingTargetEndpoint() throws Exception {
+        final File targetDir = new File("target", "test-classes");
+        URL wsdlURL = new File(targetDir, "basic-local.wsdl").toURI().toURL();
 
-      final File targetDir = new File("target", "test-classes");
-      URL wsdlURL = new File(targetDir, "basic-local.wsdl").toURI().toURL();
+        WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true)
+                .wsdlURL(wsdlURL.toString()).build();
+        WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
+        Map<String, Object> args = new java.util.HashMap<String, Object>();
+        args.put("arg0", "from-wise-client");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        method.writeRequestPreview(args, bos);
+        Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
 
-      WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-      WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-         .toString()).build();
-      WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
-      Map<String, Object> args = new java.util.HashMap<String, Object>();
-      args.put("arg0", "from-wise-client");
-      ByteArrayOutputStream bos = new ByteArrayOutputStream();
-      method.writeRequestPreview(args, bos);
-      Assert.assertTrue(bos.toString().contains("<arg0>from-wise-client</arg0>"));
+        InvocationResult result;
+        try {
+            result = method.invoke(args, null);
+            Assert.fail("Invocation should have failed because of invalid target endpoint address");
+        } catch (WiseWebServiceException ie) {
+            // expected
+            Assert.assertTrue(ie.getCause() instanceof WebServiceException);
+            final Throwable lowLevelThrowable = ie.getCause().getCause();
+            Assert.assertTrue("Expected a ConnectException or SocketTimeoutException, but got: " + lowLevelThrowable,
+                    (lowLevelThrowable instanceof ConnectException) || (lowLevelThrowable instanceof SocketTimeoutException));
+        }
 
-      InvocationResult result;
-      try {
-         result = method.invoke(args, null);
-         Assert.fail("Invocation should have failed because of invalid target endpoint address");
-      } catch (WiseWebServiceException ie) {
-         //expected
-         Assert.assertTrue(ie.getCause() instanceof WebServiceException);
-         final Throwable lowLevelThrowable = ie.getCause().getCause();
-         Assert.assertTrue("Expected a ConnectException or SocketTimeoutException, but got: " + lowLevelThrowable,
-        	 (lowLevelThrowable instanceof ConnectException) || (lowLevelThrowable instanceof SocketTimeoutException));
-      }
+        method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
+        result = method.invoke(args, null);
 
-      method.getEndpoint().setTargetUrl(getServerHostAndPort() + "/basic/HelloWorld");
-      result = method.invoke(args, null);
-
-      Map<String, Object> res = result.getMapRequestAndResult(null, null);
-      @SuppressWarnings("unchecked")
-      Map<String, Object> test = (Map<String, Object>) res.get("results");
-      client.close();
-      Assert.assertEquals("from-wise-client", test.get("result"));
-   }
+        Map<String, Object> res = result.getMapRequestAndResult(null, null);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> test = (Map<String, Object>) res.get("results");
+        client.close();
+        Assert.assertEquals("from-wise-client", test.get("result"));
+    }
 }

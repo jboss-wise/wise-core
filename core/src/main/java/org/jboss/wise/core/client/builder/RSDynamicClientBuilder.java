@@ -21,8 +21,6 @@
  */
 package org.jboss.wise.core.client.builder;
 
-import java.net.ConnectException;
-
 import net.jcip.annotations.ThreadSafe;
 
 import org.jboss.wise.core.client.WSDynamicClient;
@@ -31,8 +29,8 @@ import org.jboss.wise.core.client.jaxrs.RSDynamicClient.HttpMethod;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 
 /**
- * 
- * 
+ *
+ *
  * @author alessio.soldano@jboss.com
  */
 @ThreadSafe
@@ -40,27 +38,27 @@ public interface RSDynamicClientBuilder {
 
     /**
      * Build the {@link WSDynamicClient} with all parameters set on this class
-     * 
+     *
      * @return {@link WSDynamicClient}
-     * @throws IllegalStateException   illegal state
-     * @throws WiseRuntimeException  srapper for runtime issue
+     * @throws IllegalStateException illegal state
+     * @throws WiseRuntimeException srapper for runtime issue
      */
     public RSDynamicClient build() throws IllegalStateException, WiseRuntimeException;
 
     public RSDynamicClientBuilder resourceURI(String resourceURI);
-    
+
     public RSDynamicClientBuilder httpMethod(HttpMethod httpMethod);
-    
+
     public RSDynamicClientBuilder produceMediaTypes(String produceMediaTypes);
-    
+
     public RSDynamicClientBuilder consumeMediaTypes(String consumeMediaTypes);
 
     public String getResourceURI();
-    
+
     public String getProduceMediaTypes();
-    
+
     public String getConsumeMediaTypes();
-    
+
     public HttpMethod getHttpMethod();
 
 }

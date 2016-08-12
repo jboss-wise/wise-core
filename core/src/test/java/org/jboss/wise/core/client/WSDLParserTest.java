@@ -32,7 +32,7 @@ public class WSDLParserTest {
 
     @Test
     public void testParser() throws Exception {
-	URL wsdlURL = Thread.currentThread().getContextClassLoader().getResource("./AddNumbersMultiplePorts.wsdl");
+        URL wsdlURL = Thread.currentThread().getContextClassLoader().getResource("./AddNumbersMultiplePorts.wsdl");
         Set<String> excludedPorts = WSDLParser.searchNonSoapServices(wsdlURL);
         assertEquals(1, excludedPorts.size());
         assertEquals("AddNumbersPortHttp", excludedPorts.iterator().next());

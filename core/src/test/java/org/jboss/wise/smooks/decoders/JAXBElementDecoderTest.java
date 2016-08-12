@@ -33,7 +33,7 @@ import org.milyn.cdr.SmooksResourceConfiguration;
 
 public class JAXBElementDecoderTest {
 
-    @Test( expected = SmooksConfigurationException.class )
+    @Test(expected = SmooksConfigurationException.class)
     public void setConfigurationShouldThrowExceptionIfNameSpaceURIIsNull() {
         JAXBElementDecoder decorator = new JAXBElementDecoder();
         SmooksResourceConfiguration config = mock(SmooksResourceConfiguration.class);
@@ -41,7 +41,7 @@ public class JAXBElementDecoderTest {
         decorator.setConfiguration(config);
     }
 
-    @Test( expected = SmooksConfigurationException.class )
+    @Test(expected = SmooksConfigurationException.class)
     public void setConfigurationShouldThrowExceptionIfLocalPartNull() {
         JAXBElementDecoder decorator = new JAXBElementDecoder();
         SmooksResourceConfiguration config = mock(SmooksResourceConfiguration.class);
@@ -57,8 +57,8 @@ public class JAXBElementDecoderTest {
         when(config.getStringParameter("namespaceURI")).thenReturn("myURI");
         when(config.getStringParameter("localPart")).thenReturn("local");
         decorator.setConfiguration(config);
-        assertThat(((JAXBElement<String>)decorator.decode("data")).getValue(), equalTo("data"));
-        assertThat(((JAXBElement<String>)decorator.decode("data")).getName(), equalTo(new QName("myURI", "local")));
+        assertThat(((JAXBElement<String>) decorator.decode("data")).getValue(), equalTo("data"));
+        assertThat(((JAXBElement<String>) decorator.decode("data")).getName(), equalTo(new QName("myURI", "local")));
     }
 
 }

@@ -36,7 +36,7 @@ public class ExternalObject {
         return internal;
     }
 
-    public void setInternal( InternalObject internal ) {
+    public void setInternal(InternalObject internal) {
         this.internal = internal;
     }
 
@@ -44,7 +44,7 @@ public class ExternalObject {
         return date;
     }
 
-    public void setDate( Date date ) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

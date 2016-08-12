@@ -39,11 +39,10 @@ import org.jboss.ws.api.tools.WSContractConsumer;
 
 public class HelloWorldServlet extends HttpServlet {
     @Override
-    public void doGet( HttpServletRequest theRequest,
-                       HttpServletResponse theResponse ) throws IOException {
+    public void doGet(HttpServletRequest theRequest, HttpServletResponse theResponse) throws IOException {
         PrintWriter pw = theResponse.getWriter();
         String jbwsVersion = WSContractConsumer.newInstance().getClass().getPackage().getImplementationVersion();
-        if (jbwsVersion.startsWith("4.0") || jbwsVersion.startsWith("4.1.0") || jbwsVersion.startsWith("4.1.1") ) {
+        if (jbwsVersion.startsWith("4.0") || jbwsVersion.startsWith("4.1.0") || jbwsVersion.startsWith("4.1.1")) {
             pw.print("[FIXME][JBWS-3589] This test is meant to be run properly on JBossWS 4.1.2.Final or greater");
         } else {
             String name = theRequest.getParameter("name");
@@ -53,26 +52,26 @@ public class HelloWorldServlet extends HttpServlet {
 
     @SuppressWarnings("unchecked")
     public Object invokeWS(String name) {
-	WSDynamicClient client = null;
-	try {
-	    URL wsdlURL = new URL("http://127.0.0.1:8080/basic/HelloWorld?wsdl");
+        WSDynamicClient client = null;
+        try {
+            URL wsdlURL = new URL("http://127.0.0.1:8080/basic/HelloWorld?wsdl");
 
-	    WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-	    client = clientBuilder.verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
-	    WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
-	    Map<String, Object> args = new java.util.HashMap<String, Object>();
-	    args.put("arg0", name);
-	    InvocationResult result = method.invoke(args, null);
-	    Map<String, Object> res = result.getMapRequestAndResult(null, null);
-	    Map<String, Object> test = (Map<String, Object>) res.get("results");
-	    client.close();
-	    return test.get("result");
-	} catch (Exception e) {
-	    throw new RuntimeException(e);
-	} finally {
-	    if (client != null) {
-		client.close();
-	    }
-	}
+            WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
+            client = clientBuilder.verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
+            WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", "echo");
+            Map<String, Object> args = new java.util.HashMap<String, Object>();
+            args.put("arg0", name);
+            InvocationResult result = method.invoke(args, null);
+            Map<String, Object> res = result.getMapRequestAndResult(null, null);
+            Map<String, Object> test = (Map<String, Object>) res.get("results");
+            client.close();
+            return test.get("result");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (client != null) {
+                client.close();
+            }
+        }
     }
 }

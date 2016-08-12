@@ -45,44 +45,73 @@ public class WiseIntegrationInContainerTest extends WiseTest {
 
     @Deployment(name = WAR, order = 1)
     public static WebArchive createDeploymentA() {
-       WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
-       archive
-          .addClass(org.jboss.wise.test.integration.basic.HelloWorldInterface.class)
-          .addClass(org.jboss.wise.test.integration.basic.HelloWorldBean.class)
-          .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/basic/web.xml"));
-       return archive;
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
+        archive.addClass(org.jboss.wise.test.integration.basic.HelloWorldInterface.class)
+                .addClass(org.jboss.wise.test.integration.basic.HelloWorldBean.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/basic/web.xml"));
+        return archive;
     }
 
+    @Deployment(name = SERVLET_WAR, order = 2)
+    public static WebArchive createDeploymentB() {
+        MavenResolverSystem resolver = Maven.resolver();
 
-   @Deployment(name = SERVLET_WAR, order = 2)
-   public static WebArchive createDeploymentB() {
-      MavenResolverSystem resolver = Maven.resolver();
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, SERVLET_WAR + ".war");
+        archive.addAsLibrary(
+                resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-io:commons-io")
+                        .withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.milyn:milyn-smooks-validation").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.milyn:milyn-smooks-javabean").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.milyn:milyn-smooks-rules").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.milyn:milyn-smooks-core").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.milyn:milyn-commons").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.jboss.wise:wise-core-cxf").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.jboss.wise:wise-core").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("commons-logging:commons-logging").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("commons-collections:commons-collections").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("commons-pool:commons-pool").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("commons-cli:commons-cli").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("commons-httpclient:commons-httpclient").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("commons-codec:commons-codec").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("commons-lang:commons-lang").withoutTransitivity().asSingleFile())
+                .addAsLibrary(
+                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
+                                .resolve("org.apache.commons:commons-lang3").withoutTransitivity().asSingleFile())
+                .addClass(org.jboss.wise.test.integration.incontainer.HelloWorldServlet.class)
+                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/incontainer/jboss-deployment-structure.xml"))
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/incontainer/web.xml"));
+        return archive;
+    }
 
-      WebArchive archive = ShrinkWrap.create(WebArchive.class, SERVLET_WAR + ".war");
-      archive
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-io:commons-io").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.milyn:milyn-smooks-validation").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.milyn:milyn-smooks-javabean").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.milyn:milyn-smooks-rules").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.milyn:milyn-smooks-core").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.milyn:milyn-commons").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.jboss.wise:wise-core-cxf").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.jboss.wise:wise-core").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-logging:commons-logging").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-collections:commons-collections").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-pool:commons-pool").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-cli:commons-cli").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-httpclient:commons-httpclient").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-codec:commons-codec").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-lang:commons-lang").withoutTransitivity().asSingleFile())
-         .addAsLibrary(resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("org.apache.commons:commons-lang3").withoutTransitivity().asSingleFile())
-         .addClass(org.jboss.wise.test.integration.incontainer.HelloWorldServlet.class)
-         .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/incontainer/jboss-deployment-structure.xml"))
-         .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/incontainer/web.xml"));
-      return archive;
-   }
-
-   @Test
+    @Test
     @RunAsClient
     public void test() throws Exception {
         URL url = new URL(getServerHostAndPort() + "/incontainer/HelloWorldServlet?name=foo");

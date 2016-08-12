@@ -40,18 +40,19 @@ public class EndpointMethodCaller implements Callable<Object> {
             return epInstance.createInstance();
         }
     };
+
     protected final WSEndpoint epInstance;
+
     private final Method methodPointer;
+
     private final Object[] args;
 
     /**
-     * @param epInstance   endpoint
-     * @param methodPointer   method pointer
-     * @param args   object array
+     * @param epInstance endpoint
+     * @param methodPointer method pointer
+     * @param args object array
      */
-    public EndpointMethodCaller( WSEndpoint epInstance,
-                                 Method methodPointer,
-                                 Object[] args ) {
+    public EndpointMethodCaller(WSEndpoint epInstance, Method methodPointer, Object[] args) {
         super();
 
         this.epInstance = epInstance;
@@ -61,7 +62,7 @@ public class EndpointMethodCaller implements Callable<Object> {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see java.util.concurrent.Callable#call()
      */
     public Object call() throws Exception {
@@ -85,7 +86,7 @@ public class EndpointMethodCaller implements Callable<Object> {
     public void addHandlers() {
         List<Handler<?>> handlers = epInstance.getHandlers();
         if (handlers != null && !handlers.isEmpty()) {
-            Binding binding = ((BindingProvider)epUnderlyingObjectInstance.get()).getBinding();
+            Binding binding = ((BindingProvider) epUnderlyingObjectInstance.get()).getBinding();
             @SuppressWarnings("rawtypes")
             List<Handler> handlerChain = binding.getHandlerChain();
             for (Handler<?> handler : handlers) {
@@ -97,24 +98,25 @@ public class EndpointMethodCaller implements Callable<Object> {
 
     public synchronized void setUsername() {
         if (epInstance.getUsername() != null) {
-            ((BindingProvider)epUnderlyingObjectInstance.get()).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,
-                                                                                        epInstance.getUsername());
+            ((BindingProvider) epUnderlyingObjectInstance.get()).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,
+                    epInstance.getUsername());
         }
     }
 
     public synchronized void setPassword() {
         if (epInstance.getPassword() != null) {
-            ((BindingProvider)epUnderlyingObjectInstance.get()).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,
-                                                                                        epInstance.getPassword());
+            ((BindingProvider) epUnderlyingObjectInstance.get()).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,
+                    epInstance.getPassword());
         }
     }
 
     public synchronized void setTargetUrl() {
         if (epInstance.getTargetUrl() != null) {
-            ((BindingProvider)epUnderlyingObjectInstance.get()).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-                                                                                        epInstance.getTargetUrl());
+            ((BindingProvider) epUnderlyingObjectInstance.get()).getRequestContext().put(
+                    BindingProvider.ENDPOINT_ADDRESS_PROPERTY, epInstance.getTargetUrl());
         } else {
-            ((BindingProvider)epUnderlyingObjectInstance.get()).getRequestContext().remove(BindingProvider.ENDPOINT_ADDRESS_PROPERTY);
+            ((BindingProvider) epUnderlyingObjectInstance.get()).getRequestContext().remove(
+                    BindingProvider.ENDPOINT_ADDRESS_PROPERTY);
         }
     }
 

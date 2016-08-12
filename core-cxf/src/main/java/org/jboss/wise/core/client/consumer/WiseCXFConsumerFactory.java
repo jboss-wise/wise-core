@@ -25,17 +25,14 @@ import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.api.tools.WSContractConsumerFactory;
 
 /**
- * A factory for building WiseCXFConsumerImpl; this is basically to consume
- * the fix for JBWS-3520 which is blocking for Wise 2.0 on AS 7 as it's
- * the only workaround for WISE-179.
- * 
+ * A factory for building WiseCXFConsumerImpl; this is basically to consume the fix for JBWS-3520 which is blocking for Wise 2.0
+ * on AS 7 as it's the only workaround for WISE-179.
+ *
  * @author alessio.soldano@jboss.com
  *
  */
-public class WiseCXFConsumerFactory implements WSContractConsumerFactory
-{
-    public WSContractConsumer createConsumer()
-    {
-       return new WiseCXFConsumerImpl();
+public class WiseCXFConsumerFactory implements WSContractConsumerFactory {
+    public WSContractConsumer createConsumer() {
+        return new WiseCXFConsumerImpl();
     }
- }
+}

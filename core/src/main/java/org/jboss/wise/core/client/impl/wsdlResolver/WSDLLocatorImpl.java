@@ -34,111 +34,137 @@ import org.xml.sax.InputSource;
 
 /* A WSDLLocator that can handle wsdl imports
  */
-public class WSDLLocatorImpl implements WSDLLocator {
-    // provide logging
-    private static final Logger log = Logger.getLogger(WSDLLocatorImpl.class);
+public class WSDLLocatorImpl implements WSDLLocator
+{
+   // provide logging
+   private static final Logger log = Logger.getLogger(WSDLLocatorImpl.class);
 
-    private EntityResolver entityResolver;
+   private EntityResolver entityResolver;
 
-    private URL wsdlLocation;
+   private URL wsdlLocation;
 
-    private String latestImportURI;
-    
-    private Connection connection;
+   private String latestImportURI;
 
-    public WSDLLocatorImpl(EntityResolver entityResolver, URL wsdlLocation, Connection connection) {
-	if (wsdlLocation == null)
-	    throw new IllegalArgumentException("WSDL file argument cannot be null");
+   private Connection connection;
 
-	this.entityResolver = entityResolver;
-	this.wsdlLocation = wsdlLocation;
-	this.connection = connection;
-    }
+   public WSDLLocatorImpl(EntityResolver entityResolver, URL wsdlLocation, Connection connection)
+   {
+      if (wsdlLocation == null)
+         throw new IllegalArgumentException("WSDL file argument cannot be null");
 
-    public InputSource getBaseInputSource() {
-	if (log.isTraceEnabled()) {
-	    log.trace("getBaseInputSource [wsdlUrl=" + wsdlLocation + "]");
-	}
-	try {
-	    InputStream inputStream = connection.open(wsdlLocation);
-	    if (inputStream == null)
-		throw new IllegalArgumentException("Cannot obtain wsdl from [" + wsdlLocation + "]");
+      this.entityResolver = entityResolver;
+      this.wsdlLocation = wsdlLocation;
+      this.connection = connection;
+   }
 
-	    return new InputSource(inputStream);
-	} catch (IOException e) {
-	    throw new RuntimeException("Cannot access wsdl from [" + wsdlLocation + "], " + e.getMessage());
-	}
-    }
+   public InputSource getBaseInputSource()
+   {
+      if (log.isTraceEnabled())
+      {
+         log.trace("getBaseInputSource [wsdlUrl=" + wsdlLocation + "]");
+      }
+      try
+      {
+         InputStream inputStream = connection.open(wsdlLocation);
+         if (inputStream == null)
+            throw new IllegalArgumentException("Cannot obtain wsdl from [" + wsdlLocation + "]");
 
-    public String getBaseURI() {
-	return wsdlLocation.toExternalForm();
-    }
+         return new InputSource(inputStream);
+      }
+      catch (IOException e)
+      {
+         throw new RuntimeException("Cannot access wsdl from [" + wsdlLocation + "], " + e.getMessage());
+      }
+   }
 
-    public InputSource getImportInputSource(String parent, String resource) {
-	if (log.isTraceEnabled()) {
-	    log.trace("getImportInputSource [parent=" + parent + ",resource=" + resource + "]");
-	}
+   public String getBaseURI()
+   {
+      return wsdlLocation.toExternalForm();
+   }
 
-	URL parentURL = null;
-	try {
-	    parentURL = new URL(parent);
-	} catch (MalformedURLException e) {
-	    log.error("Not a valid URL: " + parent);
-	    return null;
-	}
+   public InputSource getImportInputSource(String parent, String resource)
+   {
+      if (log.isTraceEnabled())
+      {
+         log.trace("getImportInputSource [parent=" + parent + ",resource=" + resource + "]");
+      }
 
-	String wsdlImport = null;
-	String external = parentURL.toExternalForm();
+      URL parentURL = null;
+      try
+      {
+         parentURL = new URL(parent);
+      }
+      catch (MalformedURLException e)
+      {
+         log.error("Not a valid URL: " + parent);
+         return null;
+      }
 
-	// An external URL
-	if (resource.startsWith("http://") || resource.startsWith("https://")) {
-	    wsdlImport = resource;
-	}
+      String wsdlImport = null;
+      String external = parentURL.toExternalForm();
 
-	// Absolute path
-	else if (resource.startsWith("/")) {
-	    String beforePath = external.substring(0, external.indexOf(parentURL.getPath()));
-	    wsdlImport = beforePath + resource;
-	}
+      // An external URL
+      if (resource.startsWith("http://") || resource.startsWith("https://"))
+      {
+         wsdlImport = resource;
+      }
 
-	// A relative path
-	else {
-	    String parentDir = external.substring(0, external.lastIndexOf("/"));
+      // Absolute path
+      else if (resource.startsWith("/"))
+      {
+         String beforePath = external.substring(0, external.indexOf(parentURL.getPath()));
+         wsdlImport = beforePath + resource;
+      }
 
-	    // remove references to current dir
-	    while (resource.startsWith("./"))
-		resource = resource.substring(2);
+      // A relative path
+      else
+      {
+         String parentDir = external.substring(0, external.lastIndexOf("/"));
 
-	    // remove references to parentdir
-	    while (resource.startsWith("../")) {
-		parentDir = parentDir.substring(0, parentDir.lastIndexOf("/"));
-		resource = resource.substring(3);
-	    }
+         // remove references to current dir
+         while (resource.startsWith("./"))
+            resource = resource.substring(2);
 
-	    wsdlImport = parentDir + "/" + resource;
-	}
+         // remove references to parentdir
+         while (resource.startsWith("../"))
+         {
+            parentDir = parentDir.substring(0, parentDir.lastIndexOf("/"));
+            resource = resource.substring(3);
+         }
 
-	try {
-	    if (log.isTraceEnabled()) {
-		log.trace("Trying to resolve: " + wsdlImport);
-	    }
-	    InputSource inputSource = entityResolver.resolveEntity(wsdlImport, wsdlImport);
-	    if (inputSource != null) {
-		latestImportURI = wsdlImport;
-	    } else {
-		throw new IllegalArgumentException("Cannot resolve imported resource: " + wsdlImport);
-	    }
+         wsdlImport = parentDir + "/" + resource;
+      }
 
-	    return inputSource;
-	} catch (Exception e) {
-	    throw new RuntimeException("Cannot access imported wsdl [" + wsdlImport + "], " + e.getMessage());
-	}
-    }
+      try
+      {
+         if (log.isTraceEnabled())
+         {
+            log.trace("Trying to resolve: " + wsdlImport);
+         }
+         InputSource inputSource = entityResolver.resolveEntity(wsdlImport, wsdlImport);
+         if (inputSource != null)
+         {
+            latestImportURI = wsdlImport;
+         }
+         else
+         {
+            throw new IllegalArgumentException("Cannot resolve imported resource: " + wsdlImport);
+         }
 
-    public String getLatestImportURI() {
-	return latestImportURI;
-    }
+         return inputSource;
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Cannot access imported wsdl [" + wsdlImport + "], " + e.getMessage());
+      }
+   }
 
-    public void close() {
-    }
+   public String getLatestImportURI()
+   {
+      return latestImportURI;
+   }
+
+   public void close()
+   {
+   }
 }

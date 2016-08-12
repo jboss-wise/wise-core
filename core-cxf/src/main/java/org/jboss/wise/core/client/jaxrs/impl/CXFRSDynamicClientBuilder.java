@@ -29,74 +29,62 @@ import org.jboss.wise.core.client.jaxrs.RSDynamicClient;
 import org.jboss.wise.core.client.jaxrs.RSDynamicClient.HttpMethod;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 
-
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 05-Sep-2010
  *
  */
 @ThreadSafe
-public class CXFRSDynamicClientBuilder implements RSDynamicClientBuilder
-{
-   
-   @GuardedBy("this")
-   private String resourceURI;
-   @GuardedBy("this")
-   private HttpMethod httpMethod;
-   @GuardedBy("this")
-   private String produceMediaTypes;
-   @GuardedBy("this")
-   private String consumeMediaTypes;
-   
-   
-   public synchronized RSDynamicClient build() throws IllegalStateException, WiseRuntimeException
-   {
-      return new RSDynamicClientImpl(resourceURI, produceMediaTypes, consumeMediaTypes, httpMethod);
-   }
+public class CXFRSDynamicClientBuilder implements RSDynamicClientBuilder {
 
-   public synchronized RSDynamicClientBuilder resourceURI(String resourceURI)
-   {
-      this.resourceURI = resourceURI;
-      return this;
-   }
+    @GuardedBy("this")
+    private String resourceURI;
+    @GuardedBy("this")
+    private HttpMethod httpMethod;
+    @GuardedBy("this")
+    private String produceMediaTypes;
+    @GuardedBy("this")
+    private String consumeMediaTypes;
 
-   public synchronized RSDynamicClientBuilder httpMethod(HttpMethod httpMethod)
-   {
-      this.httpMethod = httpMethod;
-      return this;
-   }
+    public synchronized RSDynamicClient build() throws IllegalStateException, WiseRuntimeException {
+        return new RSDynamicClientImpl(resourceURI, produceMediaTypes, consumeMediaTypes, httpMethod);
+    }
 
-   public synchronized RSDynamicClientBuilder produceMediaTypes(String produceMediaTypes)
-   {
-      this.produceMediaTypes = produceMediaTypes;
-      return this;
-   }
+    public synchronized RSDynamicClientBuilder resourceURI(String resourceURI) {
+        this.resourceURI = resourceURI;
+        return this;
+    }
 
-   public synchronized RSDynamicClientBuilder consumeMediaTypes(String consumeMediaTypes)
-   {
-      this.consumeMediaTypes = consumeMediaTypes;
-      return this;
-   }
+    public synchronized RSDynamicClientBuilder httpMethod(HttpMethod httpMethod) {
+        this.httpMethod = httpMethod;
+        return this;
+    }
 
-   public synchronized String getResourceURI()
-   {
-      return this.resourceURI;
-   }
+    public synchronized RSDynamicClientBuilder produceMediaTypes(String produceMediaTypes) {
+        this.produceMediaTypes = produceMediaTypes;
+        return this;
+    }
 
-   public synchronized String getProduceMediaTypes()
-   {
-      return this.produceMediaTypes;
-   }
+    public synchronized RSDynamicClientBuilder consumeMediaTypes(String consumeMediaTypes) {
+        this.consumeMediaTypes = consumeMediaTypes;
+        return this;
+    }
 
-   public synchronized String getConsumeMediaTypes()
-   {
-      return this.consumeMediaTypes;
-   }
+    public synchronized String getResourceURI() {
+        return this.resourceURI;
+    }
 
-   public synchronized HttpMethod getHttpMethod()
-   {
-      return this.httpMethod;
-   }
+    public synchronized String getProduceMediaTypes() {
+        return this.produceMediaTypes;
+    }
+
+    public synchronized String getConsumeMediaTypes() {
+        return this.consumeMediaTypes;
+    }
+
+    public synchronized HttpMethod getHttpMethod() {
+        return this.httpMethod;
+    }
 
 }

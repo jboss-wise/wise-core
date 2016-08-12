@@ -26,11 +26,11 @@ import org.jboss.wise.core.client.WSEndpoint;
 
 /**
  * It is an interface defining a WSExtension to be enabled on an endpoint using wise-core client APIs. The basic idea is to add
- * all WSExtension you want to enable to a {@link WSEndpoint} using addWSExtension method. WSExtension implementation are meant to
- * be pure declarative class delegating all their operations to a "visitor" class injected into the system with IOC Different
- * Visitors implement {@link EnablerDelegate} and have to take care to implement necessary steps to implement various WSExtension
- * for the JAXWS implementation for which they are supposed to work.
- * 
+ * all WSExtension you want to enable to a {@link WSEndpoint} using addWSExtension method. WSExtension implementation are meant
+ * to be pure declarative class delegating all their operations to a "visitor" class injected into the system with IOC Different
+ * Visitors implement {@link EnablerDelegate} and have to take care to implement necessary steps to implement various
+ * WSExtension for the JAXWS implementation for which they are supposed to work.
+ *
  * @author stefano.maestri@javalinux.it
  */
 @ThreadSafe
@@ -39,14 +39,14 @@ public interface WSExtensionEnabler {
     /**
      * This is the call back method invoked by {@link WSEndpoint} to ask this extension to enable itself. Implementer should
      * delegate the effective job to {@link EnablerDelegate} implementation for the right JAX-WS stack in use.
-     * 
-     * @param endpointInstance  object
+     *
+     * @param endpointInstance object
      */
-    public abstract void enable( Object endpointInstance );
+    public abstract void enable(Object endpointInstance);
 
     /**
      * For test purpose
-     * 
+     *
      * @return visitor
      */
     public EnablerDelegate getDelegate();

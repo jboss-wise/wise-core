@@ -36,7 +36,7 @@ public class InternalObject implements Serializable {
         return text;
     }
 
-    public void setText( String text ) {
+    public void setText(String text) {
         this.text = text;
     }
 
@@ -44,7 +44,7 @@ public class InternalObject implements Serializable {
         return number;
     }
 
-    public void setNumber( Integer number ) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -52,9 +52,9 @@ public class InternalObject implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
-    
+
     @Override
     public boolean equals(Object o) {
-    	return EqualsBuilder.reflectionEquals(this, o);
+        return EqualsBuilder.reflectionEquals(this, o);
     }
 }

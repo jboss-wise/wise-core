@@ -1,6 +1,5 @@
 package org.jboss.wise.core.client.jaxrs;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.Consumes;
@@ -18,7 +17,7 @@ public class BookStore {
 
     private Map<Long, Book> books = new HashMap<Long, Book>();
     private long bookId = 123;
-    
+
     public BookStore() {
         init();
     }
@@ -28,7 +27,7 @@ public class BookStore {
     public Book getBook(@PathParam("bookId") String id) throws BookNotFoundFault {
         return doGetBook(id);
     }
-    
+
     private Book doGetBook(String id) throws BookNotFoundFault {
         System.out.println("----invoking getBook with id: " + id);
         Book book = books.get(Long.parseLong(id));
@@ -51,7 +50,7 @@ public class BookStore {
 
         return Response.ok(book).build();
     }
-    
+
     @PUT
     @Path("/books/")
     public Response updateBook(Book book) {
@@ -67,7 +66,7 @@ public class BookStore {
 
         return r;
     }
-    
+
     @DELETE
     @Path("/books/{bookId}/")
     public Response deleteBook(@PathParam("bookId") String id) {
@@ -82,7 +81,7 @@ public class BookStore {
 
         return r;
     }
-    
+
     final void init() {
         Book book = new Book();
         book.setId(bookId);
@@ -90,5 +89,3 @@ public class BookStore {
         books.put(book.getId(), book);
     }
 }
-
-

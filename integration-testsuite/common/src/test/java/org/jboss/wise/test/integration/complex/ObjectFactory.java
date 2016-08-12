@@ -1,4 +1,3 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import javax.xml.bind.JAXBElement;
@@ -6,47 +5,50 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the org.jboss.test.ws.jaxws.complex package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
- * 
+ * This object contains factory methods for each Java content interface and Java element interface generated in the
+ * org.jboss.test.ws.jaxws.complex package.
+ * <p>
+ * An ObjectFactory allows you to programatically construct new instances of the Java representation for XML content. The Java
+ * representation of XML content can consist of schema derived interfaces and classes representing the binding of schema type
+ * definitions, element declarations and model groups. Factory methods for each of these are provided in this class.
+ *
  */
 @XmlRegistry
 public class ObjectFactory {
 
     private final static QName _EchoResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "EchoResponse");
-    private final static QName _RegisterResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "RegisterResponse");
+    private final static QName _RegisterResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "RegisterResponse");
     private final static QName _Register_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "Register");
-    private final static QName _AlreadyRegisteredFault_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "AlreadyRegisteredFault");
-    private final static QName _RegisterForInvoiceResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "RegisterForInvoiceResponse");
-    private final static QName _GetStatistics_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "GetStatistics");
-    private final static QName _GetStatisticsResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "GetStatisticsResponse");
+    private final static QName _AlreadyRegisteredFault_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "AlreadyRegisteredFault");
+    private final static QName _RegisterForInvoiceResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "RegisterForInvoiceResponse");
+    private final static QName _GetStatistics_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "GetStatistics");
+    private final static QName _GetStatisticsResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "GetStatisticsResponse");
     private final static QName _BulkRegister_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "BulkRegister");
-    private final static QName _BulkRegisterResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "BulkRegisterResponse");
-    private final static QName _RegisterForInvoice_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "RegisterForInvoice");
-    private final static QName _ValidationFault_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "ValidationFault");
+    private final static QName _BulkRegisterResponse_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "BulkRegisterResponse");
+    private final static QName _RegisterForInvoice_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "RegisterForInvoice");
+    private final static QName _ValidationFault_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/",
+            "ValidationFault");
     private final static QName _Echo_QNAME = new QName("http://types.complex.jaxws.ws.test.jboss.org/", "Echo");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.jboss.test.ws.jaxws.complex
-     * 
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package:
+     * org.jboss.test.ws.jaxws.complex
+     *
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link ValidationFault }
-     * 
+     *
      */
     public ValidationFault createValidationFault() {
         return new ValidationFault();
@@ -54,7 +56,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegisterForInvoice }
-     * 
+     *
      */
     public RegisterForInvoice createRegisterForInvoice() {
         return new RegisterForInvoice();
@@ -62,7 +64,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link BulkRegisterResponse }
-     * 
+     *
      */
     public BulkRegisterResponse createBulkRegisterResponse() {
         return new BulkRegisterResponse();
@@ -70,7 +72,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link BulkRegister }
-     * 
+     *
      */
     public BulkRegister createBulkRegister() {
         return new BulkRegister();
@@ -78,7 +80,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Echo }
-     * 
+     *
      */
     public Echo createEcho() {
         return new Echo();
@@ -86,7 +88,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Register }
-     * 
+     *
      */
     public Register createRegister() {
         return new Register();
@@ -94,7 +96,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegisterResponse }
-     * 
+     *
      */
     public RegisterResponse createRegisterResponse() {
         return new RegisterResponse();
@@ -102,7 +104,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EchoResponse }
-     * 
+     *
      */
     public EchoResponse createEchoResponse() {
         return new EchoResponse();
@@ -110,7 +112,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link GetStatisticsResponse }
-     * 
+     *
      */
     public GetStatisticsResponse createGetStatisticsResponse() {
         return new GetStatisticsResponse();
@@ -118,7 +120,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link GetStatistics }
-     * 
+     *
      */
     public GetStatistics createGetStatistics() {
         return new GetStatistics();
@@ -126,7 +128,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegisterForInvoiceResponse }
-     * 
+     *
      */
     public RegisterForInvoiceResponse createRegisterForInvoiceResponse() {
         return new RegisterForInvoiceResponse();
@@ -134,7 +136,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link AlreadyRegisteredFault }
-     * 
+     *
      */
     public AlreadyRegisteredFault createAlreadyRegisteredFault() {
         return new AlreadyRegisteredFault();
@@ -142,7 +144,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Name }
-     * 
+     *
      */
     public Name createName() {
         return new Name();
@@ -150,7 +152,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Customer }
-     * 
+     *
      */
     public Customer createCustomer() {
         return new Customer();
@@ -158,7 +160,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Address }
-     * 
+     *
      */
     public Address createAddress() {
         return new Address();
@@ -166,7 +168,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link InvoiceCustomer }
-     * 
+     *
      */
     public InvoiceCustomer createInvoiceCustomer() {
         return new InvoiceCustomer();
@@ -174,7 +176,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegistrationFault }
-     * 
+     *
      */
     public RegistrationFault createRegistrationFault() {
         return new RegistrationFault();
@@ -182,7 +184,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PhoneNumber }
-     * 
+     *
      */
     public PhoneNumber createPhoneNumber() {
         return new PhoneNumber();
@@ -190,15 +192,15 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Statistics }
-     * 
+     *
      */
     public Statistics createStatistics() {
         return new Statistics();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link EchoResponse }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link EchoResponse }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "EchoResponse")
     public JAXBElement<EchoResponse> createEchoResponse(EchoResponse value) {
@@ -206,8 +208,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterResponse }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterResponse }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "RegisterResponse")
     public JAXBElement<RegisterResponse> createRegisterResponse(RegisterResponse value) {
@@ -215,8 +217,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Register }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link Register }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "Register")
     public JAXBElement<Register> createRegister(Register value) {
@@ -224,8 +226,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AlreadyRegisteredFault }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link AlreadyRegisteredFault }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "AlreadyRegisteredFault")
     public JAXBElement<AlreadyRegisteredFault> createAlreadyRegisteredFault(AlreadyRegisteredFault value) {
@@ -233,17 +235,18 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterForInvoiceResponse }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterForInvoiceResponse }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "RegisterForInvoiceResponse")
     public JAXBElement<RegisterForInvoiceResponse> createRegisterForInvoiceResponse(RegisterForInvoiceResponse value) {
-        return new JAXBElement<RegisterForInvoiceResponse>(_RegisterForInvoiceResponse_QNAME, RegisterForInvoiceResponse.class, null, value);
+        return new JAXBElement<RegisterForInvoiceResponse>(_RegisterForInvoiceResponse_QNAME, RegisterForInvoiceResponse.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetStatistics }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetStatistics }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "GetStatistics")
     public JAXBElement<GetStatistics> createGetStatistics(GetStatistics value) {
@@ -251,8 +254,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetStatisticsResponse }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetStatisticsResponse }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "GetStatisticsResponse")
     public JAXBElement<GetStatisticsResponse> createGetStatisticsResponse(GetStatisticsResponse value) {
@@ -260,8 +263,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link BulkRegister }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link BulkRegister }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "BulkRegister")
     public JAXBElement<BulkRegister> createBulkRegister(BulkRegister value) {
@@ -269,8 +272,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link BulkRegisterResponse }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link BulkRegisterResponse }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "BulkRegisterResponse")
     public JAXBElement<BulkRegisterResponse> createBulkRegisterResponse(BulkRegisterResponse value) {
@@ -278,8 +281,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterForInvoice }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterForInvoice }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "RegisterForInvoice")
     public JAXBElement<RegisterForInvoice> createRegisterForInvoice(RegisterForInvoice value) {
@@ -287,8 +290,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ValidationFault }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link ValidationFault }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "ValidationFault")
     public JAXBElement<ValidationFault> createValidationFault(ValidationFault value) {
@@ -296,8 +299,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Echo }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link Echo }{@code >}
+     *
      */
     @XmlElementDecl(namespace = "http://types.complex.jaxws.ws.test.jboss.org/", name = "Echo")
     public JAXBElement<Echo> createEcho(Echo value) {

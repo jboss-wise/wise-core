@@ -66,7 +66,8 @@ public class MTOMIntegrationTest extends WiseTest {
     public void shouldRunWithoutMK() throws Exception {
         URL wsdlURL = new URL(getServerHostAndPort() + "/mtom-tests/MTOMWS?wsdl");
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true)
+                .wsdlURL(wsdlURL.toString()).build();
         try {
             WSMethod method = client.getWSMethod("MTOMWSService", "MTOMPort", "sayHello");
             method.getEndpoint().addWSExtension(new MTOMEnabler(client));

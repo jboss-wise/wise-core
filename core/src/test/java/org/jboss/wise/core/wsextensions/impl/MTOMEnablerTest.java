@@ -41,6 +41,7 @@ import org.junit.Test;
 public class MTOMEnablerTest {
 
     private WSDynamicClient client;
+
     private EnablerDelegate delegate;
 
     @Before

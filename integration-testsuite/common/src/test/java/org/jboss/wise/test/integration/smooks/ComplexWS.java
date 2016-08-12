@@ -28,11 +28,11 @@ import javax.jws.WebService;
 
 import org.jboss.wise.test.integration.smooks.pojo.serverside.ComplexObject;
 
-@WebService( name = "ComplexWS", targetNamespace = "http://wise/samples/complexWS" )
+@WebService(name = "ComplexWS", targetNamespace = "http://wise/samples/complexWS")
 public class ComplexWS {
     @WebMethod
-    @WebResult( name = "result" )
-    public ComplexObject ping( @WebParam( name = "complexObject" ) ComplexObject complexObject ) {
+    @WebResult(name = "result")
+    public ComplexObject ping(@WebParam(name = "complexObject") ComplexObject complexObject) {
 
         String greeting = "Ping with " + complexObject.toString();
         System.out.println(greeting);

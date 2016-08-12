@@ -31,7 +31,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  */
 public class WiseEntityResolver extends JBossEntityResolver {
@@ -41,72 +41,70 @@ public class WiseEntityResolver extends JBossEntityResolver {
     private final Connection connection;
 
     public WiseEntityResolver(Connection connection) {
-	super();
-	this.connection = connection;
+        super();
+        this.connection = connection;
     }
-    
+
     @Override
-    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
-    {
-       if(log.isTraceEnabled()) log.trace("resolveEntity: [pub=" + publicId + ",sysid=" + systemId + "]");
-       InputSource inputSource = super.resolveEntity(publicId, systemId);
+    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+        if (log.isTraceEnabled())
+            log.trace("resolveEntity: [pub=" + publicId + ",sysid=" + systemId + "]");
+        InputSource inputSource = super.resolveEntity(publicId, systemId);
 
-       if (inputSource == null)
-          inputSource = resolveSystemIDAsURL(systemId, log.isTraceEnabled());
+        if (inputSource == null)
+            inputSource = resolveSystemIDAsURL(systemId, log.isTraceEnabled());
 
-       if (inputSource == null)
-       {
-          if (log.isDebugEnabled())
-             log.debug("Cannot resolve entity: [pub=" + publicId + ",sysid=" + systemId + "]");
-       }
-       
-       return inputSource;
+        if (inputSource == null) {
+            if (log.isDebugEnabled())
+                log.debug("Cannot resolve entity: [pub=" + publicId + ",sysid=" + systemId + "]");
+        }
+
+        return inputSource;
     }
 
     /**
-     * Use a ResourceURL to access the resource. This method should be protected
-     * in the super class.
-     * 
-     * @param id  string
-     * @param trace  boolean
+     * Use a ResourceURL to access the resource. This method should be protected in the super class.
+     *
+     * @param id string
+     * @param trace boolean
      * @return an InputSource
      */
     protected InputSource resolveSystemIDAsURL(String id, boolean trace) {
-	if (id == null)
-	    return null;
+        if (id == null)
+            return null;
 
-	if (trace)
-	    log.trace("resolveIDAsResourceURL, id=" + id);
+        if (trace)
+            log.trace("resolveIDAsResourceURL, id=" + id);
 
-	InputSource inputSource = null;
+        InputSource inputSource = null;
 
-	// Try to use the systemId as a URL to the schema
-	try {
-	    if (trace)
-		log.trace("Trying to resolve id as a URL");
+        // Try to use the systemId as a URL to the schema
+        try {
+            if (trace)
+                log.trace("Trying to resolve id as a URL");
 
-	    URL url = new URL(id);
-	    if (url.getProtocol().equalsIgnoreCase("file") == false)
-		log.warn("Trying to resolve id as a non-file URL: " + id);
+            URL url = new URL(id);
+            if (url.getProtocol().equalsIgnoreCase("file") == false)
+                log.warn("Trying to resolve id as a non-file URL: " + id);
 
-	    // InputStream ins = new ResourceURL(url).openStream();
-	    InputStream ins = connection.open(url);
-	    if (ins != null) {
-		inputSource = new InputSource(ins);
-		inputSource.setSystemId(id);
-	    } else {
-		log.warn("Cannot load id as URL: " + id);
-	    }
+            // InputStream ins = new ResourceURL(url).openStream();
+            InputStream ins = connection.open(url);
+            if (ins != null) {
+                inputSource = new InputSource(ins);
+                inputSource.setSystemId(id);
+            } else {
+                log.warn("Cannot load id as URL: " + id);
+            }
 
-	    if (trace)
-		log.trace("Resolved id as a URL");
-	} catch (MalformedURLException ignored) {
-	    if (trace)
-		log.trace("id is not a url: " + id, ignored);
-	} catch (IOException e) {
-	    if (trace)
-		log.trace("Failed to obtain URL.InputStream from id: " + id, e);
-	}
-	return inputSource;
+            if (trace)
+                log.trace("Resolved id as a URL");
+        } catch (MalformedURLException ignored) {
+            if (trace)
+                log.trace("id is not a url: " + id, ignored);
+        } catch (IOException e) {
+            if (trace)
+                log.trace("Failed to obtain URL.InputStream from id: " + id, e);
+        }
+        return inputSource;
     }
 }

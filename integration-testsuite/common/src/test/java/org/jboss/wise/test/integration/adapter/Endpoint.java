@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @WebService(targetNamespace = "http://www.jboss.org/wise/adapter/", name = "Endpoint")
-@XmlSeeAlso({ObjectFactory.class})
+@XmlSeeAlso({ ObjectFactory.class })
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface Endpoint {
 
@@ -39,7 +39,5 @@ public interface Endpoint {
     @XmlJavaTypeAdapter(value = HexBinaryAdapter.class)
     @WebMethod
     public byte[] getData(
-        @WebParam(partName = "dataQuery", mode = WebParam.Mode.INOUT, name = "dataQuery")
-        javax.xml.ws.Holder<DataQuery> dataQuery
-    );
+            @WebParam(partName = "dataQuery", mode = WebParam.Mode.INOUT, name = "dataQuery") javax.xml.ws.Holder<DataQuery> dataQuery);
 }

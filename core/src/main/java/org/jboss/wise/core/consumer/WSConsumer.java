@@ -35,15 +35,12 @@ import org.jboss.wise.core.exception.WiseRuntimeException;
 public abstract class WSConsumer {
 
     private boolean keepSource;
+
     private boolean verbose;
 
-    public abstract List<String> importObjectFromWsdl( String wsdlURL,
-                                                       File outputDir,
-                                                       File sourceDir,
-                                                       String targetPackage,
-                                                       List<File> bindingFiles,
-                                                       PrintStream messageStream,
-                                                       File catalog ) throws MalformedURLException, WiseRuntimeException;
+    public abstract List<String> importObjectFromWsdl(String wsdlURL, File outputDir, File sourceDir, String targetPackage,
+            List<File> bindingFiles, PrintStream messageStream, File catalog) throws MalformedURLException,
+            WiseRuntimeException;
 
     /**
      * @return verbose
@@ -55,7 +52,7 @@ public abstract class WSConsumer {
     /**
      * @param verbose Sets verbose to the specified value.
      */
-    public final void setVerbose( boolean verbose ) {
+    public final void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
 
@@ -69,31 +66,30 @@ public abstract class WSConsumer {
     /**
      * @param keepSource Sets keepSource to the specified value.
      */
-    public final void setKeepSource( boolean keepSource ) {
+    public final void setKeepSource(boolean keepSource) {
         this.keepSource = keepSource;
     }
 
     /*
      * Gets an array containing the generated class names
      *
-     * @param outputDir 
+     * @param outputDir
+     *
      * @return the List of of generated className qualifiedName
      */
-    public List<String> getClassNames( File outputDir,
-                                       String targetPackage ) throws WiseRuntimeException {
+    public List<String> getClassNames(File outputDir, String targetPackage) throws WiseRuntimeException {
         if (targetPackage == null || targetPackage.trim().length() == 0) {
             return this.getClassNames(outputDir);
         }
 
         List<String> classNames = new LinkedList<String>();
         FilenameFilter filter = new FilenameFilter() {
-            public boolean accept( File dir,
-                                   String name ) {
+            public boolean accept(File dir, String name) {
                 return name.endsWith(".class");
             }
         };
         File scanDir = new File(new StringBuilder(outputDir.getAbsolutePath()).append(File.separator)
-        	.append(targetPackage.replaceAll("\\.", File.separator)).append(File.separator).toString());
+                .append(targetPackage.replaceAll("\\.", File.separator)).append(File.separator).toString());
         String[] children = scanDir.list(filter);
         if (children != null) {
             for (int i = 0; i < children.length; i++) {
@@ -107,7 +103,7 @@ public abstract class WSConsumer {
 
     }
 
-    public List<String> getClassNames( File outputDir ) throws WiseRuntimeException {
+    public List<String> getClassNames(File outputDir) throws WiseRuntimeException {
         List<String> classNames = this.getClassNames(outputDir, outputDir);
         if (classNames.size() == 0) {
             throw new WiseRuntimeException("No classs found in dir " + outputDir + " for unspecified targetPackage");
@@ -115,8 +111,7 @@ public abstract class WSConsumer {
         return classNames;
     }
 
-    private List<String> getClassNames( File outputDir,
-                                        File parentDir ) {
+    private List<String> getClassNames(File outputDir, File parentDir) {
         LinkedList<String> classNames = new LinkedList<String>();
         File[] files = parentDir.listFiles();
 

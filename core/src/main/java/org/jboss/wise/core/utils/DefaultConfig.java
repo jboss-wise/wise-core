@@ -23,9 +23,9 @@ package org.jboss.wise.core.utils;
 
 /**
  * Enumeration containig default configs
- * 
+ *
  * TODO: move here all default configs.
- * 
+ *
  * @author Stefano Maestri stefano.maestri@javalinux.it
  */
 public enum DefaultConfig {
@@ -34,15 +34,15 @@ public enum DefaultConfig {
     Object value;
 
     private DefaultConfig(Object value) {
-	this.value = value;
+        this.value = value;
     }
 
     public int getIntValue() {
-	return Integer.parseInt(value.toString());
+        return Integer.parseInt(value.toString());
     }
 
     public Object getValue() {
-	return value;
+        return value;
     }
 
 }

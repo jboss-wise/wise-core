@@ -23,15 +23,14 @@ package org.jboss.wise.core.exception;
 
 /**
  * Exception throws when something went wrong during a mapping operation.
- * 
+ *
  * @author stefano.maestri@javalinux.it
  */
 public class MappingException extends Exception {
 
     private static final long serialVersionUID = 5830827412437161462L;
 
-    public MappingException( String message,
-                             Throwable cause ) {
+    public MappingException(String message, Throwable cause) {
         super(message, cause);
     }
 

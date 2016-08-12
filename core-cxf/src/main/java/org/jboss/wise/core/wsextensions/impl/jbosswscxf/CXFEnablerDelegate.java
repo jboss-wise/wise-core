@@ -31,40 +31,40 @@ import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.jboss.wise.core.wsextensions.DefaultEnablerDelegate;
 
 /**
- * CXF version of EnablerDelegate 
- * 
+ * CXF version of EnablerDelegate
+ *
  * @author alessio.soldano@jboss.com
  */
 @Immutable
 public class CXFEnablerDelegate extends DefaultEnablerDelegate {
 
     public CXFEnablerDelegate() {
-	super();
+        super();
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.EnablerDelegate#visitWSAddressing(Object)
      */
     public void visitWSAddressing(Object endpointInstance) throws UnsupportedOperationException {
-	Bus bus = BusFactory.getThreadDefaultBus();
-	Client client = ClientProxy.getClient(endpointInstance);
-	WSAddressingFeature feature = new WSAddressingFeature();
-	feature.initialize(client, bus);
+        Bus bus = BusFactory.getThreadDefaultBus();
+        Client client = ClientProxy.getClient(endpointInstance);
+        WSAddressingFeature feature = new WSAddressingFeature();
+        feature.initialize(client, bus);
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.EnablerDelegate#visitWSRM(Object)
      */
     public void visitWSRM(Object endpointInstance) throws UnsupportedOperationException {
-	throw new UnsupportedOperationException("Not yet implemented");
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public void visitWSSecurity(Object endpointInstance) throws UnsupportedOperationException, IllegalStateException {
-	throw new UnsupportedOperationException("Not yet implemented");
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }

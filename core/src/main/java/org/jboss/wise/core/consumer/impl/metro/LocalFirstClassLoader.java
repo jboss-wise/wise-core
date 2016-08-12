@@ -25,14 +25,12 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class LocalFirstClassLoader extends URLClassLoader {
-    public LocalFirstClassLoader( URL[] urls,
-                                  ClassLoader parent ) {
+    public LocalFirstClassLoader(URL[] urls, ClassLoader parent) {
         super(urls, parent);
     }
 
     @Override
-    public synchronized Class<?> loadClass( String name,
-                                            boolean resolve ) throws ClassNotFoundException {
+    public synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         Class<?> claz = findLoadedClass(name);
         if (claz == null) {
             try {

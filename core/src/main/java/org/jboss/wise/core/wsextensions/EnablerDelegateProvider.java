@@ -23,21 +23,20 @@ package org.jboss.wise.core.wsextensions;
 
 import org.jboss.wise.core.client.SpiLoader;
 
-
 /**
  * Provides instances of the currently configured EnablerDelegate
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 28-Aug-2010
  *
  */
 public class EnablerDelegateProvider {
-    
-    public static EnablerDelegate newEnablerDelegate(String configFile, String configName)
-    {
-	EnablerDelegate ed = (EnablerDelegate)SpiLoader.loadService(EnablerDelegate.class.getName(), DefaultEnablerDelegate.class.getName());
-	ed.setConfigFile(configFile);
-	ed.setConfigName(configName);
-	return ed;
+
+    public static EnablerDelegate newEnablerDelegate(String configFile, String configName) {
+        EnablerDelegate ed = (EnablerDelegate) SpiLoader.loadService(EnablerDelegate.class.getName(),
+                DefaultEnablerDelegate.class.getName());
+        ed.setConfigFile(configFile);
+        ed.setConfigName(configName);
+        return ed;
     }
 }

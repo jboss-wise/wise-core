@@ -26,14 +26,14 @@ import org.jboss.wise.core.client.impl.reflection.builder.ReflectionBasedWSDynam
 
 /**
  * A cxf specific version of the wise-core ReflectionBasedWSDynamicClientBuilder
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 10-Jun-2013
  */
 public class CXFDynamicClientBuilder extends ReflectionBasedWSDynamicClientBuilder {
-    
+
     @Override
     protected WSDynamicClient createClient() {
-	return new CXFDynamicClient(this);
+        return new CXFDynamicClient(this);
     }
 }

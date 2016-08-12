@@ -32,98 +32,82 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.jboss.logging.Logger;
 
 /**
- * A mock registration service that exercises the use of complex types, arrays, inheritence,
- * and exceptions.
- * 
+ * A mock registration service that exercises the use of complex types, arrays, inheritence, and exceptions.
+ *
  */
 @WebService(endpointInterface = "org.jboss.wise.test.integration.complex.Registration", targetNamespace = "http://complex.jaxws.ws.test.jboss.org")
-public class RegistrationServiceImpl implements Registration
-{
-   // Provide logging
-   private static Logger log = Logger.getLogger(RegistrationServiceImpl.class);
+public class RegistrationServiceImpl implements Registration {
+    // Provide logging
+    private static Logger log = Logger.getLogger(RegistrationServiceImpl.class);
 
-   public long register(Customer customer, Object when) throws AlreadyRegisteredFault_Exception, ValidationFault_Exception
-   {
-      Name name = customer.getName();
-      if (name == null)
-      {
-         ValidationFault fault = new ValidationFault();
-         fault.getFailedCustomers().add(customer.getId());
-         throw new ValidationFault_Exception("No name!", fault);
-      }
+    public long register(Customer customer, Object when) throws AlreadyRegisteredFault_Exception, ValidationFault_Exception {
+        Name name = customer.getName();
+        if (name == null) {
+            ValidationFault fault = new ValidationFault();
+            fault.getFailedCustomers().add(customer.getId());
+            throw new ValidationFault_Exception("No name!", fault);
+        }
 
-      if ("al".equalsIgnoreCase(name.getFirstName()) && "capone".equalsIgnoreCase(name.getLastName()))
-      {
-         AlreadyRegisteredFault fault = new AlreadyRegisteredFault();
-         fault.setExistingId(456);
-         throw new AlreadyRegisteredFault_Exception("Al Capone is already registered", fault);
-      }
+        if ("al".equalsIgnoreCase(name.getFirstName()) && "capone".equalsIgnoreCase(name.getLastName())) {
+            AlreadyRegisteredFault fault = new AlreadyRegisteredFault();
+            fault.setExistingId(456);
+            throw new AlreadyRegisteredFault_Exception("Al Capone is already registered", fault);
+        }
 
-      for (Customer c : customer.getReferredCustomers())
-      {
-         log.info("Refered customer: " + c.getName());
-      }
+        for (Customer c : customer.getReferredCustomers()) {
+            log.info("Refered customer: " + c.getName());
+        }
 
-      log.info("registering customer: " + customer);
-      return customer.getId();
-   }
-   
-   public void echo(javax.xml.ws.Holder<org.jboss.wise.test.integration.complex.Customer> customer) {
-      log.info("customer: " + customer);
-   }
+        log.info("registering customer: " + customer);
+        return customer.getId();
+    }
 
-   public List<Long> bulkRegister(List<Customer> customers, Object when) throws AlreadyRegisteredFault_Exception, ValidationFault_Exception
-   {
-      List<Long> registered = new ArrayList<Long>(customers.size());
-      List<Long> failed = new ArrayList<Long>(customers.size());
+    public void echo(javax.xml.ws.Holder<org.jboss.wise.test.integration.complex.Customer> customer) {
+        log.info("customer: " + customer);
+    }
 
-      for (Customer c : customers)
-      {
-         try
-         {
-            registered.add(register(c, when));
-         }
-         catch (ValidationFault_Exception e)
-         {
-            failed.add(e.getFaultInfo().getFailedCustomers().get(0));
-         }
-      }
+    public List<Long> bulkRegister(List<Customer> customers, Object when) throws AlreadyRegisteredFault_Exception,
+            ValidationFault_Exception {
+        List<Long> registered = new ArrayList<Long>(customers.size());
+        List<Long> failed = new ArrayList<Long>(customers.size());
 
-      if (failed.size() > 0)
-      {
-         ValidationFault fault = new ValidationFault();
-         fault.getFailedCustomers().addAll(failed);
-         throw new ValidationFault_Exception("Validation errors on bulk registering customers", fault);
-      }
+        for (Customer c : customers) {
+            try {
+                registered.add(register(c, when));
+            } catch (ValidationFault_Exception e) {
+                failed.add(e.getFaultInfo().getFailedCustomers().get(0));
+            }
+        }
 
-      return registered;
-   }
+        if (failed.size() > 0) {
+            ValidationFault fault = new ValidationFault();
+            fault.getFailedCustomers().addAll(failed);
+            throw new ValidationFault_Exception("Validation errors on bulk registering customers", fault);
+        }
 
-   public boolean registerForInvoice(InvoiceCustomer invoiceCustomer) throws AlreadyRegisteredFault_Exception, ValidationFault_Exception
-   {
-      log.info("registerForInvoice: " + invoiceCustomer.getCycleDay());
-      return true;
-   }
+        return registered;
+    }
 
-   public Statistics getStatistics(Customer customer)
-   {
-      Statistics stats = new Statistics();
-      stats.setHits(10);
-      stats.setActivationTime(getCalendar());
-      return stats;
-   }
-   
-   private XMLGregorianCalendar getCalendar() 
-   {
-      try
-      {
-         DatatypeFactory calFactory = DatatypeFactory.newInstance();
-         XMLGregorianCalendar cal = calFactory.newXMLGregorianCalendar(2002, 4, 5, 0, 0, 0, 0, 0);
-         return cal;
-      }
-      catch (DatatypeConfigurationException e)
-      {
-         throw new RuntimeException(e);
-      }
-   }
+    public boolean registerForInvoice(InvoiceCustomer invoiceCustomer) throws AlreadyRegisteredFault_Exception,
+            ValidationFault_Exception {
+        log.info("registerForInvoice: " + invoiceCustomer.getCycleDay());
+        return true;
+    }
+
+    public Statistics getStatistics(Customer customer) {
+        Statistics stats = new Statistics();
+        stats.setHits(10);
+        stats.setActivationTime(getCalendar());
+        return stats;
+    }
+
+    private XMLGregorianCalendar getCalendar() {
+        try {
+            DatatypeFactory calFactory = DatatypeFactory.newInstance();
+            XMLGregorianCalendar cal = calFactory.newXMLGregorianCalendar(2002, 4, 5, 0, 0, 0, 0, 0);
+            return cal;
+        } catch (DatatypeConfigurationException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

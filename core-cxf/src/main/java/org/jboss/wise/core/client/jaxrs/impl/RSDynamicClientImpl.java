@@ -70,16 +70,13 @@ public class RSDynamicClientImpl implements RSDynamicClient {
 
     /**
      * Invoke JAXRS service.
-     * 
-     * @param resourceURI   string
+     *
+     * @param resourceURI string
      * @param produceMediaTypes default to "* / *"
      * @param consumeMediaTypes default to "* / *"
-     * @param httpMethod    http method
+     * @param httpMethod http method
      */
-    public RSDynamicClientImpl( String resourceURI,
-                                String produceMediaTypes,
-                                String consumeMediaTypes,
-                                HttpMethod httpMethod ) {
+    public RSDynamicClientImpl(String resourceURI, String produceMediaTypes, String consumeMediaTypes, HttpMethod httpMethod) {
         this.resourceURI = resourceURI;
         this.produceMediaTypes = produceMediaTypes;
         this.consumeMediaTypes = consumeMediaTypes;
@@ -88,11 +85,8 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         this.httpClient = new HttpClient();
     }
 
-    public RSDynamicClientImpl( String resourceURI,
-                                String produceMediaTypes,
-                                String consumeMediaTypes,
-                                HttpMethod httpMethod,
-                                Map<String, String> requestHeaders ) {
+    public RSDynamicClientImpl(String resourceURI, String produceMediaTypes, String consumeMediaTypes, HttpMethod httpMethod,
+            Map<String, String> requestHeaders) {
         this.resourceURI = resourceURI;
         this.produceMediaTypes = produceMediaTypes;
         this.consumeMediaTypes = consumeMediaTypes;
@@ -126,20 +120,17 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         return consumeMediaTypes;
     }
 
-    public InvocationResult invoke( Map<String, Object> inputObjects,
-                                    WiseMapper mapper ) {
+    public InvocationResult invoke(Map<String, Object> inputObjects, WiseMapper mapper) {
         // NOT SUPPORTED
         // transform inputObjects to String or InputStream using WiseMapper?
         return null;
     }
 
-    public InvocationResult invoke( InputStream request,
-                                    WiseMapper mapper ) {
+    public InvocationResult invoke(InputStream request, WiseMapper mapper) {
         return invoke(new InputStreamRequestEntity(request), mapper);
     }
 
-    public InvocationResult invoke( String request,
-                                    WiseMapper mapper ) {
+    public InvocationResult invoke(String request, WiseMapper mapper) {
         RequestEntity requestEntity = null;
         try {
             requestEntity = new StringRequestEntity(request, produceMediaTypes, "UTF-8");
@@ -149,13 +140,11 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         return invoke(requestEntity, mapper);
     }
 
-    public InvocationResult invoke( byte[] request,
-                                    WiseMapper mapper ) {
+    public InvocationResult invoke(byte[] request, WiseMapper mapper) {
         return invoke(new ByteArrayRequestEntity(request), mapper);
     }
 
-    public InvocationResult invoke( File request,
-                                    WiseMapper mapper ) {
+    public InvocationResult invoke(File request, WiseMapper mapper) {
         return invoke(new FileRequestEntity(request, produceMediaTypes), mapper);
     }
 
@@ -164,8 +153,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         return invoke(requestEntity, null);
     }
 
-    public InvocationResult invoke( RequestEntity requestEntity,
-                                    WiseMapper mapper ) {
+    public InvocationResult invoke(RequestEntity requestEntity, WiseMapper mapper) {
         InvocationResult result = null;
         Map<String, Object> responseHolder = new HashMap<String, Object>();
 
@@ -247,7 +235,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         return result;
     }
 
-    private void setRequestHeaders( HttpMethodBase method ) {
+    private void setRequestHeaders(HttpMethodBase method) {
         if (produceMediaTypes != null) {
             method.setRequestHeader("Content-Type", produceMediaTypes);
         }

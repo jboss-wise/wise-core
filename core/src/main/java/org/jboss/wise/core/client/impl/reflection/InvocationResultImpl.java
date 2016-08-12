@@ -33,10 +33,9 @@ import org.jboss.wise.core.exception.MappingException;
 import org.jboss.wise.core.mapper.WiseMapper;
 
 /**
- * Holds the webservice's invocation result's data. Can apply a mapping to
- * custom object using a WiseMapper passed to
+ * Holds the webservice's invocation result's data. Can apply a mapping to custom object using a WiseMapper passed to
  * {@link #getMapRequestAndResult(WiseMapper, Map)} methods
- * 
+ *
  * @author stefano.maestri@javalinux.it
  */
 @Immutable
@@ -46,63 +45,63 @@ public class InvocationResultImpl implements InvocationResult {
     private final Map<String, Object> originalObjects;
 
     /**
-     * @param name  string
-	  * @param resultType type
-     * @param value  object
-     * @param results   map of objects
+     * @param name string
+     * @param resultType type
+     * @param value object
+     * @param results map of objects
      */
     public InvocationResultImpl(String name, Type resultType, Object value, Map<String, Object> results) {
 
-	this.originalObjects = new HashMap<String, Object>();
-	if (results == null) {
-	    results = Collections.emptyMap();
-	}
-	this.originalObjects.putAll(results);
-	if (name != null && name.trim().length() != 0) {
-	    this.originalObjects.put(name, value);
-	    if (resultType != null) {
-		this.originalObjects.put(WSMethod.TYPE_PREFIX + WSMethod.RESULT, resultType);
-	    }
-	}
+        this.originalObjects = new HashMap<String, Object>();
+        if (results == null) {
+            results = Collections.emptyMap();
+        }
+        this.originalObjects.putAll(results);
+        if (name != null && name.trim().length() != 0) {
+            this.originalObjects.put(name, value);
+            if (resultType != null) {
+                this.originalObjects.put(WSMethod.TYPE_PREFIX + WSMethod.RESULT, resultType);
+            }
+        }
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.InvocationResult#getMapRequestAndResult(WiseMapper, Map)
      */
     public Map<String, Object> getMapRequestAndResult(WiseMapper mapper, Map<String, Object> inputMap) throws MappingException {
 
-	if (inputMap == null) {
-	    inputMap = new HashMap<String, Object>();
-	}
-	inputMap.put(WSMethod.RESULTS, originalObjects);
-	Map<String, Object> mappedResult = new HashMap<String, Object>();
-	if (mapper != null) {
-	    mappedResult.putAll(mapper.applyMapping(inputMap));
-	} else {
-	    mappedResult.putAll(inputMap);
-	}
-	return mappedResult;
+        if (inputMap == null) {
+            inputMap = new HashMap<String, Object>();
+        }
+        inputMap.put(WSMethod.RESULTS, originalObjects);
+        Map<String, Object> mappedResult = new HashMap<String, Object>();
+        if (mapper != null) {
+            mappedResult.putAll(mapper.applyMapping(inputMap));
+        } else {
+            mappedResult.putAll(inputMap);
+        }
+        return mappedResult;
 
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.InvocationResult#getMappedResult(org.jboss.wise.core.mapper.WiseMapper)
      */
     public Map<String, Object> getMappedResult(WiseMapper mapper) throws MappingException {
-	return this.getMapRequestAndResult(mapper, null);
+        return this.getMapRequestAndResult(mapper, null);
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.InvocationResult#getResult()
      */
     public Map<String, Object> getResult() {
-	return originalObjects;
+        return originalObjects;
     }
 
 }

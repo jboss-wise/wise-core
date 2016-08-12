@@ -23,7 +23,7 @@ package org.jboss.wise.core.exception;
 
 /**
  * Exception thrown if something goes wrong during ws invocation
- * 
+ *
  * @author stefano.maestri@javalinux.it
  */
 public class InvocationException extends Exception {
@@ -31,7 +31,7 @@ public class InvocationException extends Exception {
     private static final long serialVersionUID = 5648725651299619979L;
 
     public InvocationException(String message, Throwable cause) {
-	super(message, cause);
+        super(message, cause);
     }
 
 }

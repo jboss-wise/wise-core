@@ -58,15 +58,13 @@ public class WSAddressingIntegrationTest extends WiseTest {
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
-        archive
-           .addClass(org.jboss.wise.test.integration.wsaddressing.HelloImpl.class)
-           .addClass(org.jboss.wise.test.integration.wsaddressing.Hello.class)
-           .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsa/Hello.wsdl"))
-           .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsa/test.wsdl"))
-           .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/wsa/web.xml"));
+        archive.addClass(org.jboss.wise.test.integration.wsaddressing.HelloImpl.class)
+                .addClass(org.jboss.wise.test.integration.wsaddressing.Hello.class)
+                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsa/Hello.wsdl"))
+                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsa/test.wsdl"))
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/wsa/web.xml"));
         return archive;
     }
-
 
     @Test
     @RunAsClient
@@ -75,8 +73,8 @@ public class WSAddressingIntegrationTest extends WiseTest {
         URL wsdlURL = new URL(getServerHostAndPort() + "/wsa/Hello?wsdl");
 
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-            .toString()).build();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true)
+                .wsdlURL(wsdlURL.toString()).build();
         WSMethod method = client.getWSMethod("HelloService", "HelloImplPort", "echoUserType");
         WSEndpoint wsEndpoint = method.getEndpoint();
 
@@ -90,6 +88,7 @@ public class WSAddressingIntegrationTest extends WiseTest {
         Map<String, Object> results = (Map<String, Object>) result.getMapRequestAndResult(null, null).get("results");
         client.close();
         Assert.assertEquals("Hello WSAddressing", results.get("result"));
-        Assert.assertTrue("Could not find WS-A headers in exchanged messages!", baos.toString().contains("http://www.w3.org/2005/08/addressing"));
+        Assert.assertTrue("Could not find WS-A headers in exchanged messages!",
+                baos.toString().contains("http://www.w3.org/2005/08/addressing"));
     }
 }

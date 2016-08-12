@@ -1,4 +1,3 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import java.util.ArrayList;
@@ -9,12 +8,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Customer complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for Customer complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="Customer">
  *   &lt;complexContent>
@@ -30,20 +30,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Customer", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = {
-    "address",
-    "contactNumbers",
-    "id",
-    "name",
-    "referredCustomers"
-})
-@XmlSeeAlso({
-    InvoiceCustomer.class
-})
+@XmlType(name = "Customer", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = { "address", "contactNumbers",
+        "id", "name", "referredCustomers" })
+@XmlSeeAlso({ InvoiceCustomer.class })
 public class Customer {
 
     @XmlElement(required = true, nillable = true)
@@ -58,11 +51,9 @@ public class Customer {
 
     /**
      * Gets the value of the address property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
+     *
+     * @return possible object is {@link Address }
+     *
      */
     public Address getAddress() {
         return address;
@@ -70,11 +61,9 @@ public class Customer {
 
     /**
      * Sets the value of the address property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
+     *
+     * @param value allowed object is {@link Address }
+     *
      */
     public void setAddress(Address value) {
         this.address = value;
@@ -82,25 +71,24 @@ public class Customer {
 
     /**
      * Gets the value of the contactNumbers property.
-     * 
+     *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the contactNumbers property.
-     * 
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for the
+     * contactNumbers property.
+     *
      * <p>
      * For example, to add a new item, do as follows:
+     *
      * <pre>
-     *    getContactNumbers().add(newItem);
+     * getContactNumbers().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PhoneNumber }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link PhoneNumber }
+     *
+     *
      */
     public List<PhoneNumber> getContactNumbers() {
         if (contactNumbers == null) {
@@ -111,7 +99,7 @@ public class Customer {
 
     /**
      * Gets the value of the id property.
-     * 
+     *
      */
     public long getId() {
         return id;
@@ -119,7 +107,7 @@ public class Customer {
 
     /**
      * Sets the value of the id property.
-     * 
+     *
      */
     public void setId(long value) {
         this.id = value;
@@ -127,11 +115,9 @@ public class Customer {
 
     /**
      * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Name }
-     *     
+     *
+     * @return possible object is {@link Name }
+     *
      */
     public Name getName() {
         return name;
@@ -139,11 +125,9 @@ public class Customer {
 
     /**
      * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Name }
-     *     
+     *
+     * @param value allowed object is {@link Name }
+     *
      */
     public void setName(Name value) {
         this.name = value;
@@ -151,25 +135,24 @@ public class Customer {
 
     /**
      * Gets the value of the referredCustomers property.
-     * 
+     *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the referredCustomers property.
-     * 
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for the
+     * referredCustomers property.
+     *
      * <p>
      * For example, to add a new item, do as follows:
+     *
      * <pre>
-     *    getReferredCustomers().add(newItem);
+     * getReferredCustomers().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Customer }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link Customer }
+     *
+     *
      */
     public List<Customer> getReferredCustomers() {
         if (referredCustomers == null) {

@@ -58,10 +58,9 @@ public class BasicNoCacheNoClientCacheStressTest extends WiseTest {
     @Deployment
     public static WebArchive createDeploymentA() {
         // retrieve a pre-built archive
-        WebArchive archive = ShrinkWrap
-            .create(ZipImporter.class, WAR + ".war")
-            .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + WAR + ".war"))
-            .as(WebArchive.class);
+        WebArchive archive = ShrinkWrap.create(ZipImporter.class, WAR + ".war")
+                .importFrom(new File(getTestResourcesDir() + "/../../../target/test-classes/" + WAR + ".war"))
+                .as(WebArchive.class);
         return archive;
     }
 

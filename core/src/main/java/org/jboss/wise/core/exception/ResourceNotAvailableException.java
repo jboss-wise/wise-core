@@ -23,21 +23,20 @@ package org.jboss.wise.core.exception;
 
 /**
  * Exception to be thrown when a give resource is not found/available.
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 07-May-2009
  */
 public class ResourceNotAvailableException extends Exception {
-    
+
     private static final long serialVersionUID = 5563093692694234297L;
 
-    public ResourceNotAvailableException( String message,
-                             Throwable cause ) {
+    public ResourceNotAvailableException(String message, Throwable cause) {
         super(message, cause);
     }
-    
+
     public ResourceNotAvailableException(String message) {
-	super(message);
+        super(message);
     }
 
 }

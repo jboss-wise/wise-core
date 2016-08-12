@@ -26,8 +26,9 @@ import net.jcip.annotations.ThreadSafe;
 import org.jboss.wise.core.exception.MappingException;
 
 /**
- * It' a simple interface implemented by any mapper used within wise-core requiring a single method {@link #applyMapping(Object)}
- * 
+ * It' a simple interface implemented by any mapper used within wise-core requiring a single method
+ * {@link #applyMapping(Object)}
+ *
  * @author stefano.maestri@javalinux.it
  */
 @ThreadSafe
@@ -35,12 +36,12 @@ public interface WiseMapper {
 
     /**
      * apply this mapping to original object
-     * 
+     *
      * @param originalObjects object
-     * @return the mapped object in a Map&lt;String,Object&gt;. Keys of this map normally represent symbolic name of mapped Object. For
-     *         JAXRS conventional key used for standard key/value pairs are "ContentType" and "JAXRSStream"
-     * @throws MappingException  mapping issue
+     * @return the mapped object in a Map&lt;String,Object&gt;. Keys of this map normally represent symbolic name of mapped
+     *         Object. For JAXRS conventional key used for standard key/value pairs are "ContentType" and "JAXRSStream"
+     * @throws MappingException mapping issue
      */
-    public Map<String, Object> applyMapping( Object originalObjects ) throws MappingException;
+    public Map<String, Object> applyMapping(Object originalObjects) throws MappingException;
 
 }

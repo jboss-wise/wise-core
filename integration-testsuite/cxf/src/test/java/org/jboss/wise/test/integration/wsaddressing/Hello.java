@@ -27,20 +27,18 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 23-Dic-2008
  *
  */
-@WebService( name = "Hello", targetNamespace = "http://org.jboss/wise/wsaddressing" )
-@SOAPBinding( style = SOAPBinding.Style.RPC )
+@WebService(name = "Hello", targetNamespace = "http://org.jboss/wise/wsaddressing")
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface Hello {
 
     @WebMethod
-    @WebResult( partName = "return" )
-    public String echoUserType( @WebParam( name = "user", partName = "user" )
-    String user );
+    @WebResult(partName = "return")
+    public String echoUserType(@WebParam(name = "user", partName = "user") String user);
 
 }
