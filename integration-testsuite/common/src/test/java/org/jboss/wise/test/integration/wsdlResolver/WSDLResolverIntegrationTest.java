@@ -22,7 +22,7 @@
 package org.jboss.wise.test.integration.wsdlResolver;
 
 import net.jcip.annotations.Immutable;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;

@@ -31,8 +31,8 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger.Level;
+import org.jboss.logging.Logger;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
@@ -61,7 +61,7 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
     public LoggingHandler() {
 	outputStream = System.out;
 	logger = null;
-	level = Level.ALL;
+	level = Level.TRACE;
     }
 
     /**
@@ -73,7 +73,7 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
     public LoggingHandler(PrintStream outStream) {
 	this.outputStream = outStream;
 	logger = null;
-	level = Level.ALL;
+	level = Level.TRACE;
     }
 
     public LoggingHandler(Logger logger, Level level) {

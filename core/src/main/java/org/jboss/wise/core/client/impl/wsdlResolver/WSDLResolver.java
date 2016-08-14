@@ -44,7 +44,7 @@ import javax.wsdl.extensions.schema.Schema;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.utils.IDGenerator;
 import org.jboss.ws.common.Constants;
 import org.jboss.ws.common.DOMUtils;

@@ -36,8 +36,8 @@ import net.jcip.annotations.ThreadSafe;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger.Level;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.BasicWSDynamicClient;
 import org.jboss.wise.core.client.builder.BasicWSDynamicClientBuilder;
 import org.jboss.wise.core.client.impl.reflection.BasicWSDynamicClientImpl;
