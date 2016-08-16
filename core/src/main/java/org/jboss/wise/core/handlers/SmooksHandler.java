@@ -45,7 +45,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wise.core.mapper.SmooksMapper;
@@ -139,6 +139,7 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
     }
 
     public boolean handleMessage(SOAPMessageContext smc) {
+
         SOAPMessage message = smc.getMessage();
         Boolean outboundProperty = (Boolean) smc.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
         if (outboundProperty == true && this.isOutBoundHandlingEnabled() == false) {
@@ -154,7 +155,6 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
             return false;
         }
         return true;
-
     }
 
     /* package */ExecutionContext initExecutionContext(String smooksReport) {

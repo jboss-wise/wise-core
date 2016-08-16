@@ -31,6 +31,7 @@ import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.common.utils.NullPrintStream;
+import org.jboss.logging.Logger;
 
 /**
  * A WSContractConsumer for CXF stack; this is basically a copy of the JBossWS-CXF 4.1.0 implementation, to early consume the

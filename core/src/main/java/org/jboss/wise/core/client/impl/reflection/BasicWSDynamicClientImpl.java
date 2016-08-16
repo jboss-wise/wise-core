@@ -40,7 +40,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.BasicWSDynamicClient;
 import org.jboss.wise.core.client.SpiLoader;
 import org.jboss.wise.core.client.WSDLParser;
@@ -61,7 +61,7 @@ import org.jboss.wise.core.utils.JavaUtils;
  */
 @ThreadSafe
 public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
-
+	 private final Logger log = Logger.getLogger(BasicWSDynamicClientImpl.class);
     @GuardedBy("this")
     private ClassLoader classLoader;
 
@@ -160,6 +160,7 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
      * @see org.jboss.wise.core.client.WSDynamicClient#processServices()
      */
     public synchronized Map<String, WSService> processServices() throws IllegalStateException {
+
         ClassLoader oldLoader = SecurityActions.getContextClassLoader();
         try {
             SecurityActions.setContextClassLoader(this.getClassLoader());
@@ -220,6 +221,7 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
     }
 
     public synchronized List<Class<?>> getObjectFactories() {
+
         List<Class<?>> list = new LinkedList<Class<?>>();
         for (String className : classNames) {
             if (className.endsWith("ObjectFactory")) {
