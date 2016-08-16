@@ -53,7 +53,7 @@ import org.milyn.Smooks;
 
 /**
  * This is the Wise core, i.e. the JAX-WS client that handles wsdl retrieval & parsing, invocations, etc.
- * 
+ *
  * @author Stefano Maestri, stefano.maestri@javalinux.it
  * @since
  */
@@ -75,34 +75,28 @@ public class WSDynamicClientImplTest {
     public void shouldInitClassLoader() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
 
-        when(consumerMock.importObjectFromWsdl(anyString(),
-                                               (File)anyObject(),
-                                               (File)anyObject(),
-                                               anyString(),
-                                               (List<File>)anyObject(),
-                                               (PrintStream)anyObject(),
-                                               (File)anyObject())).thenReturn(new LinkedList<String>());
+        when(
+                consumerMock.importObjectFromWsdl(anyString(), (File) anyObject(), (File) anyObject(), anyString(),
+                        (List<File>) anyObject(), (PrintStream) anyObject(), (File) anyObject())).thenReturn(
+                new LinkedList<String>());
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         File expectedOutPutDir = new File("target/temp/foo/classes");
         ClassLoader cl = client.getClassLoader();
         assertTrue("Expected an instance of URLClassLoader, but got " + cl.getClass(), cl instanceof URLClassLoader);
-        assertThat(((URLClassLoader)client.getClassLoader()).getURLs().length, is(1));
-        assertThat(((URLClassLoader)client.getClassLoader()).getURLs()[0], equalTo(expectedOutPutDir.toURI().toURL()));
+        assertThat(((URLClassLoader) client.getClassLoader()).getURLs().length, is(1));
+        assertThat(((URLClassLoader) client.getClassLoader()).getURLs()[0], equalTo(expectedOutPutDir.toURI().toURL()));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void shouldProcessServices() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
-        String[] classes = {"org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2"};
+        String[] classes = { "org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2" };
 
-        when(consumerMock.importObjectFromWsdl(anyString(),
-                                               (File)anyObject(),
-                                               (File)anyObject(),
-                                               anyString(),
-                                               (List<File>)anyObject(),
-                                               (PrintStream)anyObject(),
-                                               (File)anyObject())).thenReturn(Arrays.asList(classes));
+        when(
+                consumerMock.importObjectFromWsdl(anyString(), (File) anyObject(), (File) anyObject(), anyString(),
+                        (List<File>) anyObject(), (PrintStream) anyObject(), (File) anyObject())).thenReturn(
+                Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
 
         Map<String, WSService> services = client.processServices();
@@ -115,15 +109,12 @@ public class WSDynamicClientImplTest {
     @Test
     public void testGetMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
-        String[] classes = {"org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2"};
+        String[] classes = { "org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2" };
 
-        when(consumerMock.importObjectFromWsdl(anyString(),
-                                               (File)anyObject(),
-                                               (File)anyObject(),
-                                               anyString(),
-                                               (List<File>)anyObject(),
-                                               (PrintStream)anyObject(),
-                                               (File)anyObject())).thenReturn(Arrays.asList(classes));
+        when(
+                consumerMock.importObjectFromWsdl(anyString(), (File) anyObject(), (File) anyObject(), anyString(),
+                        (List<File>) anyObject(), (PrintStream) anyObject(), (File) anyObject())).thenReturn(
+                Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
 
         WSMethod wsMethod = client.getWSMethod("ServiceName1", "Port1", "testMethod");
@@ -131,52 +122,43 @@ public class WSDynamicClientImplTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test( expected = ResourceNotAvailableException.class )
+    @Test(expected = ResourceNotAvailableException.class)
     public void missingOperationShouldCaseExceptionThrownOnGetWSMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
-        String[] classes = {"org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2"};
+        String[] classes = { "org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2" };
 
-        when(consumerMock.importObjectFromWsdl(anyString(),
-                                               (File)anyObject(),
-                                               (File)anyObject(),
-                                               anyString(),
-                                               (List<File>)anyObject(),
-                                               (PrintStream)anyObject(),
-                                               (File)anyObject())).thenReturn(Arrays.asList(classes));
+        when(
+                consumerMock.importObjectFromWsdl(anyString(), (File) anyObject(), (File) anyObject(), anyString(),
+                        (List<File>) anyObject(), (PrintStream) anyObject(), (File) anyObject())).thenReturn(
+                Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         client.getWSMethod("ServiceName1", "Port1", "testWrongMethod");
     }
 
     @SuppressWarnings("unchecked")
-    @Test( expected = ResourceNotAvailableException.class )
+    @Test(expected = ResourceNotAvailableException.class)
     public void missingPortShouldCaseExceptionThrownOnGetWSMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
-        String[] classes = {"org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2"};
+        String[] classes = { "org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2" };
 
-        when(consumerMock.importObjectFromWsdl(anyString(),
-                                               (File)anyObject(),
-                                               (File)anyObject(),
-                                               anyString(),
-                                               (List<File>)anyObject(),
-                                               (PrintStream)anyObject(),
-                                               (File)anyObject())).thenReturn(Arrays.asList(classes));
+        when(
+                consumerMock.importObjectFromWsdl(anyString(), (File) anyObject(), (File) anyObject(), anyString(),
+                        (List<File>) anyObject(), (PrintStream) anyObject(), (File) anyObject())).thenReturn(
+                Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         client.getWSMethod("ServiceName1", "Port2", "testMethod");
     }
 
     @SuppressWarnings("unchecked")
-    @Test( expected = ResourceNotAvailableException.class )
+    @Test(expected = ResourceNotAvailableException.class)
     public void missingServiceShouldCaseExceptionThrownOnGetWSMethod() throws Exception {
         WSConsumer consumerMock = mock(WSConsumer.class);
-        String[] classes = {"org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2"};
+        String[] classes = { "org.jboss.wise.test.mocks.Service1", "org.jboss.wise.test.mocks.Service2" };
 
-        when(consumerMock.importObjectFromWsdl(anyString(),
-                                               (File)anyObject(),
-                                               (File)anyObject(),
-                                               anyString(),
-                                               (List<File>)anyObject(),
-                                               (PrintStream)anyObject(),
-                                               (File)anyObject())).thenReturn(Arrays.asList(classes));
+        when(
+                consumerMock.importObjectFromWsdl(anyString(), (File) anyObject(), (File) anyObject(), anyString(),
+                        (List<File>) anyObject(), (PrintStream) anyObject(), (File) anyObject())).thenReturn(
+                Arrays.asList(classes));
         WSDynamicClientImpl client = new WSDynamicClientImpl(builder, consumerMock);
         client.getWSMethod("ServiceName5", "Port1", "testWrongMethod");
     }

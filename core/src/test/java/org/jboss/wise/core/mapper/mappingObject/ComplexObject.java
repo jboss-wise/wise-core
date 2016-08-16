@@ -39,7 +39,7 @@ public class ComplexObject {
     /**
      * @param dateField Sets dateField to the specified value.
      */
-    public final void setDateField( XMLGregorianCalendar dateField ) {
+    public final void setDateField(XMLGregorianCalendar dateField) {
         this.dateField = dateField;
     }
 
@@ -57,7 +57,7 @@ public class ComplexObject {
     /**
      * @param textField Sets textField to the specified value.
      */
-    public final void setTextField( String textField ) {
+    public final void setTextField(String textField) {
         this.textField = textField;
     }
 
@@ -71,7 +71,7 @@ public class ComplexObject {
     /**
      * @param numberField Sets numberField to the specified value.
      */
-    public final void setNumberField( Integer numberField ) {
+    public final void setNumberField(Integer numberField) {
         this.numberField = numberField;
     }
 

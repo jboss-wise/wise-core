@@ -36,60 +36,60 @@ import org.milyn.Smooks;
 
 /**
  * A cxf specific version of the wise-core WSDynamicClient
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 10-Jun-2013
- * 
+ *
  */
 public class CXFDynamicClient extends WSDynamicClientImpl {
-    
+
     private Bus bus;
 
     public CXFDynamicClient(WSDynamicClientBuilder builder) throws WiseRuntimeException {
-	super(builder);
+        super(builder);
     }
-    
+
     protected CXFDynamicClient(WSDynamicClientBuilder builder, WSConsumer consumer) throws WiseRuntimeException {
-	super(builder, consumer);
+        super(builder, consumer);
     }
-    
+
     public CXFDynamicClient(WSDynamicClientBuilder builder, WSConsumer consumer, Smooks smooks) throws WiseRuntimeException {
-	super(builder, consumer, smooks);
+        super(builder, consumer, smooks);
     }
-    
+
     @Override
     protected void prepare(BasicWSDynamicClientBuilder builder, WSConsumer consumer) {
-	this.bus = JBossWSBusFactory.newInstance().createBus();
-	final Bus prevBus = BusFactory.getThreadDefaultBus(false);
-	try {
-	    BusFactory.setThreadDefaultBus(bus);
-	    super.prepare(builder, consumer);
-	} finally {
-	    BusFactory.setThreadDefaultBus(prevBus);
-	}
+        this.bus = JBossWSBusFactory.newInstance().createBus();
+        final Bus prevBus = BusFactory.getThreadDefaultBus(false);
+        try {
+            BusFactory.setThreadDefaultBus(bus);
+            super.prepare(builder, consumer);
+        } finally {
+            BusFactory.setThreadDefaultBus(prevBus);
+        }
     }
-    
+
     @Override
     public synchronized Map<String, WSService> processServices() throws IllegalStateException {
-	final Bus prevBus = BusFactory.getThreadDefaultBus(false);
-	try {
-	    if (bus != prevBus) {
-		BusFactory.setThreadDefaultBus(bus);
-	    }
-	    return super.processServices();
-	} finally {
-	    if (bus != prevBus) {
-		BusFactory.setThreadDefaultBus(prevBus);
-	    }
-	}
+        final Bus prevBus = BusFactory.getThreadDefaultBus(false);
+        try {
+            if (bus != prevBus) {
+                BusFactory.setThreadDefaultBus(bus);
+            }
+            return super.processServices();
+        } finally {
+            if (bus != prevBus) {
+                BusFactory.setThreadDefaultBus(prevBus);
+            }
+        }
     }
-    
+
     @Override
     public synchronized void close() {
-	try {
-	    super.close();
-	} finally {
-	    bus.shutdown(true);
-	}
+        try {
+            super.close();
+        } finally {
+            bus.shutdown(true);
+        }
     }
 }

@@ -28,18 +28,14 @@ import javax.jws.WebService;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@WebService(targetNamespace = "http://www.jboss.org/wise/adapter/",
-	name = "Endpoint",
-	serviceName = "EndpointService",
-	portName = "EndpointPort",
-	endpointInterface = "org.jboss.wise.test.integration.adapter.Endpoint",
-	wsdlLocation = "WEB-INF/wsdl/EndpointService.wsdl")
+@WebService(targetNamespace = "http://www.jboss.org/wise/adapter/", name = "Endpoint", serviceName = "EndpointService", portName = "EndpointPort", endpointInterface = "org.jboss.wise.test.integration.adapter.Endpoint", wsdlLocation = "WEB-INF/wsdl/EndpointService.wsdl")
 public class EndpointImpl implements Endpoint {
 
     @WebResult(name = "mimepart", targetNamespace = "http://www.jboss.org/wise/adapter/", partName = "mimepart")
     @XmlJavaTypeAdapter(value = HexBinaryAdapter.class)
     @WebMethod
-    public byte[] getData(@WebParam(partName = "dataQuery", mode = WebParam.Mode.INOUT, name = "dataQuery") javax.xml.ws.Holder<DataQuery> dataQuery) {
-	return new byte[]{0, 1};
+    public byte[] getData(
+            @WebParam(partName = "dataQuery", mode = WebParam.Mode.INOUT, name = "dataQuery") javax.xml.ws.Holder<DataQuery> dataQuery) {
+        return new byte[] { 0, 1 };
     }
 }

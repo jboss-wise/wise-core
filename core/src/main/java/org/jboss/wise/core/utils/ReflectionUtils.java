@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * Provides some utility methods useful to deal with classes through reflection.
- * 
+ *
  * @author stefano.maestri@javalinux.it
  * @author alessio.soldano@javalinux.it
  * @since 21-Aug-2007
@@ -36,11 +36,11 @@ public class ReflectionUtils {
 
     /**
      * Return all fields of a given class
-     * 
+     *
      * @param cl the class to reflect to.
      * @return all fields of the provided class
      */
-    public static List<Field> getAllFields( Class<?> cl ) {
+    public static List<Field> getAllFields(Class<?> cl) {
         List<Field> list = new LinkedList<Field>();
         for (Field field : cl.getDeclaredFields()) {
             if (!"serialVersionUID".equals(field.getName()) && !field.getName().startsWith("this$")) {
@@ -55,13 +55,12 @@ public class ReflectionUtils {
 
     /**
      * Get setter method name of given fieldName
-     * 
-     * @param fieldName  string
-     * @param isBoolean   boolean
+     *
+     * @param fieldName string
+     * @param isBoolean boolean
      * @return String
      */
-    public static String setterMethodName( String fieldName,
-                                           boolean isBoolean ) {
+    public static String setterMethodName(String fieldName, boolean isBoolean) {
         if (!isBoolean) {
             return "set" + JavaUtils.capitalize(fieldName);
         } else {
@@ -71,28 +70,27 @@ public class ReflectionUtils {
 
     /**
      * Get getter method name of given fieldName
-     * 
-     * @param fieldName  string
-     * @param isBoolean  boolean
+     *
+     * @param fieldName string
+     * @param isBoolean boolean
      * @return String
      */
-    public static String getterMethodName( String fieldName,
-                                           boolean isBoolean ) {
-	if (!isBoolean) {
-	    return "get" + JavaUtils.capitalize(fieldName);
-	} else {
-	    return fieldName.startsWith("is") ? fieldName : "is" + JavaUtils.capitalize(fieldName);
-	}
+    public static String getterMethodName(String fieldName, boolean isBoolean) {
+        if (!isBoolean) {
+            return "get" + JavaUtils.capitalize(fieldName);
+        } else {
+            return fieldName.startsWith("is") ? fieldName : "is" + JavaUtils.capitalize(fieldName);
+        }
     }
 
     /**
      * Get getter method name of given field
-     * 
-     * @param field  field
+     *
+     * @param field field
      * @param xmlName string
      * @return String
      */
-    public static String getGetter( Field field, String xmlName ) {
+    public static String getGetter(Field field, String xmlName) {
         Class<?> cl = field.getType();
         if (cl.isPrimitive()) {
             cl = JavaUtils.getWrapperType(cl);

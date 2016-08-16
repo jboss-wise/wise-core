@@ -39,7 +39,7 @@ public class WSEndpointImplTest {
 
     }
 
-    @WebMethod( )
+    @WebMethod()
     public void method2() {
 
     }

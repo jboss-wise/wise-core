@@ -30,7 +30,7 @@ import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
 
 /**
  * It is the enabler for WS-Security extension
- * 
+ *
  * @author stefano.maestri@javalinux.it
  */
 @ThreadSafe
@@ -39,22 +39,22 @@ public class WSSecurityEnabler implements WSExtensionEnabler {
 
     private final EnablerDelegate delegate;
 
-    public WSSecurityEnabler( WSDynamicClient client ) {
+    public WSSecurityEnabler(WSDynamicClient client) {
         delegate = client.getWSExtensionEnablerDelegate();
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.WSExtensionEnabler#enable(Object)
      */
-    public void enable( Object endpointInstance ) throws UnsupportedOperationException {
+    public void enable(Object endpointInstance) throws UnsupportedOperationException {
         delegate.visitWSSecurity(endpointInstance);
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.WSExtensionEnabler#getDelegate()
      */
     public EnablerDelegate getDelegate() {

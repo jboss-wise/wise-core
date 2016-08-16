@@ -41,8 +41,7 @@ public class JBIDE14739BIntegrationTest extends WiseTest {
     @Deployment
     public static WebArchive createDeploymentB() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, WARB + ".war");
-        archive
-                .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldBInterface.class)
+        archive.addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldBInterface.class)
                 .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldBBean.class)
                 .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/jbide14739B/web.xml"));
         return archive;
@@ -55,4 +54,3 @@ public class JBIDE14739BIntegrationTest extends WiseTest {
         JBIDE14739IntegrationTest.runWise(wsdlURL, "target/temp/wise/jbide14739B", "echoB");
     }
 }
-

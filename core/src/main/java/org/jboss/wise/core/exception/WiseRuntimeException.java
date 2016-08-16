@@ -23,23 +23,22 @@ package org.jboss.wise.core.exception;
 
 /**
  * Common Wise runtime exception
- * 
+ *
  * @author alessio.soldano@javalinux.it
  */
 public class WiseRuntimeException extends RuntimeException {
 
     private static final long serialVersionUID = -4622247006256827035L;
 
-    public WiseRuntimeException( String message ) {
+    public WiseRuntimeException(String message) {
         super(message);
     }
 
-    public WiseRuntimeException( String message,
-                                 Throwable cause ) {
+    public WiseRuntimeException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public WiseRuntimeException( Throwable cause ) {
+    public WiseRuntimeException(Throwable cause) {
         super(cause);
     }
 }

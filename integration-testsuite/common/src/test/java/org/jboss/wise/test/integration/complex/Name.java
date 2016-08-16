@@ -1,4 +1,3 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,12 +5,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Name complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for Name complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="Name">
  *   &lt;complexContent>
@@ -25,15 +25,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Name", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = {
-    "firstName",
-    "lastName",
-    "middleName"
-})
+@XmlType(name = "Name", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = { "firstName", "lastName",
+        "middleName" })
 public class Name {
 
     @XmlElement(required = true, nillable = true)
@@ -45,11 +42,9 @@ public class Name {
 
     /**
      * Gets the value of the firstName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getFirstName() {
         return firstName;
@@ -57,11 +52,9 @@ public class Name {
 
     /**
      * Sets the value of the firstName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setFirstName(String value) {
         this.firstName = value;
@@ -69,11 +62,9 @@ public class Name {
 
     /**
      * Gets the value of the lastName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getLastName() {
         return lastName;
@@ -81,11 +72,9 @@ public class Name {
 
     /**
      * Sets the value of the lastName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setLastName(String value) {
         this.lastName = value;
@@ -93,11 +82,9 @@ public class Name {
 
     /**
      * Gets the value of the middleName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getMiddleName() {
         return middleName;
@@ -105,11 +92,9 @@ public class Name {
 
     /**
      * Sets the value of the middleName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setMiddleName(String value) {
         this.middleName = value;

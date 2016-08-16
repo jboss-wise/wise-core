@@ -44,7 +44,6 @@ import java.io.File;
 import java.lang.reflect.ParameterizedType;
 import java.net.URL;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * @author alessio.soldano@jboss.com
@@ -57,8 +56,7 @@ public class WiseIntegrationComplexTest extends WiseTest {
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "complex.war");
-        archive
-                .addClass(org.jboss.wise.test.integration.complex.Address.class)
+        archive.addClass(org.jboss.wise.test.integration.complex.Address.class)
                 .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
                 .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
                 .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
@@ -91,8 +89,7 @@ public class WiseIntegrationComplexTest extends WiseTest {
         URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
 
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-                .toString()).build();
+        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
     }
 
     @Test
@@ -149,7 +146,8 @@ public class WiseIntegrationComplexTest extends WiseTest {
         Assert.assertNotNull(test.get("exception"));
         Assert.assertTrue(test.get("exception").toString().contains("No name!"));
         Assert.assertEquals(Class.class, test.get("type.result").getClass());
-        Assert.assertEquals("org.jboss.test.ws.jaxws.complex.types.ValidationFaultException", ((Class)(test.get("type.result"))).getName());
+        Assert.assertEquals("org.jboss.test.ws.jaxws.complex.types.ValidationFaultException",
+                ((Class) (test.get("type.result"))).getName());
         tearDown();
     }
 

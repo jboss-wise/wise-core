@@ -26,7 +26,7 @@ import net.jcip.annotations.ThreadSafe;
 
 /**
  * It represents a single service. I can be used to retrieve endpoints (Ports) of this services.
- * 
+ *
  * @author Stefano Maestri, stefano.maestri@javalinux.it
  */
 @ThreadSafe
@@ -34,7 +34,7 @@ public interface WSService {
 
     /**
      * Create the endpoints' map and gives it back.
-     * 
+     *
      * @return The Map of WSEndpoint with symbolic names as keys
      */
     public Map<String, WSEndpoint> processEndpoints();

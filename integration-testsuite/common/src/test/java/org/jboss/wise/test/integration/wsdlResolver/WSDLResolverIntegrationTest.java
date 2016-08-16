@@ -53,8 +53,7 @@ public class WSDLResolverIntegrationTest extends WiseTest {
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "wsdlResolver.war");
-        archive
-                .addClass(org.jboss.wise.test.integration.wsdlResolver.ProtectedSchemaAndWsdlImportProvider.class)
+        archive.addClass(org.jboss.wise.test.integration.wsdlResolver.ProtectedSchemaAndWsdlImportProvider.class)
                 .addClass(org.jboss.wise.test.integration.wsdlResolver.ProtectedSchemaImportProvider.class)
                 .addClass(org.jboss.wise.test.integration.wsdlResolver.ProtectedSimpleWsdlProvider.class)
                 .addClass(org.jboss.wise.test.integration.wsdlResolver.ProtectedWsdlImportProvider.class)
@@ -62,34 +61,47 @@ public class WSDLResolverIntegrationTest extends WiseTest {
                 .addClass(org.jboss.wise.test.integration.wsdlResolver.SchemaImportProvider.class)
                 .addClass(org.jboss.wise.test.integration.wsdlResolver.SimpleWsdlProvider.class)
                 .addClass(org.jboss.wise.test.integration.wsdlResolver.WsdlImportProvider.class)
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/AnotherSchema.xsd"),
-                    "/wsdl/SchemaAndWsdlImport/AnotherSchema.xsd")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/Bindings.wsdl"),
-                    "/wsdl/SchemaAndWsdlImport/Bindings.wsdl")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/SchemaImport.xsd"),
-                    "/wsdl/SchemaAndWsdlImport/SchemaImport.xsd")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl"),
-                    "/wsdl/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/bar/BarImport.wsdl"),
-                    "/wsdl/SchemaAndWsdlImport/bar/BarImport.wsdl")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/bar/BarSchema.xsd"),
-                    "/wsdl/SchemaAndWsdlImport/bar/BarSchema.xsd")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/foo/AdditionalSchema.xsd"),
-                    "/wsdl/SchemaAndWsdlImport/foo/AdditionalSchema.xsd")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/foo/AnotherImport.wsdl"),
-                    "/wsdl/SchemaAndWsdlImport/foo/AnotherImport.wsdl")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaImport/SchemaImport.xsd"),
-                    "/wsdl/SchemaImport/SchemaImport.xsd")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaImport/WsdlWithSchemaImport.wsdl"),
-                    "/wsdl/SchemaImport/WsdlWithSchemaImport.wsdl")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/AnotherSchema.xsd"),
+                        "/wsdl/SchemaAndWsdlImport/AnotherSchema.xsd")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/Bindings.wsdl"),
+                        "/wsdl/SchemaAndWsdlImport/Bindings.wsdl")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/SchemaImport.xsd"),
+                        "/wsdl/SchemaAndWsdlImport/SchemaImport.xsd")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir()
+                                + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl"),
+                        "/wsdl/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/bar/BarImport.wsdl"),
+                        "/wsdl/SchemaAndWsdlImport/bar/BarImport.wsdl")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/bar/BarSchema.xsd"),
+                        "/wsdl/SchemaAndWsdlImport/bar/BarSchema.xsd")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir()
+                                + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/foo/AdditionalSchema.xsd"),
+                        "/wsdl/SchemaAndWsdlImport/foo/AdditionalSchema.xsd")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir()
+                                + "/WEB-INF/wsdlResolver/wsdl/SchemaAndWsdlImport/foo/AnotherImport.wsdl"),
+                        "/wsdl/SchemaAndWsdlImport/foo/AnotherImport.wsdl")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaImport/SchemaImport.xsd"),
+                        "/wsdl/SchemaImport/SchemaImport.xsd")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/SchemaImport/WsdlWithSchemaImport.wsdl"),
+                        "/wsdl/SchemaImport/WsdlWithSchemaImport.wsdl")
                 .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/Simple/SimpleWsdl.wsdl"),
-                    "/wsdl/Simple/SimpleWsdl.wsdl")
+                        "/wsdl/Simple/SimpleWsdl.wsdl")
                 .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/WsdlImport/Bindings.wsdl"),
-                    "/wsdl/WsdlImport/Bindings.wsdl")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/WsdlImport/WsdlWithWsdlImport.wsdl"),
+                        "/wsdl/WsdlImport/Bindings.wsdl")
+                .addAsWebInfResource(
+                        new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/wsdl/WsdlImport/WsdlWithWsdlImport.wsdl"),
                         "/wsdl/WsdlImport/WsdlWithWsdlImport.wsdl")
-                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/jboss-web.xml"),
-                    "jboss-web.xml")
+                .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/jboss-web.xml"), "jboss-web.xml")
                 .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/wsdlResolver/web.xml"));
 
         return archive;
@@ -99,60 +111,69 @@ public class WSDLResolverIntegrationTest extends WiseTest {
     @RunAsClient
     public void shouldSaveRemoteSimpleWsdl() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteSimpleWsdl", new URL(getServerHostAndPort() + "/wsdlResolver/SimpleWsdl?wsdl"), false);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteSimpleWsdl", new URL(getServerHostAndPort()
+                + "/wsdlResolver/SimpleWsdl?wsdl"), false);
     }
 
     @Test
     @RunAsClient
     public void shouldSaveRemoteWsdlWithWsdlImport() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteWsdlWithWsdlImport", new URL(getServerHostAndPort() + "/wsdlResolver/WsdlImport?wsdl"), false);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteWsdlWithWsdlImport", new URL(getServerHostAndPort()
+                + "/wsdlResolver/WsdlImport?wsdl"), false);
     }
 
     @Test
     @RunAsClient
     public void shouldSaveRemoteWsdlWithSchemaImport() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteWsdlWithSchemaImport", new URL(getServerHostAndPort() + "/wsdlResolver/SchemaImport?wsdl"), false);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteWsdlWithSchemaImport", new URL(getServerHostAndPort()
+                + "/wsdlResolver/SchemaImport?wsdl"), false);
     }
 
     @Test
     @RunAsClient
     public void shouldSaveRemoteWsdlWithSchemaAndWsdlImports() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteWsdlWithSchemaAndWsdlImport", new URL(getServerHostAndPort() + "/wsdlResolver/SchemaAndWsdlImport?wsdl"), false);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "RemoteWsdlWithSchemaAndWsdlImport", new URL(
+                getServerHostAndPort() + "/wsdlResolver/SchemaAndWsdlImport?wsdl"), false);
     }
 
     @Test
     @RunAsClient
     public void shouldSaveProtectedRemoteSimpleWsdl() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteSimpleWsdl", new URL(getServerHostAndPort() + "/wsdlResolver/ProtectedSimpleWsdl?wsdl"), true);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteSimpleWsdl", new URL(getServerHostAndPort()
+                + "/wsdlResolver/ProtectedSimpleWsdl?wsdl"), true);
     }
 
     @Test
     @RunAsClient
     public void shouldSaveProtectedRemoteWsdlWithWsdlImport() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteWsdlWithWsdlImport", new URL(getServerHostAndPort() + "/wsdlResolver/ProtectedWsdlImport?wsdl"), true);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteWsdlWithWsdlImport", new URL(
+                getServerHostAndPort() + "/wsdlResolver/ProtectedWsdlImport?wsdl"), true);
     }
 
     @Test
     @RunAsClient
     public void shouldSaveProtectedRemoteWsdlWithSchemaImport() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteWsdlWithSchemaImport", new URL(getServerHostAndPort() + "/wsdlResolver/ProtectedSchemaImport?wsdl"), true);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteWsdlWithSchemaImport", new URL(
+                getServerHostAndPort() + "/wsdlResolver/ProtectedSchemaImport?wsdl"), true);
     }
 
     @Test
     @RunAsClient
     public void shouldSaveProtectedRemoteWsdlWithSchemaAndWsdlImports() throws Exception {
         createTmpDir();
-        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteWsdlWithSchemaAndWsdlImport", new URL(getServerHostAndPort() + "/wsdlResolver/ProtectedSchemaAndWsdlImport?wsdl"), true);
+        performTest(tmpDir.getAbsolutePath() + File.separator + "ProtectedRemoteWsdlWithSchemaAndWsdlImport", new URL(
+                getServerHostAndPort() + "/wsdlResolver/ProtectedSchemaAndWsdlImport?wsdl"), true);
     }
 
     private void performTest(String testTempDir, URL wsdlURL, boolean auth) throws Exception {
-        WSDLResolver resolver = auth ? new WSDLResolver(testTempDir, new Connection("kermit", "thefrog")) : new WSDLResolver(testTempDir);
+        WSDLResolver resolver = auth ? new WSDLResolver(testTempDir, new Connection("kermit", "thefrog")) : new WSDLResolver(
+                testTempDir);
         File wsdlFile = resolver.retrieveWsdlFile(wsdlURL);
         assertTrue(wsdlFile.exists());
         assertTrue(wsdlFile.length() > 0);

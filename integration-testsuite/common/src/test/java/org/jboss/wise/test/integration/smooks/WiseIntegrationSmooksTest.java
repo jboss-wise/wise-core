@@ -58,8 +58,7 @@ public class WiseIntegrationSmooksTest extends WiseTest {
     @Deployment(name = WAR)
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
-        archive
-                .addClass(org.jboss.wise.test.integration.smooks.pojo.clientside.ExternalObject.class)
+        archive.addClass(org.jboss.wise.test.integration.smooks.pojo.clientside.ExternalObject.class)
                 .addClass(org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject.class)
                 .addClass(org.jboss.wise.test.integration.smooks.pojo.serverside.ComplexObject.class)
                 .addClass(org.jboss.wise.test.integration.smooks.ComplexWS.class)
@@ -73,8 +72,8 @@ public class WiseIntegrationSmooksTest extends WiseTest {
         URL wsdlURL = new URL(getServerHostAndPort() + "/smooks/ComplexWS?wsdl");
 
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-                .toString()).build();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true)
+                .wsdlURL(wsdlURL.toString()).build();
 
         WSMethod method = client.getWSMethod("ComplexWSService", "ComplexWSPort", "ping");
         method.getEndpoint().addHandler(new LoggingHandler(Logger.getLogger(this.getClass()), Level.DEBUG));

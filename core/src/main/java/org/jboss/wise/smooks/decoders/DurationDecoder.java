@@ -32,14 +32,14 @@ import org.milyn.javabean.decoders.DateDecoder;
 /**
  * {@link javax.xml.datatype.Duration} data decoder.
  *
- * Decodes the supplied string into a {@link javax.xml.datatype.Duration} String value is supposed to be milliseconds representing
- * this Duration
+ * Decodes the supplied string into a {@link javax.xml.datatype.Duration} String value is supposed to be milliseconds
+ * representing this Duration
  */
-@DecodeType( Duration.class )
+@DecodeType(Duration.class)
 public class DurationDecoder extends DateDecoder implements DataDecoder {
 
     @Override
-    public Object decode( String data ) throws DataDecodeException {
+    public Object decode(String data) throws DataDecodeException {
         Object result = null;
         try {
             result = DatatypeFactory.newInstance().newDuration(Long.parseLong(data));

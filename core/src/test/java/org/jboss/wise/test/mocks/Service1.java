@@ -27,7 +27,7 @@ import javax.xml.ws.WebServiceClient;
 /**
  * @author stefano.maestri@javalinux.it
  */
-@WebServiceClient( name = "ServiceName1" )
+@WebServiceClient(name = "ServiceName1")
 public class Service1 {
     @WebEndpoint(name = "Port1")
     public PortType1 getSoapProviderPort() {

@@ -55,10 +55,9 @@ public class BasicStressTest extends WiseTest {
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
-        archive
-           .addClass(org.jboss.wise.test.integration.basic.HelloWorldInterface.class)
-           .addClass(org.jboss.wise.test.integration.basic.HelloWorldBean.class)
-           .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/basic/web.xml"));
+        archive.addClass(org.jboss.wise.test.integration.basic.HelloWorldInterface.class)
+                .addClass(org.jboss.wise.test.integration.basic.HelloWorldBean.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/basic/web.xml"));
         return archive;
     }
 
@@ -75,8 +74,8 @@ public class BasicStressTest extends WiseTest {
         // care of using a single client instance or
         // other caching mechanism. Initializing client is very expensive!!
         // You have a proof of that in BasicNoCacheNoClientCacheStressTest.java
-        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-            .toString()).build();
+        WSDynamicClient client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true)
+                .wsdlURL(wsdlURL.toString()).build();
 
         ExecutorService es = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         FutureTask<String>[] tasks = new FutureTask[THREADS];

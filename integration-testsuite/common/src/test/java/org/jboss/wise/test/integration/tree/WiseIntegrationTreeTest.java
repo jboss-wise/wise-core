@@ -57,32 +57,31 @@ public class WiseIntegrationTreeTest extends WiseTest {
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "complex.war");
-        archive
-           .addClass(org.jboss.wise.test.integration.complex.Address.class)
-           .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
-           .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
-           .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
-           .addClass(org.jboss.wise.test.integration.complex.BulkRegisterResponse.class)
-           .addClass(org.jboss.wise.test.integration.complex.BulkRegister.class)
-           .addClass(org.jboss.wise.test.integration.complex.Customer.class)
-           .addClass(org.jboss.wise.test.integration.complex.Echo.class)
-           .addClass(org.jboss.wise.test.integration.complex.EchoResponse.class)
-           .addClass(org.jboss.wise.test.integration.complex.GetStatistics.class)
-           .addClass(org.jboss.wise.test.integration.complex.GetStatisticsResponse.class)
-           .addClass(org.jboss.wise.test.integration.complex.InvoiceCustomer.class)
-           .addClass(org.jboss.wise.test.integration.complex.Name.class)
-           .addClass(org.jboss.wise.test.integration.complex.PhoneNumber.class)
-           .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoice.class)
-           .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoiceResponse.class)
-           .addClass(org.jboss.wise.test.integration.complex.Register.class)
-           .addClass(org.jboss.wise.test.integration.complex.RegisterResponse.class)
-           .addClass(org.jboss.wise.test.integration.complex.Registration.class)
-           .addClass(org.jboss.wise.test.integration.complex.RegistrationFault.class)
-           .addClass(org.jboss.wise.test.integration.complex.RegistrationServiceImpl.class)
-           .addClass(org.jboss.wise.test.integration.complex.Statistics.class)
-           .addClass(org.jboss.wise.test.integration.complex.ValidationFault.class)
-           .addClass(org.jboss.wise.test.integration.complex.ValidationFault_Exception.class)
-           .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/complex/web.xml"));
+        archive.addClass(org.jboss.wise.test.integration.complex.Address.class)
+                .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
+                .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
+                .addClass(org.jboss.wise.test.integration.complex.BulkRegisterResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.BulkRegister.class)
+                .addClass(org.jboss.wise.test.integration.complex.Customer.class)
+                .addClass(org.jboss.wise.test.integration.complex.Echo.class)
+                .addClass(org.jboss.wise.test.integration.complex.EchoResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.GetStatistics.class)
+                .addClass(org.jboss.wise.test.integration.complex.GetStatisticsResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.InvoiceCustomer.class)
+                .addClass(org.jboss.wise.test.integration.complex.Name.class)
+                .addClass(org.jboss.wise.test.integration.complex.PhoneNumber.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoice.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoiceResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.Register.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.Registration.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegistrationFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegistrationServiceImpl.class)
+                .addClass(org.jboss.wise.test.integration.complex.Statistics.class)
+                .addClass(org.jboss.wise.test.integration.complex.ValidationFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.ValidationFault_Exception.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/complex/web.xml"));
         return archive;
     }
 
@@ -91,8 +90,7 @@ public class WiseIntegrationTreeTest extends WiseTest {
         URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
 
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-                .toString()).build();
+        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
     }
 
     @Test
@@ -103,7 +101,8 @@ public class WiseIntegrationTreeTest extends WiseTest {
         Map<String, ? extends WebParameter> pars = method.getWebParams();
         WebParameter customerPar = pars.get("Customer");
 
-        ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true).useDefautValuesForNullLeaves(true);
+        ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true)
+                .useDefautValuesForNullLeaves(true);
         Element customerElement = builder.buildTree(customerPar.getType(), customerPar.getName(), null, true);
         customerElement.getChildByName("id").setValue("1234");
         customerElement.getChildByName("name").getChildByName("firstName").setValue("Foo");
@@ -133,7 +132,8 @@ public class WiseIntegrationTreeTest extends WiseTest {
         WebParameter customerPar = pars.get("Customer");
         Assert.assertEquals(WebParam.Mode.INOUT, customerPar.getMode());
 
-        ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true).useDefautValuesForNullLeaves(true);
+        ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true)
+                .useDefautValuesForNullLeaves(true);
         Element element = builder.buildTree(customerPar.getType(), customerPar.getName(), null, true);
         Element customerElement = element.getChildren().next();
         customerElement.getChildByName("id").setValue("1235");
@@ -152,7 +152,8 @@ public class WiseIntegrationTreeTest extends WiseTest {
         Assert.assertEquals(void.class, test.get("type.result"));
 
         final String key = "Customer";
-        Element returnElement = builder.request(false).useDefautValuesForNullLeaves(false).buildTree((Type) test.get("type." + key), key, test.get(key), true);
+        Element returnElement = builder.request(false).useDefautValuesForNullLeaves(false)
+                .buildTree((Type) test.get("type." + key), key, test.get(key), true);
         Element returnCustomerElement = returnElement.getChildren().next();
         Assert.assertEquals("1235", returnCustomerElement.getChildByName("id").getValue());
         Assert.assertEquals("Foo", returnCustomerElement.getChildByName("name").getChildByName("firstName").getValue());

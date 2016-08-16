@@ -1,16 +1,16 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for InvoiceCustomer complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for InvoiceCustomer complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="InvoiceCustomer">
  *   &lt;complexContent>
@@ -22,22 +22,18 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "InvoiceCustomer", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = {
-    "cycleDay"
-})
-public class InvoiceCustomer
-    extends Customer
-{
+@XmlType(name = "InvoiceCustomer", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = { "cycleDay" })
+public class InvoiceCustomer extends Customer {
 
     protected int cycleDay;
 
     /**
      * Gets the value of the cycleDay property.
-     * 
+     *
      */
     public int getCycleDay() {
         return cycleDay;
@@ -45,7 +41,7 @@ public class InvoiceCustomer
 
     /**
      * Sets the value of the cycleDay property.
-     * 
+     *
      */
     public void setCycleDay(int value) {
         this.cycleDay = value;

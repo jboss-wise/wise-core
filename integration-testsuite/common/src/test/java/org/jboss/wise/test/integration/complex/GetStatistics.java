@@ -1,4 +1,3 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,12 +5,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for GetStatistics complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for GetStatistics complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="GetStatistics">
  *   &lt;complexContent>
@@ -23,13 +23,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GetStatistics", propOrder = {
-    "customer"
-})
+@XmlType(name = "GetStatistics", propOrder = { "customer" })
 public class GetStatistics {
 
     @XmlElement(name = "Customer", required = true, nillable = true)
@@ -37,11 +35,9 @@ public class GetStatistics {
 
     /**
      * Gets the value of the customer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Customer }
-     *     
+     *
+     * @return possible object is {@link Customer }
+     *
      */
     public Customer getCustomer() {
         return customer;
@@ -49,11 +45,9 @@ public class GetStatistics {
 
     /**
      * Sets the value of the customer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Customer }
-     *     
+     *
+     * @param value allowed object is {@link Customer }
+     *
      */
     public void setCustomer(Customer value) {
         this.customer = value;

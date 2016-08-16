@@ -36,7 +36,7 @@ public class InternalObject {
         return text;
     }
 
-    public void setText( String text ) {
+    public void setText(String text) {
         this.text = text;
     }
 
@@ -44,7 +44,7 @@ public class InternalObject {
         return number;
     }
 
-    public void setNumber( Integer number ) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

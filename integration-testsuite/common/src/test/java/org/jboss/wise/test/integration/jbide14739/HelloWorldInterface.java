@@ -26,7 +26,6 @@ import javax.jws.soap.SOAPBinding;
 
 @WebService(targetNamespace = "http://www.javalinux.it/helloworld")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
-public interface HelloWorldInterface
-{
-   String echo(String input);
+public interface HelloWorldInterface {
+    String echo(String input);
 }

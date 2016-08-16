@@ -56,18 +56,16 @@ public class XmlJavaTypeAdapterIntegrationTest extends WiseTest {
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "adapter.war");
-        archive
-                .addClass(org.jboss.wise.test.integration.adapter.DataQuery.class)
+        archive.addClass(org.jboss.wise.test.integration.adapter.DataQuery.class)
                 .addClass(org.jboss.wise.test.integration.adapter.Endpoint.class)
                 .addClass(org.jboss.wise.test.integration.adapter.EndpointImpl.class)
                 .addClass(org.jboss.wise.test.integration.adapter.ObjectFactory.class)
                 .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/adapter/wsdl/EndpointService.wsdl"),
-                        "/wsdl/EndpointService.wsdl")
-                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/adapter/web.xml"));
+                        "/wsdl/EndpointService.wsdl").setWebXML(new File(getTestResourcesDir() + "/WEB-INF/adapter/web.xml"));
         return archive;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     @RunAsClient
     @Ignore("[CXF-5110] Wrong processing of @XmlJavaTypeAdapter with RPC style endpoints")
@@ -76,7 +74,8 @@ public class XmlJavaTypeAdapterIntegrationTest extends WiseTest {
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
         WSDynamicClient client = null;
         try {
-            client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlUrl.toString()).build();
+            client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlUrl.toString())
+                    .build();
             WSMethod method = client.getWSMethod("EndpointService", "EndpointPort", "getData");
             Map<String, ? extends WebParameter> pars = method.getWebParams();
             WebParameter customerPar = pars.get("dataQuery");
@@ -97,7 +96,7 @@ public class XmlJavaTypeAdapterIntegrationTest extends WiseTest {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     @RunAsClient
     @Ignore("[CXF-5110] Wrong processing of @XmlJavaTypeAdapter with RPC style endpoints")
@@ -106,7 +105,8 @@ public class XmlJavaTypeAdapterIntegrationTest extends WiseTest {
         WSDynamicClient client = null;
         try {
             URL wsdlUrl = new URL(getServerHostAndPort() + "/adapter/Endpoint?wsdl");
-            client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlUrl.toString()).build();
+            client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlUrl.toString())
+                    .build();
             WSMethod method = client.getWSMethod("EndpointService", "EndpointPort", "getData");
             Map<String, ? extends WebParameter> pars = method.getWebParams();
             WebParameter customerPar = pars.get("dataQuery");

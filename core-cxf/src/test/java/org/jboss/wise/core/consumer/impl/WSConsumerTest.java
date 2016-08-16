@@ -44,56 +44,60 @@ import org.junit.Test;
  * @author alessio.soldano@jboss.com
  */
 public class WSConsumerTest {
-    
-    private PrintStream testPrintStream = new PrintStream(new LoggingOutputStream(Logger.getLogger(this.getClass()), Level.INFO), true);
+
+    private PrintStream testPrintStream = new PrintStream(
+            new LoggingOutputStream(Logger.getLogger(this.getClass()), Level.INFO), true);
 
     @Test
     public void parseHelloGreetingWSDLShouldWorkWithoutPackage() throws Exception {
-	URL url = Thread.currentThread().getContextClassLoader().getResource(".");
-	File outputDir = new File(url.getFile());
-	URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
-	WSConsumer importer = newConsumer();
-	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, null, testPrintStream, null);
+        URL url = Thread.currentThread().getContextClassLoader().getResource(".");
+        File outputDir = new File(url.getFile());
+        URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
+        WSConsumer importer = newConsumer();
+        importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, null, testPrintStream, null);
     }
 
     @Test()
     public void parseHelloWSDLWithBindingFile() throws Exception {
-	URL url = Thread.currentThread().getContextClassLoader().getResource(".");
-	File outputDir = new File(url.getFile());
-	URL bindingURL = Thread.currentThread().getContextClassLoader().getResource("./jaxws-binding.xml");
-	URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
-	File bindFile = new File(bindingURL.getFile());
-	List<File> bindings = new java.util.ArrayList<File>();
-	bindings.add(bindFile);
-	WSConsumer importer = newConsumer();
-	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, bindings, testPrintStream, null);
-	File generatedClass = new File(url.getFile(), "org/mytest");
-	assertTrue(generatedClass.exists());
+        URL url = Thread.currentThread().getContextClassLoader().getResource(".");
+        File outputDir = new File(url.getFile());
+        URL bindingURL = Thread.currentThread().getContextClassLoader().getResource("./jaxws-binding.xml");
+        URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
+        File bindFile = new File(bindingURL.getFile());
+        List<File> bindings = new java.util.ArrayList<File>();
+        bindings.add(bindFile);
+        WSConsumer importer = newConsumer();
+        importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, null, bindings, testPrintStream, null);
+        File generatedClass = new File(url.getFile(), "org/mytest");
+        assertTrue(generatedClass.exists());
     }
 
     @Test(expected = WiseRuntimeException.class)
     public void parseHelloGreetingWSDLShouldFailWithPackageAndNoBindingsForNameDuplication() throws Exception {
-	URL url = Thread.currentThread().getContextClassLoader().getResource(".");
-	File outputDir = new File(url.getFile());
-	URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
-	WSConsumer importer = newConsumer();
-	importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, "org.jboss.wise", null, testPrintStream, null);
+        URL url = Thread.currentThread().getContextClassLoader().getResource(".");
+        File outputDir = new File(url.getFile());
+        URL wsdURL = Thread.currentThread().getContextClassLoader().getResource("./hello_world.wsdl");
+        WSConsumer importer = newConsumer();
+        importer.importObjectFromWsdl(wsdURL.toExternalForm(), outputDir, outputDir, "org.jboss.wise", null, testPrintStream,
+                null);
     }
 
     @Test()
     public void getClassNamesShouldFindFooClassPlaceHolder() throws Exception {
-	WSConsumer importer = newConsumer();
-	URL url = Thread.currentThread().getContextClassLoader().getResource("./placeHolderClasses/");
-	File file = new File(url.getFile());
-	List<String> list = importer.getClassNames(file);
-	assertThat(list.size(), is(1));
-	assertThat(list, hasItem("org.jboss.foo.Foo"));
+        WSConsumer importer = newConsumer();
+        URL url = Thread.currentThread().getContextClassLoader().getResource("./placeHolderClasses/");
+        File file = new File(url.getFile());
+        List<String> list = importer.getClassNames(file);
+        assertThat(list.size(), is(1));
+        assertThat(list, hasItem("org.jboss.foo.Foo"));
 
     }
 
     private WSConsumer newConsumer() {
-	WSConsumer consumer = (WSConsumer) SpiLoader.loadService("org.jboss.wise.consumer.WSConsumer", "org.jboss.wise.core.consumer.impl.jbossws.DefaultWSImportImpl");
-	consumer.setKeepSource(true); //workaround for [JBWS-3519] to avoid generating in the Wise source tree instead of target/test-classes
-	return consumer;
+        WSConsumer consumer = (WSConsumer) SpiLoader.loadService("org.jboss.wise.consumer.WSConsumer",
+                "org.jboss.wise.core.consumer.impl.jbossws.DefaultWSImportImpl");
+        consumer.setKeepSource(true); // workaround for [JBWS-3519] to avoid generating in the Wise source tree instead of
+                                      // target/test-classes
+        return consumer;
     }
 }

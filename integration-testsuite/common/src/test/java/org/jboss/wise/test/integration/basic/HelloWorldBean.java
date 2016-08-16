@@ -22,9 +22,10 @@
 package org.jboss.wise.test.integration.basic;
 
 import javax.jws.WebService;
-@WebService( endpointInterface = "org.jboss.wise.test.integration.basic.HelloWorldInterface", targetNamespace = "http://www.javalinux.it/helloworld", serviceName = "HelloService" )
+
+@WebService(endpointInterface = "org.jboss.wise.test.integration.basic.HelloWorldInterface", targetNamespace = "http://www.javalinux.it/helloworld", serviceName = "HelloService")
 public class HelloWorldBean implements HelloWorldInterface {
-    public String echo( String input ) {
+    public String echo(String input) {
         return input;
     }
 }

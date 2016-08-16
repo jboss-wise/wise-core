@@ -28,18 +28,15 @@ import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebServiceProvider;
 
 /**
- * A test provider with the only purpose
- * of exposing a given wsdl.
+ * A test provider with the only purpose of exposing a given wsdl.
  *
  * @author alessio.soldano@jboss.com
  * @since 13-May-2009
  */
-@WebServiceProvider(portName="AddNumbersPort", serviceName="AddNumbersService", targetNamespace="http://duke.example.org", wsdlLocation = "WEB-INF/wsdl/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl")
+@WebServiceProvider(portName = "AddNumbersPort", serviceName = "AddNumbersService", targetNamespace = "http://duke.example.org", wsdlLocation = "WEB-INF/wsdl/SchemaAndWsdlImport/WsdlWithSchemaAndWsdlImport.wsdl")
 @ServiceMode(value = Service.Mode.MESSAGE)
-public class ProtectedSchemaAndWsdlImportProvider implements Provider<SOAPMessage>
-{
-   public SOAPMessage invoke(SOAPMessage request)
-   {
-      return request;
-   }
+public class ProtectedSchemaAndWsdlImportProvider implements Provider<SOAPMessage> {
+    public SOAPMessage invoke(SOAPMessage request) {
+        return request;
+    }
 }

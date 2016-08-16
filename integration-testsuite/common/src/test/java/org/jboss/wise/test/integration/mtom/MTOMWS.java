@@ -31,15 +31,15 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlMimeType;
 import javax.xml.ws.BindingType;
 
-@WebService( name = "MTOM", targetNamespace = "http://wise_samples/MTOM" )
-@SOAPBinding( style = SOAPBinding.Style.DOCUMENT, parameterStyle = SOAPBinding.ParameterStyle.BARE )
-@BindingType( value = "http://schemas.xmlsoap.org/wsdl/soap/http?mtom=true" )
+@WebService(name = "MTOM", targetNamespace = "http://wise_samples/MTOM")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, parameterStyle = SOAPBinding.ParameterStyle.BARE)
+@BindingType(value = "http://schemas.xmlsoap.org/wsdl/soap/http?mtom=true")
 @Stateless
 public class MTOMWS {
     @WebMethod
-    @WebResult( name = "result" )
-    @XmlMimeType( "text/plain" )
-    public DataHandler sayHello( @WebParam( name = "toWhom" ) String toWhom ) {
+    @WebResult(name = "result")
+    @XmlMimeType("text/plain")
+    public DataHandler sayHello(@WebParam(name = "toWhom") String toWhom) {
 
         String greeting = "Hello World Greeting for '" + toWhom + "' on " + new java.util.Date();
 

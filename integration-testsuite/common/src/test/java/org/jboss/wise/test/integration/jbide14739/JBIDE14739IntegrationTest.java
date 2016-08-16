@@ -49,8 +49,7 @@ public class JBIDE14739IntegrationTest extends WiseTest {
     @Deployment
     public static WebArchive createDeploymentA() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR + ".war");
-        archive
-                .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldInterface.class)
+        archive.addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldInterface.class)
                 .addClass(org.jboss.wise.test.integration.jbide14739.HelloWorldBean.class)
                 .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/jbide14739/web.xml"));
         return archive;
@@ -65,14 +64,15 @@ public class JBIDE14739IntegrationTest extends WiseTest {
 
     public static void runWise(URL wsdlURL, String tempDir, String methodName) throws Exception {
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-        WSDynamicClient client = clientBuilder.tmpDir(tempDir).verbose(true).keepSource(true).wsdlURL(wsdlURL
-                .toString()).build();
+        WSDynamicClient client = clientBuilder.tmpDir(tempDir).verbose(true).keepSource(true).wsdlURL(wsdlURL.toString())
+                .build();
         WSMethod method = client.getWSMethod("HelloService", "HelloWorldBeanPort", methodName);
         Map<String, Object> args = new java.util.HashMap<String, Object>();
         args.put("arg0", "from-wise-client");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         method.writeRequestPreview(args, bos);
-        Assert.assertTrue("Expected string containing '<arg0>from-wise-client</arg0>' but got: " + bos.toString(), bos.toString().contains("<arg0>from-wise-client</arg0>"));
+        Assert.assertTrue("Expected string containing '<arg0>from-wise-client</arg0>' but got: " + bos.toString(), bos
+                .toString().contains("<arg0>from-wise-client</arg0>"));
         InvocationResult result = method.invoke(args, null);
         Map<String, Object> res = result.getMapRequestAndResult(null, null);
         @SuppressWarnings("unchecked")

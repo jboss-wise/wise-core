@@ -1,4 +1,3 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,12 +5,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for RegisterResponse complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for RegisterResponse complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="RegisterResponse">
  *   &lt;complexContent>
@@ -23,13 +23,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegisterResponse", propOrder = {
-    "registeredID"
-})
+@XmlType(name = "RegisterResponse", propOrder = { "registeredID" })
 public class RegisterResponse {
 
     @XmlElement(name = "RegisteredID")
@@ -37,7 +35,7 @@ public class RegisterResponse {
 
     /**
      * Gets the value of the registeredID property.
-     * 
+     *
      */
     public long getRegisteredID() {
         return registeredID;
@@ -45,7 +43,7 @@ public class RegisterResponse {
 
     /**
      * Sets the value of the registeredID property.
-     * 
+     *
      */
     public void setRegisteredID(long value) {
         this.registeredID = value;

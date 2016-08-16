@@ -40,12 +40,12 @@ import org.junit.Test;
 @Immutable
 public class WSServiceImplTest {
 
-    @WebEndpoint( name = "EndPoint1" )
+    @WebEndpoint(name = "EndPoint1")
     public String getEndPointForTest1() {
         return " ";
     }
 
-    @WebEndpoint( name = "EndPoint2" )
+    @WebEndpoint(name = "EndPoint2")
     public Integer getEndPointForTes2() {
         return Integer.valueOf(3);
     }
@@ -59,13 +59,13 @@ public class WSServiceImplTest {
         assertThat(endpoints.keySet(), hasItem("EndPoint2"));
 
         WSEndpoint endPoint1 = endpoints.get("EndPoint1");
-        assertThat((URLClassLoader)endPoint1.getClassLoader(), is(loader));
+        assertThat((URLClassLoader) endPoint1.getClassLoader(), is(loader));
         assertThat(endPoint1.getUnderlyingObjectClass().getCanonicalName(), equalTo(String.class.getCanonicalName()));
-        assertThat((String)endPoint1.createInstance(), equalTo(" "));
+        assertThat((String) endPoint1.createInstance(), equalTo(" "));
         WSEndpoint endPoint2 = endpoints.get("EndPoint2");
-        assertThat((URLClassLoader)endPoint2.getClassLoader(), is(loader));
+        assertThat((URLClassLoader) endPoint2.getClassLoader(), is(loader));
         assertThat(endPoint2.getUnderlyingObjectClass().getCanonicalName(), equalTo(Integer.class.getCanonicalName()));
-        assertThat((Integer)endPoint2.createInstance(), equalTo(Integer.valueOf(3)));
+        assertThat((Integer) endPoint2.createInstance(), equalTo(Integer.valueOf(3)));
 
     }
 }

@@ -37,7 +37,7 @@ public class ExternalObject implements Serializable {
         return internal;
     }
 
-    public void setInternal( InternalObject internal ) {
+    public void setInternal(InternalObject internal) {
         this.internal = internal;
     }
 
@@ -45,7 +45,7 @@ public class ExternalObject implements Serializable {
         return date;
     }
 
-    public void setDate( Date date ) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -53,10 +53,10 @@ public class ExternalObject implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
-    
+
     @Override
     public boolean equals(Object o) {
-    	return EqualsBuilder.reflectionEquals(this, o);
+        return EqualsBuilder.reflectionEquals(this, o);
     }
 
 }

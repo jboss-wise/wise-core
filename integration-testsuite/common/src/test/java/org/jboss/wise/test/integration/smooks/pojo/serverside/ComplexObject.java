@@ -38,7 +38,7 @@ public class ComplexObject {
         return calendarField;
     }
 
-    public void setCalendarField( Calendar calendarField ) {
+    public void setCalendarField(Calendar calendarField) {
         this.calendarField = calendarField;
     }
 
@@ -46,7 +46,7 @@ public class ComplexObject {
         return integerField;
     }
 
-    public void setIntegerField( Integer integerField ) {
+    public void setIntegerField(Integer integerField) {
         this.integerField = integerField;
     }
 
@@ -54,7 +54,7 @@ public class ComplexObject {
         return stringField;
     }
 
-    public void setStringField( String stringField ) {
+    public void setStringField(String stringField) {
         this.stringField = stringField;
     }
 

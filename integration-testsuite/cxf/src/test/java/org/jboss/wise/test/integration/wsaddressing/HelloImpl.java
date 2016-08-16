@@ -25,21 +25,19 @@ import javax.jws.WebService;
 import javax.xml.ws.soap.Addressing;
 
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 20-Dic-2010
  *
  */
 
-@WebService( endpointInterface = "org.jboss.wise.test.integration.wsaddressing.Hello",
-             targetNamespace = "http://org.jboss/wise/wsa",
-             serviceName = "HelloService",
-             wsdlLocation = "WEB-INF/test.wsdl" ) //this is added to force the server on publishing a WSDL without policies; this way we're sure WS-Addressing
-             					  //on client side is controlled by features only, not by WS-Policy engine.
+@WebService(endpointInterface = "org.jboss.wise.test.integration.wsaddressing.Hello", targetNamespace = "http://org.jboss/wise/wsa", serviceName = "HelloService", wsdlLocation = "WEB-INF/test.wsdl")
+// this is added to force the server on publishing a WSDL without policies; this way we're sure WS-Addressing
+// on client side is controlled by features only, not by WS-Policy engine.
 @Addressing(enabled = true, required = false)
 public class HelloImpl implements Hello {
-    
-    public String echoUserType( String user ) {
+
+    public String echoUserType(String user) {
         return "Hello WSAddressing";
     }
 }

@@ -1,4 +1,3 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,12 +5,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for PhoneNumber complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for PhoneNumber complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="PhoneNumber">
  *   &lt;complexContent>
@@ -25,15 +25,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PhoneNumber", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = {
-    "areaCode",
-    "exchange",
-    "line"
-})
+@XmlType(name = "PhoneNumber", namespace = "http://complex.jaxws.ws.test.jboss.org/", propOrder = { "areaCode", "exchange",
+        "line" })
 public class PhoneNumber {
 
     @XmlElement(required = true, nillable = true)
@@ -45,11 +42,9 @@ public class PhoneNumber {
 
     /**
      * Gets the value of the areaCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getAreaCode() {
         return areaCode;
@@ -57,11 +52,9 @@ public class PhoneNumber {
 
     /**
      * Sets the value of the areaCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setAreaCode(String value) {
         this.areaCode = value;
@@ -69,11 +62,9 @@ public class PhoneNumber {
 
     /**
      * Gets the value of the exchange property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getExchange() {
         return exchange;
@@ -81,11 +72,9 @@ public class PhoneNumber {
 
     /**
      * Sets the value of the exchange property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setExchange(String value) {
         this.exchange = value;
@@ -93,11 +82,9 @@ public class PhoneNumber {
 
     /**
      * Gets the value of the line property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getLine() {
         return line;
@@ -105,11 +92,9 @@ public class PhoneNumber {
 
     /**
      * Sets the value of the line property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setLine(String value) {
         this.line = value;

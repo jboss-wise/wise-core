@@ -29,7 +29,7 @@ import org.junit.Test;
 
 /**
  * Class to test {@link ReflectionBasedWSDynamicClientBuilder}
- * 
+ *
  * @author stefano.maestri@javalinux.it
  */
 public class ReflectionBasedWSDynamicClientBuilderTest {
@@ -41,24 +41,24 @@ public class ReflectionBasedWSDynamicClientBuilderTest {
         builder = WSDynamicClientFactory.getJAXWSClientBuilder();
     }
 
-    @Test( expected = IllegalStateException.class )
+    @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionIfTrimmedWsdlIsNotSetted() throws Exception {
         builder.build();
     }
 
-    @Test( expected = IllegalStateException.class )
+    @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionIfWsdlIsNull() throws Exception {
         builder.wsdlURL(null);
         builder.build();
     }
 
-    @Test( expected = IllegalStateException.class )
+    @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionIfTrimmedWsdlLengthIsZero() throws Exception {
         builder.wsdlURL(" ");
         builder.build();
     }
 
-    @Test( expected = IllegalStateException.class )
+    @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionIfMaxThreadPoolSizeIsLessThanOne() throws Exception {
         builder.maxThreadPoolSize(0);
         builder.build();

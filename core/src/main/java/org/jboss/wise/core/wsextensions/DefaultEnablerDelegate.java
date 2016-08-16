@@ -28,7 +28,7 @@ import net.jcip.annotations.Immutable;
 
 /**
  * Default implementation of {@link EnablerDelegate}
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 28-Aug-2010
  */
@@ -37,50 +37,50 @@ public class DefaultEnablerDelegate implements EnablerDelegate {
 
     /**
      * {@inheritDoc}
-     * 
-     *  @see org.jboss.wise.core.wsextensions.EnablerDelegate#setConfigFile(String)
+     *
+     * @see org.jboss.wise.core.wsextensions.EnablerDelegate#setConfigFile(String)
      */
     public void setConfigFile(String configFile) {
-	//NOOP
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     *  @see org.jboss.wise.core.wsextensions.EnablerDelegate#setConfigName(String)
-     */
-    public void setConfigName(String configName) {
-	//NOOP
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.jboss.wise.core.wsextensions.EnablerDelegate#visitMTOM(Object)
-     */
-    public void visitMTOM( Object endpointInstance ) throws UnsupportedOperationException {
-        ((SOAPBinding)((BindingProvider)endpointInstance).getBinding()).setMTOMEnabled(true);
+        // NOOP
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
+     * @see org.jboss.wise.core.wsextensions.EnablerDelegate#setConfigName(String)
+     */
+    public void setConfigName(String configName) {
+        // NOOP
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.jboss.wise.core.wsextensions.EnablerDelegate#visitMTOM(Object)
+     */
+    public void visitMTOM(Object endpointInstance) throws UnsupportedOperationException {
+        ((SOAPBinding) ((BindingProvider) endpointInstance).getBinding()).setMTOMEnabled(true);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @see org.jboss.wise.core.wsextensions.EnablerDelegate#visitWSAddressing(Object)
      */
-    public void visitWSAddressing( Object endpointInstance ) throws UnsupportedOperationException {
+    public void visitWSAddressing(Object endpointInstance) throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.EnablerDelegate#visitWSRM(Object)
      */
-    public void visitWSRM( Object endpointInstance ) throws UnsupportedOperationException {
+    public void visitWSRM(Object endpointInstance) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void visitWSSecurity( Object endpointInstance ) throws UnsupportedOperationException, IllegalStateException {
-	throw new UnsupportedOperationException();
+    public void visitWSSecurity(Object endpointInstance) throws UnsupportedOperationException, IllegalStateException {
+        throw new UnsupportedOperationException();
     }
 }

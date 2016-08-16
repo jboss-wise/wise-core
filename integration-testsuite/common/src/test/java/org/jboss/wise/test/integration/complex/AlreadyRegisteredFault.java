@@ -1,16 +1,16 @@
-
 package org.jboss.wise.test.integration.complex;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for AlreadyRegisteredFault complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for AlreadyRegisteredFault complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="AlreadyRegisteredFault">
  *   &lt;complexContent>
@@ -22,22 +22,18 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AlreadyRegisteredFault", propOrder = {
-    "existingId"
-})
-public class AlreadyRegisteredFault
-    extends RegistrationFault
-{
+@XmlType(name = "AlreadyRegisteredFault", propOrder = { "existingId" })
+public class AlreadyRegisteredFault extends RegistrationFault {
 
     protected long existingId;
 
     /**
      * Gets the value of the existingId property.
-     * 
+     *
      */
     public long getExistingId() {
         return existingId;
@@ -45,7 +41,7 @@ public class AlreadyRegisteredFault
 
     /**
      * Sets the value of the existingId property.
-     * 
+     *
      */
     public void setExistingId(long value) {
         this.existingId = value;

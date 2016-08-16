@@ -55,99 +55,95 @@ import org.junit.runner.RunWith;
 public class MessagePreviewIntegrationTest extends WiseTest {
 
     private static WSDynamicClient client;
-    private final String registerOpRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-            "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-            "  <soap:Header/>\n" +
-            "  <soap:Body>\n" +
-            "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\">\n" +
-            "      <Customer>\n" +
-            "        <address>\n" +
-            "          <city>?</city>\n" +
-            "          <state>?</state>\n" +
-            "          <street>?</street>\n" +
-            "          <zip>?</zip>\n" +
-            "        </address>\n" +
-            "        <contactNumbers>\n" +
-            "          <areaCode>?</areaCode>\n" +
-            "          <exchange>?</exchange>\n" +
-            "          <line>?</line>\n" +
-            "        </contactNumbers>\n" +
-            "        <id>0</id>\n" +
-            "        <name>\n" +
-            "          <firstName>?</firstName>\n" +
-            "          <lastName>?</lastName>\n" +
-            "          <middleName>?</middleName>\n" +
-            "        </name>\n" +
-            "        <referredCustomers>\n" +
-            "          <address>\n" +
-            "            <city>?</city>\n" +
-            "            <state>?</state>\n" +
-            "            <street>?</street>\n" +
-            "            <zip>?</zip>\n" +
-            "          </address>\n" +
-            "          <contactNumbers>\n" +
-            "            <areaCode>?</areaCode>\n" +
-            "            <exchange>?</exchange>\n" +
-            "            <line>?</line>\n" +
-            "          </contactNumbers>\n" +
-            "          <contactNumbers>\n" +
-            "            <areaCode>?</areaCode>\n" +
-            "            <exchange>?</exchange>\n" +
-            "            <line>?</line>\n" +
-            "          </contactNumbers>\n" +
-            "          <id>0</id>\n" +
-            "          <name>\n" +
-            "            <firstName>?</firstName>\n" +
-            "            <lastName>?</lastName>\n" +
-            "            <middleName>?</middleName>\n" +
-            "          </name>\n" +
-            "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n" +
-            "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n" +
-            "        </referredCustomers>\n" +
-            "      </Customer>\n" +
-            "      <When xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\"/>\n" +
-            "    </ns2:Register>\n" +
-            "  </soap:Body>\n" +
-            "</soap:Envelope>\n";
+    private final String registerOpRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            + "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
+            + "  <soap:Header/>\n"
+            + "  <soap:Body>\n"
+            + "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\">\n"
+            + "      <Customer>\n"
+            + "        <address>\n"
+            + "          <city>?</city>\n"
+            + "          <state>?</state>\n"
+            + "          <street>?</street>\n"
+            + "          <zip>?</zip>\n"
+            + "        </address>\n"
+            + "        <contactNumbers>\n"
+            + "          <areaCode>?</areaCode>\n"
+            + "          <exchange>?</exchange>\n"
+            + "          <line>?</line>\n"
+            + "        </contactNumbers>\n"
+            + "        <id>0</id>\n"
+            + "        <name>\n"
+            + "          <firstName>?</firstName>\n"
+            + "          <lastName>?</lastName>\n"
+            + "          <middleName>?</middleName>\n"
+            + "        </name>\n"
+            + "        <referredCustomers>\n"
+            + "          <address>\n"
+            + "            <city>?</city>\n"
+            + "            <state>?</state>\n"
+            + "            <street>?</street>\n"
+            + "            <zip>?</zip>\n"
+            + "          </address>\n"
+            + "          <contactNumbers>\n"
+            + "            <areaCode>?</areaCode>\n"
+            + "            <exchange>?</exchange>\n"
+            + "            <line>?</line>\n"
+            + "          </contactNumbers>\n"
+            + "          <contactNumbers>\n"
+            + "            <areaCode>?</areaCode>\n"
+            + "            <exchange>?</exchange>\n"
+            + "            <line>?</line>\n"
+            + "          </contactNumbers>\n"
+            + "          <id>0</id>\n"
+            + "          <name>\n"
+            + "            <firstName>?</firstName>\n"
+            + "            <lastName>?</lastName>\n"
+            + "            <middleName>?</middleName>\n"
+            + "          </name>\n"
+            + "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n"
+            + "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n"
+            + "        </referredCustomers>\n"
+            + "      </Customer>\n"
+            + "      <When xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\"/>\n"
+            + "    </ns2:Register>\n" + "  </soap:Body>\n" + "</soap:Envelope>\n";
 
     @Deployment
     public static WebArchive createDeployment() {
-       WebArchive archive = ShrinkWrap.create(WebArchive.class, "complex.war");
-       archive
-          .addClass(org.jboss.wise.test.integration.complex.Address.class)
-          .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
-          .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
-          .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
-          .addClass(org.jboss.wise.test.integration.complex.BulkRegisterResponse.class)
-          .addClass(org.jboss.wise.test.integration.complex.BulkRegister.class)
-          .addClass(org.jboss.wise.test.integration.complex.Customer.class)
-          .addClass(org.jboss.wise.test.integration.complex.Echo.class)
-          .addClass(org.jboss.wise.test.integration.complex.EchoResponse.class)
-          .addClass(org.jboss.wise.test.integration.complex.GetStatistics.class)
-          .addClass(org.jboss.wise.test.integration.complex.GetStatisticsResponse.class)
-          .addClass(org.jboss.wise.test.integration.complex.InvoiceCustomer.class)
-          .addClass(org.jboss.wise.test.integration.complex.Name.class)
-          .addClass(org.jboss.wise.test.integration.complex.PhoneNumber.class)
-          .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoice.class)
-          .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoiceResponse.class)
-          .addClass(org.jboss.wise.test.integration.complex.Register.class)
-          .addClass(org.jboss.wise.test.integration.complex.RegisterResponse.class)
-          .addClass(org.jboss.wise.test.integration.complex.Registration.class)
-          .addClass(org.jboss.wise.test.integration.complex.RegistrationFault.class)
-          .addClass(org.jboss.wise.test.integration.complex.RegistrationServiceImpl.class)
-          .addClass(org.jboss.wise.test.integration.complex.Statistics.class)
-          .addClass(org.jboss.wise.test.integration.complex.ValidationFault.class)
-          .addClass(org.jboss.wise.test.integration.complex.ValidationFault_Exception.class)
-          .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/complex/web.xml"));
-       return archive;
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "complex.war");
+        archive.addClass(org.jboss.wise.test.integration.complex.Address.class)
+                .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault_Exception.class)
+                .addClass(org.jboss.wise.test.integration.complex.AlreadyRegisteredFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.ObjectFactory.class)
+                .addClass(org.jboss.wise.test.integration.complex.BulkRegisterResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.BulkRegister.class)
+                .addClass(org.jboss.wise.test.integration.complex.Customer.class)
+                .addClass(org.jboss.wise.test.integration.complex.Echo.class)
+                .addClass(org.jboss.wise.test.integration.complex.EchoResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.GetStatistics.class)
+                .addClass(org.jboss.wise.test.integration.complex.GetStatisticsResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.InvoiceCustomer.class)
+                .addClass(org.jboss.wise.test.integration.complex.Name.class)
+                .addClass(org.jboss.wise.test.integration.complex.PhoneNumber.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoice.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterForInvoiceResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.Register.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegisterResponse.class)
+                .addClass(org.jboss.wise.test.integration.complex.Registration.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegistrationFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.RegistrationServiceImpl.class)
+                .addClass(org.jboss.wise.test.integration.complex.Statistics.class)
+                .addClass(org.jboss.wise.test.integration.complex.ValidationFault.class)
+                .addClass(org.jboss.wise.test.integration.complex.ValidationFault_Exception.class)
+                .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/complex/web.xml"));
+        return archive;
     }
 
-   public static void setUp() throws Exception {
+    public static void setUp() throws Exception {
         URL wsdlURL = new URL(getServerHostAndPort() + "/complex/RegistrationService?wsdl");
 
         WSDynamicClientBuilder clientBuilder = WSDynamicClientFactory.getJAXWSClientBuilder();
-        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL
-                .toString()).build();
+        client = clientBuilder.tmpDir("target/temp/wise").verbose(true).keepSource(true).wsdlURL(wsdlURL.toString()).build();
     }
 
     @Test
@@ -156,7 +152,7 @@ public class MessagePreviewIntegrationTest extends WiseTest {
         setUp();
         WSMethod method = client.getWSMethod("RegistrationServiceImplService", "RegistrationServiceImplPort", "Register");
         String messagePreview = previewMessage(method);
-        Assert.assertEquals(registerOpRequest, messagePreview); //TODO improve check...
+        Assert.assertEquals(registerOpRequest, messagePreview); // TODO improve check...
         tearDown();
     }
 
@@ -172,7 +168,8 @@ public class MessagePreviewIntegrationTest extends WiseTest {
 
     private String previewMessage(WSMethod method) throws InvocationException {
         Map<String, ? extends WebParameter> pars = method.getWebParams();
-        ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true).useDefautValuesForNullLeaves(false);
+        ElementBuilder builder = ElementBuilderFactory.getElementBuilder().client(client).request(true)
+                .useDefautValuesForNullLeaves(false);
         Map<String, Element> elementsMap = new HashMap<String, Element>();
         for (Entry<String, ? extends WebParameter> par : pars.entrySet()) {
             String parName = par.getKey();
@@ -208,7 +205,7 @@ public class MessagePreviewIntegrationTest extends WiseTest {
             if (element.isGroup()) {
                 element.incrementChildren();
             }
-            for (Iterator<? extends Element> it = element.getChildren(); it.hasNext(); ) {
+            for (Iterator<? extends Element> it = element.getChildren(); it.hasNext();) {
                 populateElement(it.next(), remainingLazyExpansions);
             }
         }

@@ -37,144 +37,145 @@ import org.jboss.wise.core.exception.WiseRuntimeException;
  * @author alessio.soldano@jboss.com
  */
 @ThreadSafe
-public class ReflectionBasedWSDynamicClientBuilder extends ReflectionBasedBasicWSDynamicClientBuilder implements WSDynamicClientBuilder {
+public class ReflectionBasedWSDynamicClientBuilder extends ReflectionBasedBasicWSDynamicClientBuilder implements
+        WSDynamicClientBuilder {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#build()
      */
     public synchronized WSDynamicClient build() throws IllegalStateException, WiseRuntimeException {
-	return (WSDynamicClient)super.build();
+        return (WSDynamicClient) super.build();
 
     }
-    
+
     protected WSDynamicClient createClient() {
-	return new WSDynamicClientImpl(this);
+        return new WSDynamicClientImpl(this);
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#wsdlURL(java.lang.String)
      */
     public synchronized final WSDynamicClientBuilder wsdlURL(String wsdlURL) {
-	super.wsdlURL(wsdlURL);
-	return this;
+        super.wsdlURL(wsdlURL);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#userName(java.lang.String)
      */
     public synchronized WSDynamicClientBuilder userName(String userName) {
-	super.userName(userName);
-	return this;
+        super.userName(userName);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#password(java.lang.String)
      */
     public synchronized WSDynamicClientBuilder password(String password) {
-	super.password(password);
-	return this;
+        super.password(password);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#targetPackage(java.lang.String)
      */
     public synchronized WSDynamicClientBuilder targetPackage(String targetPackage) {
-	super.targetPackage(targetPackage);
-	return this;
+        super.targetPackage(targetPackage);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#tmpDir(java.lang.String)
      */
     public synchronized WSDynamicClientBuilder tmpDir(String tmpDir) {
-	super.tmpDir(tmpDir);
-	return this;
+        super.tmpDir(tmpDir);
+        return this;
     }
 
     public synchronized WSDynamicClientBuilder bindingFiles(List<File> bindings) {
-	super.bindingFiles(bindings);
-	return this;
+        super.bindingFiles(bindings);
+        return this;
     }
 
     public synchronized WSDynamicClientBuilder catalogFile(File catalogFile) {
-	super.catalogFile(catalogFile);
-	return this;
+        super.catalogFile(catalogFile);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#keepSource(boolean)
      */
     public synchronized WSDynamicClientBuilder keepSource(boolean bool) {
-	super.keepSource(bool);
-	return this;
+        super.keepSource(bool);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#securityConfigName(java.lang.String)
      */
     public synchronized WSDynamicClientBuilder securityConfigName(String name) {
-	super.securityConfigName(name);
-	return this;
+        super.securityConfigName(name);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#securityConfigUrl(java.lang.String)
      */
     public synchronized WSDynamicClientBuilder securityConfigUrl(String url) {
-	super.securityConfigUrl(url);
-	return this;
+        super.securityConfigUrl(url);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#verbose(boolean)
      */
     public synchronized WSDynamicClientBuilder verbose(boolean bool) {
-	super.verbose(bool);
-	return this;
+        super.verbose(bool);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#excludeNonSOAPPorts(boolean)
      */
     public synchronized WSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude) {
-	super.excludeNonSOAPPorts(exclude);
-	return this;
+        super.excludeNonSOAPPorts(exclude);
+        return this;
     }
 
     public synchronized WSDynamicClientBuilder messageStream(PrintStream messageStream) {
-	super.messageStream(messageStream);
-	return this;
+        super.messageStream(messageStream);
+        return this;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#maxThreadPoolSize(int)
      */
     public synchronized WSDynamicClientBuilder maxThreadPoolSize(int maxThreadPoolSize) {
-	super.maxThreadPoolSize(maxThreadPoolSize);
-	return this;
+        super.maxThreadPoolSize(maxThreadPoolSize);
+        return this;
     }
 }

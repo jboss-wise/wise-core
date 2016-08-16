@@ -29,7 +29,7 @@ import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
 
 /**
  * It is the enabler for WS-Addressing extension
- * 
+ *
  * @author stefano.maestri@javalinux.it
  */
 @ThreadSafe
@@ -38,16 +38,16 @@ public class WSAddressingEnabler implements WSExtensionEnabler {
 
     private final EnablerDelegate delegate;
 
-    public WSAddressingEnabler( WSDynamicClient client ) {
+    public WSAddressingEnabler(WSDynamicClient client) {
         delegate = client.getWSExtensionEnablerDelegate();
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.jboss.wise.core.wsextensions.WSExtensionEnabler#enable(Object)
      */
-    public void enable( Object endpointInstance ) throws UnsupportedOperationException {
+    public void enable(Object endpointInstance) throws UnsupportedOperationException {
         delegate.visitWSAddressing(endpointInstance);
     }
 

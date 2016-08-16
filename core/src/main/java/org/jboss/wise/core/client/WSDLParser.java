@@ -43,166 +43,157 @@ import javax.xml.stream.XMLStreamReader;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wsf.spi.util.StAXUtils;
 
-
 /**
  * WSDL parsing utilities
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 04-Jul-2013
- * 
+ *
  */
 public class WSDLParser {
-    
+
     private static final String WSDL_NS = "http://schemas.xmlsoap.org/wsdl/";
+
     private static final String SOAP_NS = "http://schemas.xmlsoap.org/wsdl/soap/";
+
     private static final String SOAP12_NS = "http://schemas.xmlsoap.org/wsdl/soap12/";
+
     private static final String DEFINITIONS = "definitions";
+
     private static final String SERVICE = "service";
+
     private static final String PORT = "port";
+
     private static final String ADDRESS = "address";
+
     private static final String NAME = "name";
+
     private static final String TARGET_NAMESPACE = "targetNamespace";
 
     public static Set<String> searchNonSoapServices(String wsdlUrl) throws WiseRuntimeException {
-	URL url;
-	try {
-	    url = new URL(wsdlUrl);
-	} catch (MalformedURLException e) {
-	    File file = new File(wsdlUrl);
-	    try {
-		url = file.toURI().toURL();
-	    } catch (MalformedURLException mue) {
-		throw new WiseRuntimeException(mue);
-	    }
-	}
-	return searchNonSoapServices(url);
+        URL url;
+        try {
+            url = new URL(wsdlUrl);
+        } catch (MalformedURLException e) {
+            File file = new File(wsdlUrl);
+            try {
+                url = file.toURI().toURL();
+            } catch (MalformedURLException mue) {
+                throw new WiseRuntimeException(mue);
+            }
+        }
+        return searchNonSoapServices(url);
     }
-    
-    public static Set<String> searchNonSoapServices(URL wsdlUrl) throws WiseRuntimeException {
-	Set<String> excludedPorts = new HashSet<String>();
-	InputStream is = null;
-	try {
-	    is = wsdlUrl.openStream();
-	    XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
-	    parse(xmlr, wsdlUrl, excludedPorts);
-	    return excludedPorts;
-	} catch (Exception e) {
-	    throw new WiseRuntimeException("Failed to read: " + wsdlUrl, e);
-	} finally {
-	    try {
-		if (is != null)
-		    is.close();
-	    } catch (IOException e) {
-	    } // ignore
-	}
-    }
-    
-    private static void parse(XMLStreamReader reader, URL wsdlUrl, Set<String> excludedPorts) throws XMLStreamException, WiseRuntimeException
-    {
-       int iterate;
-       try
-       {
-          iterate = reader.nextTag();
-       }
-       catch (XMLStreamException e)
-       {
-          // skip non-tag elements
-          iterate = reader.nextTag();
-       }
-       switch (iterate)
-       {
-          case END_ELEMENT : {
-             // we're done
-             break;
-          }
-          case START_ELEMENT : {
 
-             if (match(reader, WSDL_NS, DEFINITIONS))
-             {
-                String targetNS = reader.getAttributeValue(null, TARGET_NAMESPACE);
-                parseDefinitions(reader, targetNS, wsdlUrl, excludedPorts);
-             }
-             else
-             {
-                throw new WiseRuntimeException("Unexpected element '" + reader.getLocalName() + "' found parsing " + wsdlUrl.toExternalForm());
-             }
-          }
-       }
+    public static Set<String> searchNonSoapServices(URL wsdlUrl) throws WiseRuntimeException {
+        Set<String> excludedPorts = new HashSet<String>();
+        InputStream is = null;
+        try {
+            is = wsdlUrl.openStream();
+            XMLStreamReader xmlr = StAXUtils.createXMLStreamReader(is);
+            parse(xmlr, wsdlUrl, excludedPorts);
+            return excludedPorts;
+        } catch (Exception e) {
+            throw new WiseRuntimeException("Failed to read: " + wsdlUrl, e);
+        } finally {
+            try {
+                if (is != null)
+                    is.close();
+            } catch (IOException e) {
+            } // ignore
+        }
     }
-    
-    private static void parseDefinitions(XMLStreamReader reader, String targetNS, URL wsdlUrl, Set<String> excludedPorts) throws XMLStreamException, WiseRuntimeException
-    {
-       while (reader.hasNext())
-       {
-          switch (nextElement(reader))
-          {
-             case XMLStreamConstants.END_ELEMENT : {
-                if (match(reader, WSDL_NS, DEFINITIONS))
-                {
-                   return;
+
+    private static void parse(XMLStreamReader reader, URL wsdlUrl, Set<String> excludedPorts) throws XMLStreamException,
+            WiseRuntimeException {
+        int iterate;
+        try {
+            iterate = reader.nextTag();
+        } catch (XMLStreamException e) {
+            // skip non-tag elements
+            iterate = reader.nextTag();
+        }
+        switch (iterate) {
+            case END_ELEMENT: {
+                // we're done
+                break;
+            }
+            case START_ELEMENT: {
+
+                if (match(reader, WSDL_NS, DEFINITIONS)) {
+                    String targetNS = reader.getAttributeValue(null, TARGET_NAMESPACE);
+                    parseDefinitions(reader, targetNS, wsdlUrl, excludedPorts);
+                } else {
+                    throw new WiseRuntimeException("Unexpected element '" + reader.getLocalName() + "' found parsing "
+                            + wsdlUrl.toExternalForm());
                 }
-                continue;
-             }
-             case XMLStreamConstants.START_ELEMENT : {
-                if (match(reader, WSDL_NS, SERVICE)) {
-                   parseService(reader, targetNS, wsdlUrl, excludedPorts);
-                }
-                continue;
-             }
-          }
-       }
-       throw new WiseRuntimeException("Reached end of XML document unexpectedly: " + wsdlUrl.toExternalForm());
+            }
+        }
     }
-    
-    private static void parseService(XMLStreamReader reader, String targetNS, URL wsdlUrl, Set<String> excludedPorts) throws XMLStreamException
-    {
-       while (reader.hasNext())
-       {
-          switch (nextElement(reader))
-          {
-             case XMLStreamConstants.END_ELEMENT : {
-                if (match(reader, WSDL_NS, SERVICE))
-                {
-                   return;
+
+    private static void parseDefinitions(XMLStreamReader reader, String targetNS, URL wsdlUrl, Set<String> excludedPorts)
+            throws XMLStreamException, WiseRuntimeException {
+        while (reader.hasNext()) {
+            switch (nextElement(reader)) {
+                case XMLStreamConstants.END_ELEMENT: {
+                    if (match(reader, WSDL_NS, DEFINITIONS)) {
+                        return;
+                    }
+                    continue;
                 }
-                continue;
-             }
-             case XMLStreamConstants.START_ELEMENT : {
-                if (match(reader, WSDL_NS, PORT)) {
-                   QName name = attributeAsQName(reader, null, NAME, targetNS);
-                   if(!isSoapPort(reader, wsdlUrl)) {
-                       excludedPorts.add(name.getLocalPart());
-                   }
+                case XMLStreamConstants.START_ELEMENT: {
+                    if (match(reader, WSDL_NS, SERVICE)) {
+                        parseService(reader, targetNS, wsdlUrl, excludedPorts);
+                    }
+                    continue;
                 }
-                continue;
-             }
-          }
-       }
-       throw new WiseRuntimeException("Reached end of XML document unexpectedly: " + wsdlUrl.toExternalForm());
+            }
+        }
+        throw new WiseRuntimeException("Reached end of XML document unexpectedly: " + wsdlUrl.toExternalForm());
     }
-    
-    private static boolean isSoapPort(XMLStreamReader reader, URL wsdlUrl) throws XMLStreamException
-    {
-       while (reader.hasNext())
-       {
-          switch (nextElement(reader))
-          {
-             case XMLStreamConstants.END_ELEMENT : {
-                if (match(reader, WSDL_NS, PORT))
-                {
-                   return false;
+
+    private static void parseService(XMLStreamReader reader, String targetNS, URL wsdlUrl, Set<String> excludedPorts)
+            throws XMLStreamException {
+        while (reader.hasNext()) {
+            switch (nextElement(reader)) {
+                case XMLStreamConstants.END_ELEMENT: {
+                    if (match(reader, WSDL_NS, SERVICE)) {
+                        return;
+                    }
+                    continue;
                 }
-                continue;
-             }
-             case XMLStreamConstants.START_ELEMENT : {
-                if (match(reader, SOAP_NS, ADDRESS) || match(reader, SOAP12_NS, ADDRESS)) {
-                   return true;
+                case XMLStreamConstants.START_ELEMENT: {
+                    if (match(reader, WSDL_NS, PORT)) {
+                        QName name = attributeAsQName(reader, null, NAME, targetNS);
+                        if (!isSoapPort(reader, wsdlUrl)) {
+                            excludedPorts.add(name.getLocalPart());
+                        }
+                    }
+                    continue;
                 }
-                continue;
-             }
-          }
-       }
-       throw new WiseRuntimeException("Reached end of XML document unexpectedly: " + wsdlUrl.toExternalForm());
+            }
+        }
+        throw new WiseRuntimeException("Reached end of XML document unexpectedly: " + wsdlUrl.toExternalForm());
+    }
+
+    private static boolean isSoapPort(XMLStreamReader reader, URL wsdlUrl) throws XMLStreamException {
+        while (reader.hasNext()) {
+            switch (nextElement(reader)) {
+                case XMLStreamConstants.END_ELEMENT: {
+                    if (match(reader, WSDL_NS, PORT)) {
+                        return false;
+                    }
+                    continue;
+                }
+                case XMLStreamConstants.START_ELEMENT: {
+                    if (match(reader, SOAP_NS, ADDRESS) || match(reader, SOAP12_NS, ADDRESS)) {
+                        return true;
+                    }
+                    continue;
+                }
+            }
+        }
+        throw new WiseRuntimeException("Reached end of XML document unexpectedly: " + wsdlUrl.toExternalForm());
     }
 
 }

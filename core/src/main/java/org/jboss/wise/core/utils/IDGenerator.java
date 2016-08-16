@@ -25,13 +25,13 @@ import java.util.UUID;
 
 /**
  * Generates unique ID numbers, almost like a database sequence.
- * 
+ *
  * @author alessio.soldano@javalinux.it
  * @since 25-Apr-2005
  */
 public final class IDGenerator {
 
     public static final synchronized String nextVal() {
-	return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString();
     }
 }

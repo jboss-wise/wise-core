@@ -63,12 +63,10 @@ import org.milyn.profile.UnknownProfileMemberException;
 import org.milyn.resource.URIResourceLocator;
 
 /**
- * A SOAPHandler extension. It apply smooks transformation on soap message.
- * Transformation can also use freemarker, using provided javaBeans map to get
- * values It can apply transformation only on inbound message, outbound ones or
- * both, depending on setInBoundHandlingEnabled(boolean) and
- * setOutBoundHandlingEnabled(boolean) methods
- * 
+ * A SOAPHandler extension. It apply smooks transformation on soap message. Transformation can also use freemarker, using
+ * provided javaBeans map to get values It can apply transformation only on inbound message, outbound ones or both, depending on
+ * setInBoundHandlingEnabled(boolean) and setOutBoundHandlingEnabled(boolean) methods
+ *
  * @see #setInBoundHandlingEnabled(boolean)
  * @see #setOutBoundHandlingEnabled(boolean)
  * @author Stefano Maestri, stefano.maestri@javalinux.it
@@ -91,46 +89,45 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
     private boolean inBoundHandlingEnabled = true;
 
     /**
-     * @param smooksResource
-     *            URI of smooks config file
-     * @param beans
-     *            used for smooks BeanAccessor
-     * @param client  a dynamic client
-     * @param smooksReport  string
+     * @param smooksResource URI of smooks config file
+     * @param beans used for smooks BeanAccessor
+     * @param client a dynamic client
+     * @param smooksReport string
      */
     public SmooksHandler(String smooksResource, Map<String, Object> beans, WSDynamicClient client, String smooksReport) {
 
-	assert smooksResource != null;
+        assert smooksResource != null;
 
-	try (InputStream smooksResourceStream = new URIResourceLocator().getResource(smooksResource)) {
-	    smooks = client.getSmooksInstance();
-	    try {
-		ProfileStore profileStore = smooks.getApplicationContext().getProfileStore();
-		profileStore.getProfileSet(Integer.toString(this.hashCode()));
-	    } catch (UnknownProfileMemberException e) {
+        try (InputStream smooksResourceStream = new URIResourceLocator().getResource(smooksResource)) {
+            smooks = client.getSmooksInstance();
+            try {
+                ProfileStore profileStore = smooks.getApplicationContext().getProfileStore();
+                profileStore.getProfileSet(Integer.toString(this.hashCode()));
+            } catch (UnknownProfileMemberException e) {
 
-		synchronized (SmooksMapper.class) {
-		    // Register the message flow within the Smooks context....
-		    SmooksUtil.registerProfileSet(DefaultProfileSet.create(Integer.toString(this.hashCode()), new String[] {}), smooks);
-		}
-	    }
-	    SmooksResourceConfigurationList list = XMLConfigDigester.digestConfig(smooksResourceStream, "wise");
-	    for (int i = 0; i < list.size(); i++) {
-		SmooksResourceConfiguration smookResourceElement = list.get(i);
-		smookResourceElement.setTargetProfile(Integer.toString(this.hashCode()));
-		SmooksUtil.registerResource(smookResourceElement, smooks);
-	    }
+                synchronized (SmooksMapper.class) {
+                    // Register the message flow within the Smooks context....
+                    SmooksUtil.registerProfileSet(DefaultProfileSet.create(Integer.toString(this.hashCode()), new String[] {}),
+                            smooks);
+                }
+            }
+            SmooksResourceConfigurationList list = XMLConfigDigester.digestConfig(smooksResourceStream, "wise");
+            for (int i = 0; i < list.size(); i++) {
+                SmooksResourceConfiguration smookResourceElement = list.get(i);
+                smookResourceElement.setTargetProfile(Integer.toString(this.hashCode()));
+                SmooksUtil.registerResource(smookResourceElement, smooks);
+            }
 
-	    this.smooksReport = smooksReport;
-	} catch (Exception e) {
-	    throw new WiseRuntimeException("failde to create SmooksMapper", e);
-	}
+            this.smooksReport = smooksReport;
+        } catch (Exception e) {
+            throw new WiseRuntimeException("failde to create SmooksMapper", e);
+        }
 
-	this.beansMap = beans;
+        this.beansMap = beans;
     }
 
     public Set<QName> getHeaders() {
-	return null;
+        return null;
     }
 
     public void close(MessageContext arg0) {
@@ -138,77 +135,78 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
     }
 
     public boolean handleFault(SOAPMessageContext arg0) {
-	return false;
+        return false;
     }
 
     public boolean handleMessage(SOAPMessageContext smc) {
-	SOAPMessage message = smc.getMessage();
-	Boolean outboundProperty = (Boolean) smc.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
-	if (outboundProperty == true && this.isOutBoundHandlingEnabled() == false) {
-	    return false;
-	}
-	if (outboundProperty == false && this.isInBoundHandlingEnabled() == false) {
-	    return false;
-	}
-	try {
-	    smc.setMessage(applySmooksTransformation(message));
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    return false;
-	}
-	return true;
+        SOAPMessage message = smc.getMessage();
+        Boolean outboundProperty = (Boolean) smc.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+        if (outboundProperty == true && this.isOutBoundHandlingEnabled() == false) {
+            return false;
+        }
+        if (outboundProperty == false && this.isInBoundHandlingEnabled() == false) {
+            return false;
+        }
+        try {
+            smc.setMessage(applySmooksTransformation(message));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
 
     }
 
     /* package */ExecutionContext initExecutionContext(String smooksReport) {
-	ExecutionContext executionContext = smooks.createExecutionContext(Integer.toString(this.hashCode()));
-	if (smooksReport != null) {
-	    try {
-		executionContext.setEventListener(new HtmlReportGenerator(smooksReport));
-	    } catch (IOException e) {
-		if (log.isDebugEnabled()) {
-		    log.debug("Error during loading/instanciating Html report generator (" + smooksReport + ") with exception message: " + e.getMessage());
-		    log.info("Wise will continue without it");
+        ExecutionContext executionContext = smooks.createExecutionContext(Integer.toString(this.hashCode()));
+        if (smooksReport != null) {
+            try {
+                executionContext.setEventListener(new HtmlReportGenerator(smooksReport));
+            } catch (IOException e) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Error during loading/instanciating Html report generator (" + smooksReport
+                            + ") with exception message: " + e.getMessage());
+                    log.info("Wise will continue without it");
 
-		}
-	    }
-	}
-	return executionContext;
+                }
+            }
+        }
+        return executionContext;
 
     }
 
     SOAPMessage applySmooksTransformation(SOAPMessage message) throws Exception {
-	ByteArrayOutputStream outStream = null;
-	ByteArrayInputStream inStream = null;
-	try {
-	    ExecutionContext executionContext = initExecutionContext(smooksReport);
-	    StringWriter transResult = new StringWriter();
+        ByteArrayOutputStream outStream = null;
+        ByteArrayInputStream inStream = null;
+        try {
+            ExecutionContext executionContext = initExecutionContext(smooksReport);
+            StringWriter transResult = new StringWriter();
 
-	    BeanRepository.getInstance(executionContext).getBeanMap().putAll(this.beansMap);
-	    outStream = new ByteArrayOutputStream();
-	    message.writeTo(outStream);
-	    outStream.flush();
-	    inStream = new ByteArrayInputStream(outStream.toByteArray());
-	    smooks.filterSource(executionContext, new StreamSource(inStream), new StreamResult(transResult));
-	    inStream.close();
-	    inStream = new ByteArrayInputStream(transResult.toString().getBytes());
-	    //TODO evaluate avoiding buinding up a new factory each time + check for soap 1.2
-	    SOAPMessage message2 = MessageFactory.newInstance().createMessage(message.getMimeHeaders(), inStream);
-	    return message2;
-	} finally {
-	    try {
-		inStream.close();
-	    } catch (Exception e) {
-		// nop
-	    }
-	    try {
-		outStream.close();
-	    } catch (Exception e) {
-		// nop
-	    }
-	}
+            BeanRepository.getInstance(executionContext).getBeanMap().putAll(this.beansMap);
+            outStream = new ByteArrayOutputStream();
+            message.writeTo(outStream);
+            outStream.flush();
+            inStream = new ByteArrayInputStream(outStream.toByteArray());
+            smooks.filterSource(executionContext, new StreamSource(inStream), new StreamResult(transResult));
+            inStream.close();
+            inStream = new ByteArrayInputStream(transResult.toString().getBytes());
+            // TODO evaluate avoiding buinding up a new factory each time + check for soap 1.2
+            SOAPMessage message2 = MessageFactory.newInstance().createMessage(message.getMimeHeaders(), inStream);
+            return message2;
+        } finally {
+            try {
+                inStream.close();
+            } catch (Exception e) {
+                // nop
+            }
+            try {
+                outStream.close();
+            } catch (Exception e) {
+                // nop
+            }
+        }
     }
-    
+
     public static boolean isSOAP12(SOAPMessage soapMessage) throws SOAPException {
         SOAPPart soapPart = soapMessage.getSOAPPart();
         SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
@@ -218,26 +216,24 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
     }
 
     public synchronized boolean isOutBoundHandlingEnabled() {
-	return outBoundHandlingEnabled;
+        return outBoundHandlingEnabled;
     }
 
     /**
-     * @param outBoundHandlingEnabled
-     *            if true smooks transformation are applied to outBound message
+     * @param outBoundHandlingEnabled if true smooks transformation are applied to outBound message
      */
     public synchronized void setOutBoundHandlingEnabled(boolean outBoundHandlingEnabled) {
-	this.outBoundHandlingEnabled = outBoundHandlingEnabled;
+        this.outBoundHandlingEnabled = outBoundHandlingEnabled;
     }
 
     public synchronized boolean isInBoundHandlingEnabled() {
-	return inBoundHandlingEnabled;
+        return inBoundHandlingEnabled;
     }
 
     /**
-     * @param inBoundHandlingEnabled
-     *            if true smooks transformation are applied to inBound message
+     * @param inBoundHandlingEnabled if true smooks transformation are applied to inBound message
      */
     public synchronized void setInBoundHandlingEnabled(boolean inBoundHandlingEnabled) {
-	this.inBoundHandlingEnabled = inBoundHandlingEnabled;
+        this.inBoundHandlingEnabled = inBoundHandlingEnabled;
     }
 }

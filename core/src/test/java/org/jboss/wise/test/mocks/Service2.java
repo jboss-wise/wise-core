@@ -26,7 +26,7 @@ import javax.xml.ws.WebServiceClient;
 /**
  * @author stefano.maestri@javalinux.it
  */
-@WebServiceClient( name = "ServiceName2" )
+@WebServiceClient(name = "ServiceName2")
 public class Service2 {
 
 }
