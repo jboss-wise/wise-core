@@ -3,8 +3,10 @@ package org.jboss.wise.core.client.jaxrs;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.testutil.common.AbstractTestServerBase;
+import org.jboss.logging.Logger;
 
 public class JaxrsServer extends AbstractTestServerBase {
+	private static final Logger log = Logger.getLogger(JaxrsServer.class);
 
     protected void run() {
         JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
@@ -20,14 +22,13 @@ public class JaxrsServer extends AbstractTestServerBase {
     public static void main(String[] args) {
         try {
             JaxrsServer s = new JaxrsServer();
-
             s.start();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.exit(-1);
-        } finally {
-            System.out.println("done!");
-        }
+	    } catch (Exception ex) {
+			log.error(ex.getMessage());
+			System.exit(-1);
+	    } finally {
+			log.info("done!");
+	    }
     }
 
 }
