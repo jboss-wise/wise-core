@@ -21,30 +21,37 @@
  */
 package org.jboss.wise.core.client.jaxrs.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
-import org.apache.commons.httpclient.methods.DeleteMethod;
-import org.apache.commons.httpclient.methods.FileRequestEntity;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.impl.reflection.InvocationResultImpl;
 import org.jboss.wise.core.client.jaxrs.RSDynamicClient;
 import org.jboss.wise.core.mapper.WiseMapper;
+import org.jboss.logging.Logger;
 
 /*
  * TODO:
@@ -59,6 +66,8 @@ import org.jboss.wise.core.mapper.WiseMapper;
 @ThreadSafe
 public class RSDynamicClientImpl implements RSDynamicClient {
 
+    private static Logger log = Logger.getLogger(RSDynamicClientImpl.class);
+
     private final String resourceURI;
     private String user;
     private String password;
@@ -70,7 +79,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
 
     /**
      * Invoke JAXRS service.
-     *
+     * 
      * @param resourceURI string
      * @param produceMediaTypes default to "* / *"
      * @param consumeMediaTypes default to "* / *"
@@ -82,7 +91,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         this.consumeMediaTypes = consumeMediaTypes;
         this.httpMethod = httpMethod;
 
-        this.httpClient = new HttpClient();
+        this.httpClient = HttpClientBuilder.create().build();
     }
 
     public RSDynamicClientImpl(String resourceURI, String produceMediaTypes, String consumeMediaTypes, HttpMethod httpMethod,
@@ -93,7 +102,7 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         this.httpMethod = httpMethod;
         this.requestHeaders = requestHeaders;
 
-        this.httpClient = new HttpClient();
+        this.httpClient = HttpClientBuilder.create().build();
     }
 
     public String getResourceURI() {
@@ -127,44 +136,44 @@ public class RSDynamicClientImpl implements RSDynamicClient {
     }
 
     public InvocationResult invoke(InputStream request, WiseMapper mapper) {
-        return invoke(new InputStreamRequestEntity(request), mapper);
+        return invoke(new InputStreamEntity(request), mapper);
     }
 
     public InvocationResult invoke(String request, WiseMapper mapper) {
-        RequestEntity requestEntity = null;
-        try {
-            requestEntity = new StringRequestEntity(request, produceMediaTypes, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // TODO:
-        }
+        StringEntity requestEntity = null;
+        requestEntity = new StringEntity(request, "UTF-8");
+        requestEntity.setContentType(produceMediaTypes);
         return invoke(requestEntity, mapper);
     }
 
     public InvocationResult invoke(byte[] request, WiseMapper mapper) {
-        return invoke(new ByteArrayRequestEntity(request), mapper);
+        return invoke(new ByteArrayEntity(request), mapper);
     }
 
     public InvocationResult invoke(File request, WiseMapper mapper) {
-        return invoke(new FileRequestEntity(request, produceMediaTypes), mapper);
+        return invoke(new FileEntity(request, ContentType.create(produceMediaTypes)), mapper);
     }
 
     public InvocationResult invoke() {
-        RequestEntity requestEntity = null;
+        HttpEntity requestEntity = null;
         return invoke(requestEntity, null);
     }
 
-    public InvocationResult invoke(RequestEntity requestEntity, WiseMapper mapper) {
+    public InvocationResult invoke(HttpEntity requestEntity, WiseMapper mapper) {
         InvocationResult result = null;
         Map<String, Object> responseHolder = new HashMap<String, Object>();
 
         if (HttpMethod.GET == httpMethod) {
-            GetMethod get = new GetMethod(resourceURI);
+            HttpGet get = new HttpGet(resourceURI);
             setRequestHeaders(get);
 
             try {
-                int statusCode = httpClient.executeMethod(get);
+                URL url = get.getURI().toURL();
+                HttpHost targetHost = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
+                HttpResponse hResponse = httpClient.execute(targetHost, get);
+                int statusCode = hResponse.getStatusLine().getStatusCode();
                 // TODO: Use InputStream
-                String response = get.getResponseBodyAsString();
+                String response = getResponseBodyAsString(hResponse);
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
@@ -176,14 +185,17 @@ public class RSDynamicClientImpl implements RSDynamicClient {
                 get.releaseConnection();
             }
         } else if (HttpMethod.POST == httpMethod) {
-            PostMethod post = new PostMethod(resourceURI);
+            HttpPost post = new HttpPost(resourceURI);
             setRequestHeaders(post);
 
-            post.setRequestEntity(requestEntity);
+            post.setEntity(requestEntity);
 
             try {
-                int statusCode = httpClient.executeMethod(post);
-                String response = post.getResponseBodyAsString();
+                URL url = post.getURI().toURL();
+                HttpHost targetHost = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
+                HttpResponse hResponse = httpClient.execute(targetHost, post);
+                int statusCode = hResponse.getStatusLine().getStatusCode();
+                String response = getResponseBodyAsString(hResponse);
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
@@ -195,14 +207,17 @@ public class RSDynamicClientImpl implements RSDynamicClient {
                 post.releaseConnection();
             }
         } else if (HttpMethod.PUT == httpMethod) {
-            PutMethod put = new PutMethod(resourceURI);
+            HttpPut put = new HttpPut(resourceURI);
             setRequestHeaders(put);
 
-            put.setRequestEntity(requestEntity);
+            put.setEntity(requestEntity);
 
             try {
-                int statusCode = httpClient.executeMethod(put);
-                String response = put.getResponseBodyAsString();
+                URL url = put.getURI().toURL();
+                HttpHost targetHost = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
+                HttpResponse hResponse = httpClient.execute(targetHost, put);
+                int statusCode = hResponse.getStatusLine().getStatusCode();
+                String response = getResponseBodyAsString(hResponse);
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
@@ -214,12 +229,15 @@ public class RSDynamicClientImpl implements RSDynamicClient {
                 put.releaseConnection();
             }
         } else if (HttpMethod.DELETE == httpMethod) {
-            DeleteMethod delete = new DeleteMethod(resourceURI);
+            HttpDelete delete = new HttpDelete(resourceURI);
             setRequestHeaders(delete);
 
             try {
-                int statusCode = httpClient.executeMethod(delete);
-                String response = delete.getResponseBodyAsString();
+                URL url = delete.getURI().toURL();
+                HttpHost targetHost = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
+                HttpResponse hResponse = httpClient.execute(targetHost, delete);
+                int statusCode = hResponse.getStatusLine().getStatusCode();
+                String response = getResponseBodyAsString(hResponse);
                 responseHolder.put(InvocationResult.STATUS, Integer.valueOf(statusCode));
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
@@ -235,20 +253,36 @@ public class RSDynamicClientImpl implements RSDynamicClient {
         return result;
     }
 
-    private void setRequestHeaders(HttpMethodBase method) {
+    private void setRequestHeaders(HttpRequestBase method) {
         if (produceMediaTypes != null) {
-            method.setRequestHeader("Content-Type", produceMediaTypes);
+            method.addHeader("Content-Type", produceMediaTypes);
         }
 
         if (consumeMediaTypes != null) {
-            method.setRequestHeader("Accept", consumeMediaTypes);
+            method.addHeader("Accept", consumeMediaTypes);
         }
 
         for (String headerName : requestHeaders.keySet()) {
             String headerValue = requestHeaders.get(headerName);
 
-            method.setRequestHeader(headerName, headerValue);
+            method.addHeader(headerName, headerValue);
         }
+    }
+
+    private String getResponseBodyAsString(HttpResponse httpResponse) {
+        StringBuffer buffer = new StringBuffer();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+            String dataLine = null;
+
+            while ((dataLine = reader.readLine()) != null) {
+                buffer.append(dataLine);
+            }
+        } catch (IOException e) {
+            log.error(e);
+        }
+
+        return buffer.toString();
     }
 
 }

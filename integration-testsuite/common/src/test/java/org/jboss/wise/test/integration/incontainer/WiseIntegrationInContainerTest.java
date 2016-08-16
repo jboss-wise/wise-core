@@ -95,7 +95,7 @@ public class WiseIntegrationInContainerTest extends WiseTest {
                                 .resolve("commons-cli:commons-cli").withoutTransitivity().asSingleFile())
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("commons-httpclient:commons-httpclient").withoutTransitivity().asSingleFile())
+                                .resolve("org.apache.httpcomponents:httpclient").withoutTransitivity().asSingleFile())
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
                                 .resolve("commons-codec:commons-codec").withoutTransitivity().asSingleFile())
