@@ -23,7 +23,6 @@ package org.jboss.wise.core.client.impl.reflection.builder;
 
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
-import org.jboss.wise.core.client.impl.reflection.builder.ReflectionBasedWSDynamicClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

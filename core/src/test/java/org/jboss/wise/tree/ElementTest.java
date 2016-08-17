@@ -128,7 +128,7 @@ public class ElementTest {
     @Test
     public void shouldBuildTreeOfPrimitiveNumberElement() throws Exception {
         shouldBuildTreeOfPrimitiveNumberElement(int.class, "my-int", "-234", "0", -234, 0);
-        shouldBuildTreeOfPrimitiveNumberElement(long.class, "my-long", "87532478", "0", 87532478l, 0l);
+        shouldBuildTreeOfPrimitiveNumberElement(long.class, "my-long", "87532478", "0", 87532478L, 0L);
         shouldBuildTreeOfPrimitiveNumberElement(short.class, "my-short", "-27", "0", (short) -27, (short) 0);
         shouldBuildTreeOfPrimitiveNumberElement(float.class, "my-float", "234.58", "0.0", 234.58f, 0.0f);
         shouldBuildTreeOfPrimitiveNumberElement(double.class, "my-double", "-87532478.48", "0.0", -87532478.48, 0.0);

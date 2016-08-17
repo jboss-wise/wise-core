@@ -49,7 +49,7 @@ public interface BasicWSDynamicClientBuilder {
      * @throws ConnectException connection issue
      * @throws WiseRuntimeException wrapper for runtime issue
      */
-    public BasicWSDynamicClient build() throws IllegalStateException, ConnectException, WiseRuntimeException;
+    BasicWSDynamicClient build() throws IllegalStateException, ConnectException, WiseRuntimeException;
 
     /**
      * Set the wsdlURL to generate WS client
@@ -57,7 +57,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param wsdlURL string
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder wsdlURL(String wsdlURL);
+    BasicWSDynamicClientBuilder wsdlURL(String wsdlURL);
 
     /**
      * set the userName used in Basic Auth both for downloading wsdl and calling service
@@ -65,7 +65,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param userName string
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder userName(String userName);
+    BasicWSDynamicClientBuilder userName(String userName);
 
     /**
      * set the password used in Basic Auth both for downloading wsdl and calling service
@@ -73,7 +73,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param password string
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder password(String password);
+    BasicWSDynamicClientBuilder password(String password);
 
     /**
      * set the temp direcoory location used to generate temporary client classes. Wise will generate there subdirecoty fo each
@@ -82,7 +82,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param tmpDir string
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder tmpDir(String tmpDir);
+    BasicWSDynamicClientBuilder tmpDir(String tmpDir);
 
     /**
      * force the package name used for generated client classes. If it is't set wsconsume rules will e used: namespaces and/or
@@ -91,7 +91,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param targetPackage string
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder targetPackage(String targetPackage);
+    BasicWSDynamicClientBuilder targetPackage(String targetPackage);
 
     /**
      * set the list of JAXB bindings files used by wsconsume
@@ -99,7 +99,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param bindings list of files
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder bindingFiles(List<File> bindings);
+    BasicWSDynamicClientBuilder bindingFiles(List<File> bindings);
 
     /**
      * set the catelog file
@@ -107,7 +107,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param catelog file
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder catalogFile(File catelog);
+    BasicWSDynamicClientBuilder catalogFile(File catelog);
 
     /**
      * It is the URL of config file used by JbossWS to enable WS-SE. For more information about this file refer to our samples
@@ -116,7 +116,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param url string
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder securityConfigUrl(String url);
+    BasicWSDynamicClientBuilder securityConfigUrl(String url);
 
     /**
      * It is the config name sed by JbossWS to enable WS-SE. For more information about this file refer to our samples and/or to
@@ -125,7 +125,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param name string
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder securityConfigName(String name);
+    BasicWSDynamicClientBuilder securityConfigName(String name);
 
     /**
      * if it it set to true source code generated for client classes will be kept in {@link #tmpDir(String)}
@@ -133,7 +133,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param bool flag
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder keepSource(boolean bool);
+    BasicWSDynamicClientBuilder keepSource(boolean bool);
 
     /**
      * if it set to true wsconsume operation of class generation and compilation will be verbose and its messages will be put on
@@ -142,7 +142,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param bool flag
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder verbose(boolean bool);
+    BasicWSDynamicClientBuilder verbose(boolean bool);
 
     /**
      * if it set to true non-SOAP wsdl ports will be excluded
@@ -150,7 +150,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param exclude boolean
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude);
+    BasicWSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude);
 
     /**
      * Sets the PrintStream to use for status feedback. The simplest example would be to use System.out.
@@ -158,7 +158,7 @@ public interface BasicWSDynamicClientBuilder {
      * @param messageStream print stream
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder messageStream(PrintStream messageStream);
+    BasicWSDynamicClientBuilder messageStream(PrintStream messageStream);
 
     /**
      * Set the max size of thread pool used to invoke in parallel {@link WSMethod} on the build {@link WSDynamicClient}. default
@@ -167,38 +167,38 @@ public interface BasicWSDynamicClientBuilder {
      * @param maxThreadPoolSize int
      * @return {@link WSDynamicClient}
      */
-    public BasicWSDynamicClientBuilder maxThreadPoolSize(int maxThreadPoolSize);
+    BasicWSDynamicClientBuilder maxThreadPoolSize(int maxThreadPoolSize);
 
-    public String getWsdlURL();
+    String getWsdlURL();
 
-    public String getUserName();
+    String getUserName();
 
-    public String getPassword();
+    String getPassword();
 
-    public String getTmpDir();
+    String getTmpDir();
 
-    public String getTargetPackage();
+    String getTargetPackage();
 
-    public List<File> getBindingFiles();
+    List<File> getBindingFiles();
 
-    public File getCatalogFile();
+    File getCatalogFile();
 
-    public String getSecurityConfigFileURL();
+    String getSecurityConfigFileURL();
 
-    public String getSecurityConfigName();
+    String getSecurityConfigName();
 
-    public boolean isKeepSource();
+    boolean isKeepSource();
 
-    public boolean isVerbose();
+    boolean isVerbose();
 
-    public boolean isExcludeNonSOAPPorts();
+    boolean isExcludeNonSOAPPorts();
 
-    public PrintStream getMessageStream();
+    PrintStream getMessageStream();
 
-    public String getNormalizedWsdlUrl();
+    String getNormalizedWsdlUrl();
 
-    public String getClientSpecificTmpDir();
+    String getClientSpecificTmpDir();
 
-    public int getMaxThreadPoolSize();
+    int getMaxThreadPoolSize();
 
 }

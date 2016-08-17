@@ -26,12 +26,12 @@ import org.jboss.wise.core.client.WSDynamicClient;
  */
 public interface ElementBuilder {
 
-    public ElementBuilder client(WSDynamicClient client);
+    ElementBuilder client(WSDynamicClient client);
 
-    public ElementBuilder request(boolean request);
+    ElementBuilder request(boolean request);
 
-    public ElementBuilder useDefautValuesForNullLeaves(boolean useDefValuesForNullLeaves);
+    ElementBuilder useDefautValuesForNullLeaves(boolean useDefValuesForNullLeaves);
 
-    public Element buildTree(Type type, String name, Object value, boolean nillable);
+    Element buildTree(Type type, String name, Object value, boolean nillable);
 
 }

@@ -583,7 +583,7 @@ public class ElementImpl implements Element {
         };
     }
 
-    private static abstract class UnmodifiableIterator<E> implements Iterator<E> {
+    private abstract static class UnmodifiableIterator<E> implements Iterator<E> {
         public UnmodifiableIterator() {
         }
 

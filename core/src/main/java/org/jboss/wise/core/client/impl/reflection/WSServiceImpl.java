@@ -42,7 +42,7 @@ import org.jboss.wise.core.exception.WiseRuntimeException;
 @ThreadSafe
 @Immutable
 public class WSServiceImpl implements WSService {
-    
+
     private static final Logger log = Logger.getLogger(WSServiceImpl.class);
 
     private final Class<?> serviceClass;
@@ -148,15 +148,15 @@ public class WSServiceImpl implements WSService {
         return new WSEndpointImpl(this.maxThreadPoolSize);
     }
 
-    private synchronized final Class<?> getServiceClass() {
+    private synchronized Class<?> getServiceClass() {
         return serviceClass;
     }
 
-    public synchronized final ClassLoader getClassLoader() {
+    public final synchronized ClassLoader getClassLoader() {
         return classLoader;
     }
 
-    private synchronized final Object getService() {
+    private synchronized Object getService() {
         return service;
     }
 

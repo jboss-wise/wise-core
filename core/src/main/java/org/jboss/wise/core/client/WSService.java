@@ -37,11 +37,11 @@ public interface WSService {
      *
      * @return The Map of WSEndpoint with symbolic names as keys
      */
-    public Map<String, WSEndpoint> processEndpoints();
+    Map<String, WSEndpoint> processEndpoints();
 
     /**
      * @return The classLoader used to load generated class.
      */
-    public ClassLoader getClassLoader();
+    ClassLoader getClassLoader();
 
 }

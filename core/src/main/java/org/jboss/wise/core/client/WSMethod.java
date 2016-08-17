@@ -38,13 +38,13 @@ import org.jboss.wise.core.mapper.WiseMapper;
 @ThreadSafe
 public interface WSMethod {
 
-    public static final String RESULT = "result";
+    String RESULT = "result";
 
-    public static final String RESULTS = "results";
+    String RESULTS = "results";
 
-    public static final String TYPE_PREFIX = "type.";
+    String TYPE_PREFIX = "type.";
 
-    public static final String TYPE_RESULT = TYPE_PREFIX + RESULT;
+    String TYPE_RESULT = TYPE_PREFIX + RESULT;
 
     /**
      * Invokes this method with the provided arguments applying provided mapper
@@ -60,7 +60,7 @@ public interface WSMethod {
      * @throws IllegalArgumentException illegal argument
      * @throws MappingException mapping issue
      */
-    public InvocationResult invoke(Object args, WiseMapper mapper) throws WiseWebServiceException, InvocationException,
+     InvocationResult invoke(Object args, WiseMapper mapper) throws WiseWebServiceException, InvocationException,
             IllegalArgumentException, MappingException;
 
     /**
@@ -79,7 +79,7 @@ public interface WSMethod {
      * @throws IllegalArgumentException illegal argument
      * @throws MappingException mapping issue
      */
-    public InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException,
+     InvocationResult invoke(Object args) throws WiseWebServiceException, InvocationException, IllegalArgumentException,
             MappingException;
 
     /**
@@ -89,7 +89,7 @@ public interface WSMethod {
      * @param os output stream
      * @throws InvocationException issue invoking service
      */
-    public void writeRequestPreview(Map<String, Object> args, OutputStream os) throws InvocationException;
+     void writeRequestPreview(Map<String, Object> args, OutputStream os) throws InvocationException;
 
     /**
      * Gets the map of {@link WebParameter} for the webserice method represented by instance of this type
@@ -97,15 +97,15 @@ public interface WSMethod {
      * @return a Map&lt;String, Object&gt; representing valid webparameters where keys contain symbolic names as defined by
      *         wsdl. It may be null in case of selected operation haven't parameter.
      */
-    public Map<String, ? extends WebParameter> getWebParams();
+     Map<String, ? extends WebParameter> getWebParams();
 
     /**
      * @return true if operation is defined as OneWay in wsdl
      */
-    public boolean isOneWay();
+     boolean isOneWay();
 
     /**
      * @return the endpoint on which this method is attached.
      */
-    public WSEndpoint getEndpoint();
+     WSEndpoint getEndpoint();
 }

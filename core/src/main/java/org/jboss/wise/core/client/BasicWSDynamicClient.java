@@ -41,17 +41,17 @@ public interface BasicWSDynamicClient {
      * @return The Map of WSEndpoint with symbolic names as keys
      * @throws IllegalStateException thrown if method can't process or load generated classes to find a service
      */
-    public Map<String, WSService> processServices() throws IllegalStateException;
+    Map<String, WSService> processServices() throws IllegalStateException;
 
     /**
      * @return The classLoader used to load generated class.
      */
-    public ClassLoader getClassLoader();
+    ClassLoader getClassLoader();
 
     /**
      * @return The ObjectFactory classes for the generated sources
      */
-    public List<Class<?>> getObjectFactories();
+    List<Class<?>> getObjectFactories();
 
     /**
      * It return directly the method to invoke the specified action on specified port of specified service. It is the base
@@ -63,8 +63,8 @@ public interface BasicWSDynamicClient {
      * @throws ResourceNotAvailableException when the specified service, port or operation can not be found
      * @return the WSMethod class to use for effective service invocation
      */
-    public WSMethod getWSMethod(String serviceName, String portName, String operationName) throws ResourceNotAvailableException;
+    WSMethod getWSMethod(String serviceName, String portName, String operationName) throws ResourceNotAvailableException;
 
-    public void close();
+    void close();
 
 }

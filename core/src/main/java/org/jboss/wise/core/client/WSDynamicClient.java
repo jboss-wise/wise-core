@@ -40,12 +40,12 @@ public interface WSDynamicClient extends BasicWSDynamicClient {
      * @return the {@link EnablerDelegate} used to enable the WS-* for all endpoint attached all serivices attached to this
      *         {@link WSDynamicClient}.
      */
-    public EnablerDelegate getWSExtensionEnablerDelegate();
+    EnablerDelegate getWSExtensionEnablerDelegate();
 
     /**
      *
      * @return the single smooks instance attached to this {@link WSDynamicClient}
      */
-    public Smooks getSmooksInstance();
+    Smooks getSmooksInstance();
 
 }

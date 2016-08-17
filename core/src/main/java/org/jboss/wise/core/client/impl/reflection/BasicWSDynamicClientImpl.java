@@ -210,11 +210,11 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
         return wsMethod;
     }
 
-    public synchronized final ClassLoader getClassLoader() {
+    public final synchronized ClassLoader getClassLoader() {
         return classLoader;
     }
 
-    public synchronized final void setClassLoader(ClassLoader classLoader) {
+    public final synchronized void setClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 
