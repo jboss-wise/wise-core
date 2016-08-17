@@ -21,22 +21,14 @@
  */
 package org.jboss.wise.core.client.factories;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.assertThat;
-import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.NullEnumeration;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.impl.reflection.builder.ReflectionBasedWSDynamicClientBuilder;
 import org.junit.Test;
 
-public class WSDynamicClientFactoryTest {
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertThat;
 
-    @Test
-    public void testLogger() throws Exception {
-        WSDynamicClientFactory.initLog4j(null);
-        assertThat(Logger.getRootLogger().getAllAppenders() instanceof NullEnumeration, is(false));
-    }
+public class WSDynamicClientFactoryTest {
 
     @Test
     public void getJAXWSClientBuilderShouldReturnRightSpiBuilder() throws Exception {
