@@ -21,14 +21,7 @@
  */
 package org.jboss.wise.core.client.factories;
 
-import java.net.URL;
-
 import net.jcip.annotations.ThreadSafe;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.NullEnumeration;
-import org.apache.log4j.xml.DOMConfigurator;
 import org.jboss.wise.core.client.SpiLoader;
 import org.jboss.wise.core.client.builder.RSDynamicClientBuilder;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
@@ -41,32 +34,6 @@ import org.jboss.wise.core.exception.WiseRuntimeException;
 @ThreadSafe
 public abstract class WSDynamicClientFactory {
 
-    private static final String WISE_LOG_CONFIG = "wise-log4j.xml";
-
-    public static void initLog4j(String configFile) {
-        synchronized (WSDynamicClientFactory.class) {
-            // If the logger has not been configured
-            if (Logger.getRootLogger().getAllAppenders() instanceof NullEnumeration) {
-                // Use default log configuration to startup jbossmc
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
-                URL url = cl.getResource("META-INF/" + WISE_LOG_CONFIG);
-                if (url != null) {
-                    DOMConfigurator.configure(url);
-                }
-            }
-
-            if (configFile != null) {
-                if (configFile.endsWith(".xml")) {
-                    DOMConfigurator.configure(configFile);
-                } else {
-                    PropertyConfigurator.configure(configFile);
-                }
-            }
-
-        }
-
-    }
-
     public static WSDynamicClientBuilder getJAXWSClientBuilder() {
         return (WSDynamicClientBuilder) SpiLoader.loadService("org.jboss.wise.client.builder.WSDynamicClientBuilder",
                 "org.jboss.wise.core.client.impl.reflection.builder.ReflectionBasedWSDynamicClientBuilder");
@@ -75,7 +42,7 @@ public abstract class WSDynamicClientFactory {
 
     /**
      * Return an instance of RSDynamicClient taken from cache if possible, generate and initialise if not.
-     *
+     * 
      * @param endpointURL string
      * @param produceMediaTypes string
      * @param consumeMediaTypes string
@@ -86,6 +53,7 @@ public abstract class WSDynamicClientFactory {
      */
     public static RSDynamicClient getJAXRSClient(String endpointURL, RSDynamicClient.HttpMethod httpMethod,
             String produceMediaTypes, String consumeMediaTypes, String userName, String password) {
+
         RSDynamicClientBuilder builder = (RSDynamicClientBuilder) SpiLoader.loadService(
                 "org.jboss.wise.core.client.builder.RSDynamicClientBuilder", null);
         if (builder == null) {
@@ -97,7 +65,7 @@ public abstract class WSDynamicClientFactory {
 
     /**
      * Return an instance of RSDynamicClient taken from cache if possible, generate and initialise if not.
-     *
+     * 
      * @param endpointURL string
      * @param produceMediaTypes string
      * @param consumeMediaTypes string
@@ -107,7 +75,6 @@ public abstract class WSDynamicClientFactory {
     public static RSDynamicClient getJAXRSClient(String endpointURL, RSDynamicClient.HttpMethod httpMethod,
             String produceMediaTypes, String consumeMediaTypes) {
         return getJAXRSClient(endpointURL, httpMethod, produceMediaTypes, consumeMediaTypes, null, null);
-
     }
 
 }

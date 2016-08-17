@@ -5,7 +5,7 @@ import java.io.InputStream;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.testutil.common.AbstractClientServerTestBase;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.InvocationResult;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.junit.BeforeClass;
