@@ -178,7 +178,6 @@ public class RSDynamicClientImpl implements RSDynamicClient {
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
-                // System.out.print(response);
             } catch (IOException e) {
                 // TODO:
             } finally {
@@ -200,7 +199,6 @@ public class RSDynamicClientImpl implements RSDynamicClient {
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
-                // System.out.print(response);
             } catch (IOException e) {
                 // TODO:
             } finally {
@@ -222,7 +220,6 @@ public class RSDynamicClientImpl implements RSDynamicClient {
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
-                // System.out.print(response);
             } catch (IOException e) {
                 // TODO:
             } finally {
@@ -242,7 +239,6 @@ public class RSDynamicClientImpl implements RSDynamicClient {
 
                 result = new InvocationResultImpl(InvocationResult.RESPONSE, null, response, responseHolder);
 
-                // System.out.print(response);
             } catch (IOException e) {
                 // TODO:
             } finally {
