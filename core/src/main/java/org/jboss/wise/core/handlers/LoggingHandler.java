@@ -61,6 +61,7 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
         outputStream = System.out;
         logger = null;
         level = Level.TRACE;
+
     }
 
     /**
