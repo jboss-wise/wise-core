@@ -96,6 +96,11 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -131,14 +136,6 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<systemProperties>
-						<property>
-							<name>log4j.configuration</name>
-							<value>test-log4j.xml</value>
-						</property>
-					</systemProperties>
-				</configuration>
 			</plugin>
 		</plugins>
 

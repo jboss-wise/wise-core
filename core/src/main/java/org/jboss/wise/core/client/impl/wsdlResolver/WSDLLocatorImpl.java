@@ -28,7 +28,7 @@ import java.net.URL;
 
 import javax.wsdl.xml.WSDLLocator;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 

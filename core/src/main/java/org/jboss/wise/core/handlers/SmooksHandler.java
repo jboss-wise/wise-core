@@ -45,7 +45,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wise.core.mapper.SmooksMapper;

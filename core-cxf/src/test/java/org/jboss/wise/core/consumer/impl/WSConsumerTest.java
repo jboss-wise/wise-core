@@ -31,8 +31,8 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger.Level;
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.SpiLoader;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;

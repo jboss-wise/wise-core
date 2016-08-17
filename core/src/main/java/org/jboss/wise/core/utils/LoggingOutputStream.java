@@ -24,8 +24,8 @@ package org.jboss.wise.core.utils;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger.Level;
+import org.jboss.logging.Logger;
 
 /**
  * An OutputStream that flushes out to a Logger
