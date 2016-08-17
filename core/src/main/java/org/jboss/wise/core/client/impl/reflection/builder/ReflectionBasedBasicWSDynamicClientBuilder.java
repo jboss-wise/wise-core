@@ -160,7 +160,7 @@ public class ReflectionBasedBasicWSDynamicClientBuilder implements BasicWSDynami
      *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#getWsdlURL()
      */
-    public synchronized final String getWsdlURL() {
+    public final synchronized String getWsdlURL() {
         return wsdlURL;
     }
 
@@ -179,7 +179,7 @@ public class ReflectionBasedBasicWSDynamicClientBuilder implements BasicWSDynami
      *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#getUserName()
      */
-    public synchronized final String getUserName() {
+    public final synchronized String getUserName() {
         return userName;
     }
 
@@ -198,7 +198,7 @@ public class ReflectionBasedBasicWSDynamicClientBuilder implements BasicWSDynami
      *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#getPassword()
      */
-    public synchronized final String getPassword() {
+    public final synchronized String getPassword() {
         return password;
     }
 
@@ -217,7 +217,7 @@ public class ReflectionBasedBasicWSDynamicClientBuilder implements BasicWSDynami
      *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#getTmpDir()
      */
-    public synchronized final String getTmpDir() {
+    public final synchronized String getTmpDir() {
         return tmpDir;
     }
 
@@ -226,23 +226,23 @@ public class ReflectionBasedBasicWSDynamicClientBuilder implements BasicWSDynami
      *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#getTargetPackage()
      */
-    public synchronized final String getTargetPackage() {
+    public final synchronized String getTargetPackage() {
         return targetPackage;
     }
 
-    public synchronized final List<File> getBindingFiles() {
+    public final synchronized List<File> getBindingFiles() {
         return this.bindingFiles;
     }
 
-    public synchronized final File getCatalogFile() {
+    public final synchronized File getCatalogFile() {
         return this.catalog;
     }
 
-    public synchronized final void setBindingFiles(List<File> bindings) {
+    public final synchronized void setBindingFiles(List<File> bindings) {
         this.bindingFiles = bindings;
     }
 
-    public synchronized final void setCatelogFile(File catalog) {
+    public final synchronized void setCatelogFile(File catalog) {
         this.catalog = catalog;
     }
 

@@ -41,14 +41,14 @@ public interface EnablerDelegate {
      *
      * @param configFile string
      */
-    public void setConfigFile(String configFile);
+    void setConfigFile(String configFile);
 
     /**
      * Sets the configName to be used, if any
      *
      * @param configName string
      */
-    public void setConfigName(String configName);
+    void setConfigName(String configName);
 
     /**
      *
@@ -56,26 +56,26 @@ public interface EnablerDelegate {
      * @throws UnsupportedOperationException unsupported operation
      * @throws IllegalStateException illegal state
      */
-    public void visitWSSecurity(Object endpointInstance) throws UnsupportedOperationException, IllegalStateException;
+    void visitWSSecurity(Object endpointInstance) throws UnsupportedOperationException, IllegalStateException;
 
     /**
      *
      * @param endpointInstance object
      * @throws UnsupportedOperationException unsupported operation
      */
-    public void visitWSRM(Object endpointInstance) throws UnsupportedOperationException;
+    void visitWSRM(Object endpointInstance) throws UnsupportedOperationException;
 
     /**
      *
      * @param endpointInstance object
      * @throws UnsupportedOperationException unsupported operation
      */
-    public void visitWSAddressing(Object endpointInstance) throws UnsupportedOperationException;
+    void visitWSAddressing(Object endpointInstance) throws UnsupportedOperationException;
 
     /**
      *
      * @param endpointInstance object
      * @throws UnsupportedOperationException unsupported operation
      */
-    public void visitMTOM(Object endpointInstance) throws UnsupportedOperationException;
+    void visitMTOM(Object endpointInstance) throws UnsupportedOperationException;
 }

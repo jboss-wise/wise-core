@@ -49,7 +49,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @throws ConnectException connection issue
      * @throws WiseRuntimeException wrapper for runtime issue
      */
-    public WSDynamicClient build() throws IllegalStateException, ConnectException, WiseRuntimeException;
+    WSDynamicClient build() throws IllegalStateException, ConnectException, WiseRuntimeException;
 
     /**
      * Set the wsdlURL to generate WS client
@@ -57,7 +57,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param wsdlURL string
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder wsdlURL(String wsdlURL);
+    WSDynamicClientBuilder wsdlURL(String wsdlURL);
 
     /**
      * set the userName used in Basic Auth both for downloading wsdl and calling service
@@ -65,7 +65,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param userName string
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder userName(String userName);
+    WSDynamicClientBuilder userName(String userName);
 
     /**
      * set the password used in Basic Auth both for downloading wsdl and calling service
@@ -73,7 +73,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param password string
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder password(String password);
+    WSDynamicClientBuilder password(String password);
 
     /**
      * set the temp direcoory location used to generate temporary client classes. Wise will generate there subdirecoty fo each
@@ -82,7 +82,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param tmpDir string
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder tmpDir(String tmpDir);
+    WSDynamicClientBuilder tmpDir(String tmpDir);
 
     /**
      * force the package name used for generated client classes. If it is't set wsconsume rules will e used: namespaces and/or
@@ -91,7 +91,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param targetPackage string
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder targetPackage(String targetPackage);
+    WSDynamicClientBuilder targetPackage(String targetPackage);
 
     /**
      * set the list of JAXB bindings files used by wsconsume
@@ -99,7 +99,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param bindings list of files
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder bindingFiles(List<File> bindings);
+    WSDynamicClientBuilder bindingFiles(List<File> bindings);
 
     /**
      * set the catelog file
@@ -107,7 +107,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param catelog file
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder catalogFile(File catelog);
+    WSDynamicClientBuilder catalogFile(File catelog);
 
     /**
      * It is the URL of config file used by JbossWS to enable WS-SE. For more information about this file refer to our samples
@@ -116,7 +116,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param url string
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder securityConfigUrl(String url);
+    WSDynamicClientBuilder securityConfigUrl(String url);
 
     /**
      * It is the config name sed by JbossWS to enable WS-SE. For more information about this file refer to our samples and/or to
@@ -125,7 +125,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param name string
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder securityConfigName(String name);
+    WSDynamicClientBuilder securityConfigName(String name);
 
     /**
      * if it it set to true source code generated for client classes will be kept in {@link #tmpDir(String)}
@@ -133,7 +133,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param bool flag
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder keepSource(boolean bool);
+    WSDynamicClientBuilder keepSource(boolean bool);
 
     /**
      * if it set to true wsconsume operation of class generation and compilation will be verbose and its messages will be put on
@@ -142,7 +142,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param bool flag
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder verbose(boolean bool);
+    WSDynamicClientBuilder verbose(boolean bool);
 
     /**
      * if it set to true non-SOAP wsdl ports will be excluded
@@ -150,7 +150,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param exclude boolean
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude);
+    WSDynamicClientBuilder excludeNonSOAPPorts(boolean exclude);
 
     /**
      * Sets the PrintStream to use for status feedback. The simplest example would be to use System.out.
@@ -158,7 +158,7 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param messageStream print stream
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder messageStream(PrintStream messageStream);
+    WSDynamicClientBuilder messageStream(PrintStream messageStream);
 
     /**
      * Set the max size of thread pool used to invoke in parallel {@link WSMethod} on the build {@link WSDynamicClient}. default
@@ -167,6 +167,6 @@ public interface WSDynamicClientBuilder extends BasicWSDynamicClientBuilder {
      * @param maxThreadPoolSize int
      * @return {@link WSDynamicClient}
      */
-    public WSDynamicClientBuilder maxThreadPoolSize(int maxThreadPoolSize);
+    WSDynamicClientBuilder maxThreadPoolSize(int maxThreadPoolSize);
 
 }

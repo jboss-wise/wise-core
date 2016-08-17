@@ -31,7 +31,7 @@ import java.util.UUID;
  */
 public final class IDGenerator {
 
-    public static final synchronized String nextVal() {
+    public static synchronized String nextVal() {
         return UUID.randomUUID().toString();
     }
 }

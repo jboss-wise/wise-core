@@ -37,11 +37,11 @@ import org.jboss.wise.core.mapper.WiseMapper;
  */
 @Immutable
 public interface InvocationResult {
-    public final static String RESPONSE = "RESPONSE";
+    String RESPONSE = "RESPONSE";
 
-    public final static String STATUS = "STATUS";
+    String STATUS = "STATUS";
 
-    public final static String HEADERS = "HEADERS";
+    String HEADERS = "HEADERS";
 
     /**
      * Apply WiseMapper provided to returned Object as defined in wsdl/wiseconsume generated objects. If mapper parameter is
@@ -58,7 +58,7 @@ public interface InvocationResult {
      * @throws MappingException rethrown exception got from provided {@link WiseMapper}
      */
 
-    public Map<String, Object> getMapRequestAndResult(WiseMapper mapper, Map<String, Object> inputMap) throws MappingException;
+    Map<String, Object> getMapRequestAndResult(WiseMapper mapper, Map<String, Object> inputMap) throws MappingException;
 
     /**
      * Apply WiseMapper provided with to returned Object as defined in wsdl/wiseconsume generated objects. If mapper parameter
@@ -71,7 +71,7 @@ public interface InvocationResult {
      * @return a Map&lt;String, Object&gt; containing the result of ws calls eventually mapped using WiseMapper provided
      * @throws MappingException rethrown exception got from provided {@link WiseMapper}
      */
-    public Map<String, Object> getMappedResult(WiseMapper mapper) throws MappingException;
+    Map<String, Object> getMappedResult(WiseMapper mapper) throws MappingException;
 
     /**
      * Return a Map containing objects returned by web service invocation. Both return value and OUT Holders parameters are
@@ -79,6 +79,6 @@ public interface InvocationResult {
      *
      * @return a Map&lt;String, Object&gt; containing the result of ws calls eventually mapped using WiseMapper provided
      */
-    public Map<String, Object> getResult();
+    Map<String, Object> getResult();
 
 }

@@ -42,13 +42,13 @@ public interface WSExtensionEnabler {
      *
      * @param endpointInstance object
      */
-    public abstract void enable(Object endpointInstance);
+    void enable(Object endpointInstance);
 
     /**
      * For test purpose
      *
      * @return visitor
      */
-    public EnablerDelegate getDelegate();
+    EnablerDelegate getDelegate();
 
 }

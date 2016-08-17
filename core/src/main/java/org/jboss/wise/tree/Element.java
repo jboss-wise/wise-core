@@ -26,47 +26,47 @@ import java.util.Iterator;
  */
 public interface Element extends Serializable, Cloneable {
 
-    public boolean isLeaf();
+    boolean isLeaf();
 
-    public boolean isRemovable();
+    boolean isRemovable();
 
-    public Type getClassType();
+    Type getClassType();
 
-    public String getName();
+    String getName();
 
-    public boolean isNil();
+    boolean isNil();
 
-    public void setNil(boolean nil);
+    void setNil(boolean nil);
 
-    public String getId();
+    String getId();
 
-    public boolean isNillable();
+    boolean isNillable();
 
-    public boolean isGroup();
+    boolean isGroup();
 
-    public void removeChild(String id);
+    void removeChild(String id);
 
-    public Element getChild(String id);
+    Element getChild(String id);
 
-    public Element getChildByName(String name);
+    Element getChildByName(String name);
 
-    public Iterator<String> getChildrenIDs();
+    Iterator<String> getChildrenIDs();
 
-    public Iterator<? extends Element> getChildren();
+    Iterator<? extends Element> getChildren();
 
-    public String getValue();
+    String getValue();
 
-    public void setValue(String value);
+    void setValue(String value);
 
-    public Element getPrototype();
+    Element getPrototype();
 
-    public Element incrementChildren();
+    Element incrementChildren();
 
-    public int getChildrenCount();
+    int getChildrenCount();
 
-    public boolean isLazy();
+    boolean isLazy();
 
-    public boolean isResolved();
+    boolean isResolved();
 
     /**
      * Every WiseTreeElement must be cloneable; this is required to handle element's add and removal into/from arrays and
@@ -74,13 +74,13 @@ public interface Element extends Serializable, Cloneable {
      *
      * @return element
      */
-    public Element clone();
+    Element clone();
 
     /**
      * This is required to convert a tree element into the corresponding object instance.
      *
      * @return The object corresponding to this element
      */
-    public Object toObject();
+    Object toObject();
 
 }

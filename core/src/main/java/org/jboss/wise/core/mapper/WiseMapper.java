@@ -42,6 +42,6 @@ public interface WiseMapper {
      *         Object. For JAXRS conventional key used for standard key/value pairs are "ContentType" and "JAXRSStream"
      * @throws MappingException mapping issue
      */
-    public Map<String, Object> applyMapping(Object originalObjects) throws MappingException;
+    Map<String, Object> applyMapping(Object originalObjects) throws MappingException;
 
 }

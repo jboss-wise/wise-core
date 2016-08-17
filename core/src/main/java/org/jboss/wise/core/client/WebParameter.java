@@ -37,27 +37,23 @@ import net.jcip.annotations.Immutable;
 public interface WebParameter {
 
     /**
-     *
      * @return The name defined in the wsdl and {@link WebParam} annotation of generated classes
      */
-    public String getName();
+    String getName();
 
     /**
-     *
      * @return The {@link Type} defined in generated classes
      */
-    public Type getType();
+    Type getType();
 
     /**
-     *
      * @return the position (starting from zero) of the parameter in method signature
      */
-    public int getPosition();
+    int getPosition();
 
     /**
-     *
      * @return The {@link Mode} defined in the wsdl and {@link WebParam} annotation of generated classes
      */
-    public Enum<WebParam.Mode> getMode();
+    Enum<WebParam.Mode> getMode();
 
 }

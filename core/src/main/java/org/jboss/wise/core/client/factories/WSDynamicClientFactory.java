@@ -42,7 +42,7 @@ public abstract class WSDynamicClientFactory {
 
     /**
      * Return an instance of RSDynamicClient taken from cache if possible, generate and initialise if not.
-     * 
+     *
      * @param endpointURL string
      * @param produceMediaTypes string
      * @param consumeMediaTypes string
@@ -65,7 +65,7 @@ public abstract class WSDynamicClientFactory {
 
     /**
      * Return an instance of RSDynamicClient taken from cache if possible, generate and initialise if not.
-     * 
+     *
      * @param endpointURL string
      * @param produceMediaTypes string
      * @param consumeMediaTypes string

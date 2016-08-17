@@ -43,22 +43,22 @@ public interface RSDynamicClientBuilder {
      * @throws IllegalStateException illegal state
      * @throws WiseRuntimeException srapper for runtime issue
      */
-    public RSDynamicClient build() throws IllegalStateException, WiseRuntimeException;
+    RSDynamicClient build() throws IllegalStateException, WiseRuntimeException;
 
-    public RSDynamicClientBuilder resourceURI(String resourceURI);
+    RSDynamicClientBuilder resourceURI(String resourceURI);
 
-    public RSDynamicClientBuilder httpMethod(HttpMethod httpMethod);
+    RSDynamicClientBuilder httpMethod(HttpMethod httpMethod);
 
-    public RSDynamicClientBuilder produceMediaTypes(String produceMediaTypes);
+    RSDynamicClientBuilder produceMediaTypes(String produceMediaTypes);
 
-    public RSDynamicClientBuilder consumeMediaTypes(String consumeMediaTypes);
+    RSDynamicClientBuilder consumeMediaTypes(String consumeMediaTypes);
 
-    public String getResourceURI();
+    String getResourceURI();
 
-    public String getProduceMediaTypes();
+    String getProduceMediaTypes();
 
-    public String getConsumeMediaTypes();
+    String getConsumeMediaTypes();
 
-    public HttpMethod getHttpMethod();
+    HttpMethod getHttpMethod();
 
 }

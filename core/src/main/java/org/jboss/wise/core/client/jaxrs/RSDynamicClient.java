@@ -39,33 +39,33 @@ public interface RSDynamicClient {
     /**
      * JAXRS HTTP Method supported by Wise
      */
-    public enum HttpMethod {
+    enum HttpMethod {
         POST, GET, DELETE, PUT;
     }
 
     /**
      * @return the JAXRS resource URI to be called.
      */
-    public String getResourceURI();
+    String getResourceURI();
 
     /**
      * @return User name used for HTTP authentication
      */
-    public String getUser();
+    String getUser();
 
     /**
      * @return Password used for HTTP authentication
      */
-    public String getPassword();
+    String getPassword();
 
     /**
      * @return {@link HttpMethod} used to call the resource ({@link #getResourceURI()})
      */
-    public HttpMethod getHttpMethod();
+    HttpMethod getHttpMethod();
 
-    public String getProduceMediaTypes();
+    String getProduceMediaTypes();
 
-    public String getConsumeMediaTypes();
+    String getConsumeMediaTypes();
 
     /**
      * Invoke JAXRS service.
@@ -78,7 +78,7 @@ public interface RSDynamicClient {
      * @param mapper {@link WiseMapper} used to map inputObject to stream representation used to call the service
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */
-    public InvocationResult invoke(Map<String, Object> inputObjects, WiseMapper mapper);
+    InvocationResult invoke(Map<String, Object> inputObjects, WiseMapper mapper);
 
     /**
      * Invoke JAXRS service.
@@ -87,7 +87,7 @@ public interface RSDynamicClient {
      * @param mapper {@link WiseMapper} used to map inputObject to stream representation used to call the service
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */
-    public InvocationResult invoke(InputStream request, WiseMapper mapper);
+    InvocationResult invoke(InputStream request, WiseMapper mapper);
 
     /**
      * Invoke JAXRS service.
@@ -96,7 +96,7 @@ public interface RSDynamicClient {
      * @param mapper {@link WiseMapper} used to map inputObject to stream representation used to call the service
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */
-    public InvocationResult invoke(String request, WiseMapper mapper);
+    InvocationResult invoke(String request, WiseMapper mapper);
 
     /**
      * Invoke JAXRS service.
@@ -105,12 +105,12 @@ public interface RSDynamicClient {
      * @param mapper {@link WiseMapper} used to map inputObject to stream representation used to call the service
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */
-    public InvocationResult invoke(byte[] request, WiseMapper mapper);
+    InvocationResult invoke(byte[] request, WiseMapper mapper);
 
     /**
      * Invoke JAXRS service.
      *
      * @return {@link InvocationResult} implementation representing the result of JAXRS service
      */
-    public InvocationResult invoke();
+    InvocationResult invoke();
 }

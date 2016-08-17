@@ -59,7 +59,7 @@ public class ReflectionBasedWSDynamicClientBuilder extends ReflectionBasedBasicW
      *
      * @see org.jboss.wise.core.client.builder.WSDynamicClientBuilder#wsdlURL(java.lang.String)
      */
-    public synchronized final WSDynamicClientBuilder wsdlURL(String wsdlURL) {
+    public final synchronized WSDynamicClientBuilder wsdlURL(String wsdlURL) {
         super.wsdlURL(wsdlURL);
         return this;
     }

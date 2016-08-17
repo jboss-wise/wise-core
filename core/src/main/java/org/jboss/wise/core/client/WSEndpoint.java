@@ -42,7 +42,7 @@ public interface WSEndpoint {
      *
      * @return the created underlying instance of the endpoint generated class
      */
-    public Object createInstance();
+    Object createInstance();
 
     /**
      * Set username for endpoint authentication
@@ -50,7 +50,7 @@ public interface WSEndpoint {
      * @param username string
      */
     @GuardedBy("this")
-    public void setUsername(String username);
+    void setUsername(String username);
 
     /**
      * Set password for endpoint authentication
@@ -58,17 +58,17 @@ public interface WSEndpoint {
      * @param password string
      */
     @GuardedBy("this")
-    public void setPassword(String password);
+    void setPassword(String password);
 
     @GuardedBy("this")
-    public Class<?> getUnderlyingObjectClass();
+    Class<?> getUnderlyingObjectClass();
 
     /**
      *
      * @return endpoint name as defined in wsdl
      */
     @GuardedBy("this")
-    public String getName();
+    String getName();
 
     /**
      * Add an Handler to this endpoint. Handler will apply on all endpoint method called
@@ -77,7 +77,7 @@ public interface WSEndpoint {
      * @param handler handler
      */
     @GuardedBy("this")
-    public void addHandler(Handler<?> handler);
+    void addHandler(Handler<?> handler);
 
     /**
      * Create the webmethods' map and it back. This maps would be used by clients to get a method to call and invoke it All
@@ -85,12 +85,12 @@ public interface WSEndpoint {
      *
      * @return The list of WebMethod names
      */
-    public Map<String, WSMethod> getWSMethods();
+    Map<String, WSMethod> getWSMethods();
 
     /**
      * @return classLoader used to load JAXWS generated object see also {@link #getUnderlyingObjectClass()}
      */
-    public ClassLoader getClassLoader();
+    ClassLoader getClassLoader();
 
     /**
      * Use this method to add WSExtension you would enable on this endpoint. Of course extension have to be enabled before you
@@ -101,32 +101,32 @@ public interface WSEndpoint {
      * @param enabler it is an implementation of {@link WSExtensionEnabler}
      */
     @GuardedBy("this")
-    public void addWSExtension(WSExtensionEnabler enabler);
+    void addWSExtension(WSExtensionEnabler enabler);
 
     /**
      * @return handlers added to handler chain of this endpoint.
      */
     @GuardedBy("this")
-    public List<Handler<?>> getHandlers();
+    List<Handler<?>> getHandlers();
 
     /**
      * @return extensions enabled on this endpoint
      */
     @GuardedBy("this")
-    public List<WSExtensionEnabler> getExtensions();
+    List<WSExtensionEnabler> getExtensions();
 
     /**
      *
      * @return the target url to invoke for this endpoint
      */
     @GuardedBy("this")
-    public String getTargetUrl();
+    String getTargetUrl();
 
     @GuardedBy("this")
-    public String getUsername();
+    String getUsername();
 
     @GuardedBy("this")
-    public String getPassword();
+    String getPassword();
 
     /**
      * it give the opportunity to change target url of the endpoint defined in the wsdl
@@ -134,6 +134,6 @@ public interface WSEndpoint {
      * @param targetUrl string
      */
     @GuardedBy("this")
-    public void setTargetUrl(String targetUrl);
+    void setTargetUrl(String targetUrl);
 
 }
