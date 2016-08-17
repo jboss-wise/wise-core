@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
+import org.jboss.logging.Logger;
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.common.utils.NullPrintStream;
 
@@ -226,7 +227,7 @@ public class WiseCXFConsumerImpl extends WSContractConsumer {
                     messageStream.println("Failed to invoke WSDLToJava");
                     t.printStackTrace(messageStream);
                 } else {
-                    t.printStackTrace();
+                    Logger.getLogger(this.getClass()).error("Error Description", t);
                 }
             } catch (IndexOutOfBoundsException iobe) {
                 // ignore, caused by CXF-4833

@@ -172,9 +172,8 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
                         servicesMap.put(annotation.name(), service);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
                     throw new IllegalStateException("Error during loading/instanciating class:" + className
-                            + " with exception message: " + e.getMessage());
+                            + " with exception message: " + e.getMessage(), e);
                 }
             }
         } finally {
@@ -228,9 +227,8 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
                     // TODO!! Add check on @XmlRegistry
                     list.add(clazz);
                 } catch (Exception e) {
-                    e.printStackTrace();
                     throw new IllegalStateException("Error during loading/instanciating class:" + className
-                            + " with exception message: " + e.getMessage());
+                            + " with exception message: " + e.getMessage(), e);
                 }
             }
         }

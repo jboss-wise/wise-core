@@ -30,6 +30,8 @@ import java.util.Set;
 import javax.xml.ws.WebEndpoint;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
+
+import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.WSService;
 import org.jboss.wise.core.exception.WiseRuntimeException;
@@ -40,6 +42,8 @@ import org.jboss.wise.core.exception.WiseRuntimeException;
 @ThreadSafe
 @Immutable
 public class WSServiceImpl implements WSService {
+    
+    private static final Logger log = Logger.getLogger(WSServiceImpl.class);
 
     private final Class<?> serviceClass;
 
@@ -106,7 +110,7 @@ public class WSServiceImpl implements WSService {
                         endpoints.put(annotation.name(), ep);
                     }
                 } catch (WiseRuntimeException e) {
-                    e.printStackTrace();
+                    log.error("Error Description", e);
                 }
 
             }
@@ -181,7 +185,7 @@ public class WSServiceImpl implements WSService {
                         (Object[]) null);
             } catch (Exception e) {
                 // TODO: something better
-                e.printStackTrace();
+                log.error("Error Description",e);
                 return null;
             }
         }

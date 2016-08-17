@@ -150,7 +150,7 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
         try {
             smc.setMessage(applySmooksTransformation(message));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Description", e);
             return false;
         }
         return true;
