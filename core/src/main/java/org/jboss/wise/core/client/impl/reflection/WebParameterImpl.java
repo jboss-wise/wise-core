@@ -25,8 +25,6 @@ import java.lang.reflect.Type;
 import javax.jws.WebParam;
 import javax.jws.WebParam.Mode;
 import net.jcip.annotations.Immutable;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jboss.wise.core.client.WebParameter;
 
 /**
@@ -102,7 +100,12 @@ public class WebParameterImpl implements WebParameter {
      */
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        int result = 17;
+        result = 31 * result + (type == null ? 0 : type.hashCode());
+        result = 31 * result + (name == null ? 0 : name.hashCode());
+        result = 31 * result + position;
+        result = 31 * result + (mode == null ? 0 : mode.hashCode());
+        return result;
     }
 
     /**
@@ -112,7 +115,16 @@ public class WebParameterImpl implements WebParameter {
      */
     @Override
     public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof WebParameterImpl) {
+            WebParameterImpl o = (WebParameterImpl) obj;
+            return (type == null ? o.type == null : type.equals(o.type))
+                    && (name == null ? o.name == null : name.equals(o.name)) && (position == o.position)
+                    && (mode == null ? o.mode == null : mode.equals(o.mode));
+        }
+        return false;
     }
 
 }

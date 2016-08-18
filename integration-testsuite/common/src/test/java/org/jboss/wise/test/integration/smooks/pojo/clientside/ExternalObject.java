@@ -24,9 +24,6 @@ package org.jboss.wise.test.integration.smooks.pojo.clientside;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 public class ExternalObject implements Serializable {
 
     private InternalObject internal;
@@ -51,12 +48,21 @@ public class ExternalObject implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder sb = new StringBuilder("{internal = ");
+        sb.append(internal != null ? internal.toString() : "");
+        sb.append(", date = " );
+        sb.append(date);
+        sb.append("}");
+        return sb.toString();
     }
 
     @Override
-    public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
+    public boolean equals(Object obj) {
+        if (obj instanceof ExternalObject) {
+            ExternalObject o = (ExternalObject)obj;
+            return (internal == null ? o.internal == null : internal.equals(o.internal)) && (date == null ? o.date == null : date.equals(o.date));
+        }
+        return false;
     }
 
 }

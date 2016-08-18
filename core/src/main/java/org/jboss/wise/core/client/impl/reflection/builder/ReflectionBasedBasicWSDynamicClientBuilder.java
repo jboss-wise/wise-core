@@ -34,8 +34,6 @@ import java.util.List;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger.Level;
 import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.BasicWSDynamicClient;
@@ -45,6 +43,8 @@ import org.jboss.wise.core.client.impl.wsdlResolver.Connection;
 import org.jboss.wise.core.client.impl.wsdlResolver.WSDLResolver;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wise.core.utils.IDGenerator;
+import org.jboss.wise.core.utils.IOUtils;
+import org.jboss.wise.core.utils.JavaUtils;
 import org.jboss.wise.core.utils.LoggingOutputStream;
 
 /**
@@ -122,7 +122,7 @@ public class ReflectionBasedBasicWSDynamicClientBuilder implements BasicWSDynami
                     .append(IDGenerator.nextVal()).toString();
             File tmpDirFile = new File(clientSpecificTmpDir);
             try {
-                FileUtils.forceMkdir(tmpDirFile);
+                IOUtils.forceMkdir(tmpDirFile);
             } catch (IOException e) {
                 throw new IllegalStateException("unable to create tmp dir:" + clientSpecificTmpDir
                         + ". Please provide a valid temp dir if you didn't.");
@@ -136,7 +136,7 @@ public class ReflectionBasedBasicWSDynamicClientBuilder implements BasicWSDynami
         }
         final String wsdlUrl = this.getWsdlURL();
         final String nwu;
-        if (userName != null || (StringUtils.trimToNull(wsdlUrl) != null && Connection.isLocalAddress(wsdlUrl))) {
+        if (userName != null || (JavaUtils.trimToNull(wsdlUrl) != null && Connection.isLocalAddress(wsdlUrl))) {
             nwu = this.transferWSDL(userName, password, clientSpecificTmpDir);
         } else {
             nwu = wsdlUrl;

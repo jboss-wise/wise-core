@@ -58,9 +58,6 @@ public class WiseIntegrationInContainerTest extends WiseTest {
 
         WebArchive archive = ShrinkWrap.create(WebArchive.class, SERVLET_WAR + ".war");
         archive.addAsLibrary(
-                resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml").resolve("commons-io:commons-io")
-                        .withoutTransitivity().asSingleFile())
-                .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
                                 .resolve("org.milyn:milyn-smooks-validation").withoutTransitivity().asSingleFile())
                 .addAsLibrary(
@@ -96,15 +93,6 @@ public class WiseIntegrationInContainerTest extends WiseTest {
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
                                 .resolve("org.apache.httpcomponents:httpclient").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("commons-codec:commons-codec").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("commons-lang:commons-lang").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("org.apache.commons:commons-lang3").withoutTransitivity().asSingleFile())
                 .addClass(org.jboss.wise.test.integration.incontainer.HelloWorldServlet.class)
                 .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/incontainer/jboss-deployment-structure.xml"))
                 .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/incontainer/web.xml"));

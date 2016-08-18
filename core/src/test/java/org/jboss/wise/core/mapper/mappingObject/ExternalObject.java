@@ -22,7 +22,6 @@
 package org.jboss.wise.core.mapper.mappingObject;
 
 import java.util.Date;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * @author stefano.maestri@javalinux.it
@@ -50,7 +49,12 @@ public class ExternalObject {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder sb = new StringBuilder("{internal = ");
+        sb.append(internal != null ? internal.toString() : "");
+        sb.append(", date = " );
+        sb.append(date);
+        sb.append("}");
+        return sb.toString();
     }
 
 }

@@ -23,9 +23,6 @@ package org.jboss.wise.test.integration.smooks.pojo.clientside;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 public class InternalObject implements Serializable {
 
     private String text;
@@ -50,11 +47,21 @@ public class InternalObject implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder sb = new StringBuilder("{text = ");
+        sb.append(text);
+        sb.append(", number = " );
+        sb.append(number);
+        sb.append("}");
+        return sb.toString();
+
     }
 
     @Override
-    public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
+    public boolean equals(Object obj) {
+        if (obj instanceof InternalObject) {
+            InternalObject o = (InternalObject)obj;
+            return (text == null ? o.text == null : text.equals(o.text)) && (number == null ? o.number == null : number.equals(o.number));
+        }
+        return false;
     }
 }

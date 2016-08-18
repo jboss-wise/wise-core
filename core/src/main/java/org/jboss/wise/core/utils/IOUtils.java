@@ -21,6 +21,8 @@
  */
 package org.jboss.wise.core.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -67,6 +69,70 @@ public final class IOUtils {
             } catch (IOException e) {
             }
 
+        }
+    }
+
+    public static void forceMkdir(File directory) throws IOException {
+        if (directory.exists()) {
+            if (directory.isFile()) {
+                throw new IOException("File " + directory + " exists and is not a directory. Unable to create directory.");
+            }
+        } else {
+            if (!directory.mkdirs()) {
+                throw new IOException("Unable to create directory " + directory);
+            }
+        }
+    }
+    
+    public static void forceDelete(File file) throws IOException {
+        if (file.isDirectory()) {
+            deleteDirectory(file);
+        } else {
+            boolean filePresent = file.exists();
+            if (!file.delete()) {
+                if (!filePresent) {
+                    throw new FileNotFoundException("File does not exist: " + file);
+                }
+                String message = "Unable to delete file: " + file;
+                throw new IOException(message);
+            }
+        }
+    }
+    
+    public static void deleteDirectory(File directory) throws IOException {
+        if (!directory.exists()) {
+            return;
+        }
+
+        cleanDirectory(directory);
+        if (!directory.delete()) {
+            String message = "Unable to delete directory " + directory + ".";
+            throw new IOException(message);
+        }
+    }
+    
+    public static void cleanDirectory(File directory) throws IOException {
+        if (!directory.exists()) {
+            throw new IllegalArgumentException(directory + " does not exist");
+        }
+        if (!directory.isDirectory()) {
+            throw new IllegalArgumentException(directory + " is not a directory");
+        }
+        File[] files = directory.listFiles();
+        if (files == null) { // null if security restricted
+            throw new IOException("Failed to list contents of " + directory);
+        }
+        IOException exception = null;
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+            try {
+                forceDelete(file);
+            } catch (IOException ioe) {
+                exception = ioe;
+            }
+        }
+        if (null != exception) {
+            throw exception;
         }
     }
 }

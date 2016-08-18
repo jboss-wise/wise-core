@@ -27,9 +27,9 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
 import org.jboss.wise.core.exception.WiseRuntimeException;
+import org.jboss.wise.core.utils.JavaUtils;
+import org.jboss.ws.common.utils.Base64;
 import org.jboss.ws.common.utils.JarUrlConnection;
 
 /**
@@ -100,7 +100,7 @@ public class Connection {
             String usernamePassword = getUserNameAndPasswordForBasicAuthentication();
             if (usernamePassword != null && usernamePassword.length() != 0) {
                 conn.setRequestProperty("Authorization", "Basic "
-                        + new String(Base64.encodeBase64(usernamePassword.getBytes())));
+                        + Base64.encodeBytes(usernamePassword.getBytes()));
             }
             return conn;
         } catch (Exception e) {
@@ -142,7 +142,7 @@ public class Connection {
 
     String getUserNameAndPasswordForBasicAuthentication() {
         // BASIC Auth support; further auth not supported yet
-        if (StringUtils.trimToNull(username) != null && StringUtils.trimToNull(password) != null) {
+        if (JavaUtils.trimToNull(username) != null && JavaUtils.trimToNull(password) != null) {
             return new StringBuffer(username).append(":").append(password).toString();
         } else {
             return null;

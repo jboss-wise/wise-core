@@ -39,7 +39,6 @@ import javax.xml.ws.WebServiceClient;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import org.apache.commons.io.FileUtils;
 import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.BasicWSDynamicClient;
 import org.jboss.wise.core.client.SpiLoader;
@@ -51,6 +50,7 @@ import org.jboss.wise.core.client.builder.BasicWSDynamicClientBuilder;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.ResourceNotAvailableException;
 import org.jboss.wise.core.exception.WiseRuntimeException;
+import org.jboss.wise.core.utils.IOUtils;
 import org.jboss.wise.core.utils.JavaUtils;
 
 /**
@@ -237,7 +237,7 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
 
     public synchronized void close() {
         try {
-            FileUtils.forceDelete(new File(tmpDir));
+            IOUtils.forceDelete(new File(tmpDir));
         } catch (IOException e) {
             Logger.getLogger(BasicWSDynamicClientImpl.class).info("unable to remove tmpDir:" + tmpDir);
         }

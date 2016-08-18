@@ -21,7 +21,6 @@
  */
 package org.jboss.wise.core.mapper.mappingObject;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * @author stefano.maestri@javalinux.it
@@ -50,7 +49,12 @@ public class InternalObject {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+        StringBuilder sb = new StringBuilder("{text = ");
+        sb.append(text);
+        sb.append(", number = " );
+        sb.append(number);
+        sb.append("}");
+        return sb.toString();
 
+    }
 }
