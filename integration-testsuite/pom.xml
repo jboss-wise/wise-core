@@ -306,6 +306,7 @@
 					<groupId>org.littleshoot</groupId>
 					<artifactId>littleproxy</artifactId>
 					<version>${org.littleshoot.littleproxy.version}</version>
+					<scope>test</scope>
 					<exclusions>
 						<exclusion>
 							<groupId>org.slf4j</groupId>
@@ -377,6 +378,7 @@
 					<groupId>org.littleshoot</groupId>
 					<artifactId>littleproxy</artifactId>
 					<version>${org.littleshoot.littleproxy.version}</version>
+					<scope>test</scope>
 					<exclusions>
 						<exclusion>
 							<groupId>org.slf4j</groupId>
@@ -448,6 +450,7 @@
 					<groupId>org.littleshoot</groupId>
 					<artifactId>littleproxy</artifactId>
 					<version>${org.littleshoot.littleproxy.version}</version>
+					<scope>test</scope>
 					<exclusions>
 						<exclusion>
 							<groupId>org.slf4j</groupId>
@@ -519,6 +522,7 @@
 					<groupId>org.littleshoot</groupId>
 					<artifactId>littleproxy</artifactId>
 					<version>${org.littleshoot.littleproxy.version}</version>
+					<scope>test</scope>
 					<exclusions>
 						<exclusion>
 							<groupId>org.slf4j</groupId>
@@ -602,6 +606,7 @@
 					<groupId>org.littleshoot</groupId>
 					<artifactId>littleproxy</artifactId>
 					<version>${org.littleshoot.littleproxy.version}</version>
+					<scope>test</scope>
 					<exclusions>
 						<exclusion>
 							<groupId>org.slf4j</groupId>
@@ -673,6 +678,7 @@
 					<groupId>org.littleshoot</groupId>
 					<artifactId>littleproxy</artifactId>
 					<version>${org.littleshoot.littleproxy.version}</version>
+					<scope>test</scope>
 					<exclusions>
 						<exclusion>
 							<groupId>org.slf4j</groupId>

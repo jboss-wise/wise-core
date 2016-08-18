@@ -67,8 +67,6 @@
     <jaxb.impl.version>2.2.5</jaxb.impl.version>
     <compiler.fork>false</compiler.fork>
     <commons-httpclient.version>4.5</commons-httpclient.version>
-    <commons-logging.version>1.0.4</commons-logging.version>
-    <commons-collections.version>3.2.1</commons-collections.version>
 
     <version.shrinkwrap.resolvers>2.2.0</version.shrinkwrap.resolvers>
     <org.littleshoot.littleproxy.version>1.0.0-beta2</org.littleshoot.littleproxy.version>
@@ -162,18 +160,6 @@
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${commons-httpclient.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>${commons-logging.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>commons-collections</groupId>
-        <artifactId>commons-collections</artifactId>
-        <version>${commons-collections.version}</version>
       </dependency>
 
       <dependency>

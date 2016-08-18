@@ -78,21 +78,6 @@ public class WiseIntegrationInContainerTest extends WiseTest {
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
                                 .resolve("org.jboss.wise:wise-core").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("commons-logging:commons-logging").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("commons-collections:commons-collections").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("commons-pool:commons-pool").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("commons-cli:commons-cli").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("org.apache.httpcomponents:httpclient").withoutTransitivity().asSingleFile())
                 .addClass(org.jboss.wise.test.integration.incontainer.HelloWorldServlet.class)
                 .addAsWebInfResource(new File(getTestResourcesDir() + "/WEB-INF/incontainer/jboss-deployment-structure.xml"))
                 .setWebXML(new File(getTestResourcesDir() + "/WEB-INF/incontainer/web.xml"));
