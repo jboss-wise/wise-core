@@ -101,7 +101,12 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
         this.maxThreadPoolSize = builder.getMaxThreadPoolSize();
         this.tmpDir = builder.getClientSpecificTmpDir();
 
-        this.prepare(builder, consumer);
+        try {
+            this.prepare(builder, consumer);
+        } catch (WiseRuntimeException e) {
+            this.close();
+            throw e;
+        }
     }
 
     protected void prepare(BasicWSDynamicClientBuilder builder, WSConsumer consumer) {
