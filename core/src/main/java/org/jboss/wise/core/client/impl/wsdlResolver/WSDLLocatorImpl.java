@@ -31,6 +31,7 @@ import javax.wsdl.xml.WSDLLocator;
 import org.jboss.logging.Logger;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import org.jboss.wise.core.i18n.Messages;
 
 /* A WSDLLocator that can handle wsdl imports
  */
@@ -89,7 +90,7 @@ public class WSDLLocatorImpl implements WSDLLocator {
         try {
             parentURL = new URL(parent);
         } catch (MalformedURLException e) {
-            log.error("Not a valid URL: " + parent);
+            log.error(Messages.MESSAGES.notValidURL(parent.toString()));
             return null;
         }
 

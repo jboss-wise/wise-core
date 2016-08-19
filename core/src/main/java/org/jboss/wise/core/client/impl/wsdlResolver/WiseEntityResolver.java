@@ -29,6 +29,7 @@ import java.net.URL;
 import org.jboss.logging.Logger;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  *
@@ -56,7 +57,7 @@ public class WiseEntityResolver extends JBossEntityResolver {
 
         if (inputSource == null) {
             if (log.isDebugEnabled())
-                log.debug("Cannot resolve entity: [pub=" + publicId + ",sysid=" + systemId + "]");
+                log.debug(Messages.MESSAGES.cannotResolveEntityIds(publicId, systemId));
         }
 
         return inputSource;
@@ -85,7 +86,7 @@ public class WiseEntityResolver extends JBossEntityResolver {
 
             URL url = new URL(id);
             if (url.getProtocol().equalsIgnoreCase("file") == false)
-                log.warn("Trying to resolve id as a non-file URL: " + id);
+                log.warn(Messages.MESSAGES.tryingToResolveIdAsNonFileURL(id));
 
             // InputStream ins = new ResourceURL(url).openStream();
             InputStream ins = connection.open(url);
@@ -93,7 +94,7 @@ public class WiseEntityResolver extends JBossEntityResolver {
                 inputSource = new InputSource(ins);
                 inputSource.setSystemId(id);
             } else {
-                log.warn("Cannot load id as URL: " + id);
+                log.warn(Messages.MESSAGES.cannotLoadIdAsURL(id));
             }
 
             if (trace)

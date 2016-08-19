@@ -4,9 +4,10 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.testutil.common.AbstractTestServerBase;
 import org.jboss.logging.Logger;
+import org.jboss.wise.core.i18n.Messages;
 
 public class JaxrsServer extends AbstractTestServerBase {
-    
+
     private static final Logger log = Logger.getLogger(JaxrsServer.class);
 
     protected void run() {
@@ -29,7 +30,7 @@ public class JaxrsServer extends AbstractTestServerBase {
             log.error(ex.getMessage());
             System.exit(-1);
         } finally {
-            log.info("done!");
+            log.info(Messages.MESSAGES.msgDone());
         }
     }
 

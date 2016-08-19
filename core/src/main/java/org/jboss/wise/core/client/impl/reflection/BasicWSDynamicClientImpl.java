@@ -52,6 +52,7 @@ import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.ResourceNotAvailableException;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wise.core.utils.JavaUtils;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * This is the Wise core, i.e. the JAX-WS client that handles wsdl retrieval &amp; parsing, invocations, etc.
@@ -239,7 +240,7 @@ public class BasicWSDynamicClientImpl implements BasicWSDynamicClient {
         try {
             FileUtils.forceDelete(new File(tmpDir));
         } catch (IOException e) {
-            Logger.getLogger(BasicWSDynamicClientImpl.class).info("unable to remove tmpDir:" + tmpDir);
+            Logger.getLogger(BasicWSDynamicClientImpl.class).info(Messages.MESSAGES.unableToRemoveTmpdir(tmpDir));
         }
         for (WSService service : servicesMap.values()) {
             if (service instanceof WSServiceImpl) {
