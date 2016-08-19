@@ -33,6 +33,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;
+import org.jboss.wise.core.i18n.Messages;
 
 public class MetroWSConsumer extends WSConsumer {
     private String metroHome;
@@ -78,8 +79,8 @@ public class MetroWSConsumer extends WSConsumer {
             args.add(wsdlURL);
             mainMethod.invoke(null, new Object[] { args.toArray(new String[] {}) });
         } catch (Exception e) {
-            log.error("Failed to load metro wsimport to generate jaxws classes for wsdl " + wsdlURL, e);
-            throw new WiseRuntimeException("Failed to load metro wsimport to generate jaxws classes for wsdl" + wsdlURL, e);
+            log.error(Messages.MESSAGES.failedToLoadMetroWsimport(wsdlURL), e);
+            throw new WiseRuntimeException(Messages.MESSAGES.failedToLoadMetroWsimport(wsdlURL), e);
         }
         return this.getClassNames(outputDir, targetPackage);
 
@@ -109,19 +110,19 @@ public class MetroWSConsumer extends WSConsumer {
 
             });
             if (jars == null) {
-                log.error("Not found the metro jar files, plese check the metroLibPath setting");
-                throw new WiseRuntimeException("Not found the metro jar files, plese check the metroLibPath setting");
+                log.error(Messages.MESSAGES.notFoundTheMetroJarFiles());
+                throw new WiseRuntimeException(Messages.MESSAGES.notFoundTheMetroJarFiles());
             }
             for (String jar : jars) {
                 File jarFile = new File(metroLibPath + "/" + jar);
                 try {
                     urls.add(jarFile.toURI().toURL());
                 } catch (MalformedURLException e) {
-                    log.error("Failed to getURL from the metro jar file ", e);
+                    log.error(Messages.MESSAGES.failedToGetURLFromTheMetroJarFiles(), e);
                 }
             }
         } else {
-            throw new WiseRuntimeException("Metro home is not set.");
+            throw new WiseRuntimeException(Messages.MESSAGES.metroHomeIsNotSet());
         }
         return urls.toArray(new URL[] {});
 

@@ -52,6 +52,7 @@ import org.jboss.ws.common.DOMWriter;
 import org.jboss.ws.common.IOUtils;
 import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * A class that resolves wsdl files and stores them locally
@@ -90,7 +91,7 @@ public class WSDLResolver {
             Definition def = getWsdlDefinition(wsdlURL);
 
             URL savedWsdlURL = wsdlFile.toURI().toURL();
-            log.info("WSDL saved to: " + savedWsdlURL);
+            log.info(Messages.MESSAGES.wsdlSavedTo(savedWsdlURL.toString()));
 
             // Process the wsdl imports
             Map<String, String> saved = new HashMap<String, String>();
@@ -106,7 +107,7 @@ public class WSDLResolver {
 
             return wsdlFile;
         } catch (Exception e) {
-            log.error("Cannot save wsdl to: " + wsdlFile);
+            log.error(Messages.MESSAGES.cannotSaveWsdlTo(wsdlFile.getCanonicalPath()));
             throw e;
         } finally {
             if (fWriter != null) {
@@ -126,7 +127,7 @@ public class WSDLResolver {
         if (wsdlLocation == null)
             throw new IllegalArgumentException("URL cannot be null");
 
-        log.info("Getting wsdl definition from: " + wsdlLocation.toExternalForm());
+        log.info(Messages.MESSAGES.gettingWsdlDefinitionFrom(wsdlLocation.toExternalForm()));
 
         EntityResolver entityResolver = new WiseEntityResolver(connection);
         // WSDLFactory wsdlFactory = WSDLFactory.newInstance(JBossWSDLFactoryImpl.class.getName(),
@@ -179,7 +180,7 @@ public class WSDLResolver {
         while (it.hasNext()) {
             for (Import wsdlImport : (List<Import>) it.next()) {
                 String locationURI = wsdlImport.getLocationURI();
-                log.info("Processing wsdl import: " + locationURI);
+                log.info(Messages.MESSAGES.processingWsdlImport(locationURI));
                 Definition subdef = wsdlImport.getDefinition();
 
                 // infinity loops prevention
@@ -192,7 +193,7 @@ public class WSDLResolver {
                 String newLocationURI = targetURL.getPath();
                 File targetFile = new File(newLocationURI);
                 if (debugLog)
-                    log.debug("targetFile: " + targetFile);
+                    log.debug(Messages.MESSAGES.targetFile(targetFile.getCanonicalPath()));
                 targetFile.getParentFile().mkdirs();
                 saved.put(locationURI, newLocationURI);
                 saved.put(newLocationURI, newLocationURI);
@@ -220,7 +221,7 @@ public class WSDLResolver {
                 }
 
                 if (debugLog)
-                    log.debug("WSDL import saved to: " + targetURL);
+                    log.debug(Messages.MESSAGES.wsdlImportSaveTo(targetURL.toString()));
             }
         }
     }
@@ -243,7 +244,7 @@ public class WSDLResolver {
             if ("import".equals(childElement.getLocalName()) || "include".equals(childElement.getLocalName())) {
                 String schemaLocation = childElement.getAttribute("schemaLocation");
                 if (schemaLocation.length() > 0) {
-                    log.info("Processing schema import: " + schemaLocation);
+                    log.info(Messages.MESSAGES.processngSchemaImport(schemaLocation));
                     if (saved.keySet().contains(schemaLocation)) {
                         continue;
                     }
@@ -279,7 +280,7 @@ public class WSDLResolver {
                         DOMWriter domWriter = new DOMWriter(fos);
                         domWriter.print(subDoc);
                         if (log.isDebugEnabled())
-                            log.debug("XMLSchema import saved to: " + xsdURL);
+                            log.debug(Messages.MESSAGES.xmlSchemaImportSavedTo(xsdURL.toString()));
                     } finally {
                         try {
                             fos.close();

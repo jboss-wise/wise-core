@@ -36,6 +36,7 @@ import org.jboss.logging.Logger;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * This simple SOAPHandler will output the contents of incoming and outgoing messages. Check the MESSAGE_OUTBOUND_PROPERTY in
@@ -103,17 +104,17 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
         if (outboundProperty.booleanValue()) {
             if (outputStream != null) {
-                outputStream.println("\nOutbound message:");
+                outputStream.println("\n" + Messages.MESSAGES.outboundMessage());
             }
             if (logger != null) {
-                logger.log(level, "\nOutbound message:");
+                logger.log(level, "\n" + Messages.MESSAGES.outboundMessage());
             }
         } else {
             if (outputStream != null) {
-                outputStream.println("\nInbound message:");
+                outputStream.println("\n" + Messages.MESSAGES.inboundMessage());
             }
             if (logger != null) {
-                logger.log(level, "\nInbound message:");
+                logger.log(level, "\n" + Messages.MESSAGES.inboundMessage());
             }
         }
         SOAPMessage message = smc.getMessage();
@@ -129,10 +130,10 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
             }
         } catch (Exception e) {
             if (outputStream != null) {
-                outputStream.println("Exception in handler: " + e);
+                outputStream.println(Messages.MESSAGES.exceptionInHandler() + e);
             }
             if (logger != null) {
-                logger.log(level, "Exception in handler: " + e);
+                logger.log(level, Messages.MESSAGES.exceptionInHandler() + e);
             }
         }
     }

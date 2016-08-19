@@ -37,6 +37,7 @@ import org.jboss.logging.Logger;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * A copy of org.jboss.util.xml.JBossEntityResolver from jboss-common to avoid depending on it just for the resolver needs.
@@ -319,7 +320,7 @@ public class JBossEntityResolver implements EntityResolver {
         entityResolved = (inputSource != null);
 
         if (entityResolved == false)
-            log.debug("Cannot resolve [publicID=" + publicId + ",systemID=" + systemId + "]");
+            log.debug(Messages.MESSAGES.cannotResolveIds(publicId, systemId));
 
         return inputSource;
     }
@@ -373,7 +374,7 @@ public class JBossEntityResolver implements EntityResolver {
                 inputSource = resolveSystemIDasURL(filename, trace);
 
                 if (inputSource == null)
-                    log.warn("Cannot load publicId from resource: " + filename);
+                    log.warn(Messages.MESSAGES.cannotLoadPublicid(filename));
             }
         }
 
@@ -414,7 +415,7 @@ public class JBossEntityResolver implements EntityResolver {
                 inputSource = new InputSource(ins);
                 inputSource.setSystemId(systemId);
             } else {
-                log.warn("Cannot load systemId from resource: " + filename);
+                log.warn(Messages.MESSAGES.cannotLoadSystemid(filename));
             }
         }
 
@@ -448,7 +449,7 @@ public class JBossEntityResolver implements EntityResolver {
                 systemId = StringPropertyReplacer.replaceProperties(systemId);
             URL url = new URL(systemId);
             if (warnOnNonFileURLs && url.getProtocol().equalsIgnoreCase("file") == false) {
-                log.warn("Trying to resolve systemId as a non-file URL: " + systemId);
+                log.warn(Messages.MESSAGES.tryingToResolveSystemId(systemId));
             }
 
             InputStream ins = url.openStream();
@@ -456,7 +457,7 @@ public class JBossEntityResolver implements EntityResolver {
                 inputSource = new InputSource(ins);
                 inputSource.setSystemId(systemId);
             } else {
-                log.warn("Cannot load systemId as URL: " + systemId);
+                log.warn(Messages.MESSAGES.cannotLoadSystemIdAsURL(systemId));
             }
 
             if (trace)
@@ -548,7 +549,7 @@ public class JBossEntityResolver implements EntityResolver {
             try {
                 inputStream = url.openStream();
             } catch (IOException e) {
-                log.debug("Failed to open url stream", e);
+                log.debug(Messages.MESSAGES.failedToOpenUrlStream(), e);
             }
         }
         return inputStream;
