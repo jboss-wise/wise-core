@@ -26,6 +26,7 @@ import java.io.OutputStream;
 
 import org.jboss.logging.Logger.Level;
 import org.jboss.logging.Logger;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * An OutputStream that flushes out to a Logger
@@ -48,10 +49,10 @@ public class LoggingOutputStream extends OutputStream {
 
     public LoggingOutputStream(Logger log, Level level) throws IllegalArgumentException {
         if (log == null) {
-            throw new IllegalArgumentException("Null category!");
+            throw new IllegalArgumentException(Messages.MESSAGES.nullCategory());
         }
         if (level == null) {
-            throw new IllegalArgumentException("Null priority!");
+            throw new IllegalArgumentException(Messages.MESSAGES.nullPriority());
         }
         this.level = level;
         logger = log;
@@ -67,7 +68,7 @@ public class LoggingOutputStream extends OutputStream {
 
     public void write(final int b) throws IOException {
         if (hasBeenClosed) {
-            throw new IOException("The stream has been closed.");
+            throw new IOException(Messages.MESSAGES.streamHasBeenClosed());
         }
         // would this be writing past the buffer?
         if (count == bufLength) {

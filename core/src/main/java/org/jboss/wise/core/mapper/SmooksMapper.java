@@ -51,6 +51,7 @@ import org.milyn.profile.DefaultProfileSet;
 import org.milyn.profile.ProfileStore;
 import org.milyn.profile.UnknownProfileMemberException;
 import org.milyn.resource.URIResourceLocator;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * A WiseMapper based on smooks
@@ -115,9 +116,8 @@ public class SmooksMapper implements WiseMapper {
                 executionContext.setEventListener(new HtmlReportGenerator(smooksReport));
             } catch (IOException e) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Error during loading/instanciating Html report generator (" + smooksReport
-                            + ") with exception message: " + e.getMessage());
-                    log.info("Wise will continue without it");
+                    log.debug(Messages.MESSAGES.errorDuringLoading(smooksReport, e.getMessage()));
+                    log.info(Messages.MESSAGES.wiseWillContinueWithoutIt());
 
                 }
             }

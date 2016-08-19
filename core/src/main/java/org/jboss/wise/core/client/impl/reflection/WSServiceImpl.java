@@ -35,6 +35,7 @@ import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.WSService;
 import org.jboss.wise.core.exception.WiseRuntimeException;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * @author stefano.maestri@javalinux.it
@@ -110,7 +111,7 @@ public class WSServiceImpl implements WSService {
                         endpoints.put(annotation.name(), ep);
                     }
                 } catch (WiseRuntimeException e) {
-                    log.error("Error Description", e);
+                    log.error(Messages.MESSAGES.errorDescription(), e);
                 }
 
             }
@@ -185,7 +186,7 @@ public class WSServiceImpl implements WSService {
                         (Object[]) null);
             } catch (Exception e) {
                 // TODO: something better
-                log.error("Error Description",e);
+                log.error(Messages.MESSAGES.errorDescription(),e);
                 return null;
             }
         }

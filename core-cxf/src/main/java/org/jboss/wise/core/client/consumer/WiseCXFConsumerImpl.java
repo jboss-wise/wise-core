@@ -32,6 +32,7 @@ import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.common.utils.NullPrintStream;
+import org.jboss.wise.core.i18n.Messages;
 
 /**
  * A WSContractConsumer for CXF stack; this is basically a copy of the JBossWS-CXF 4.1.0 implementation, to early consume the
@@ -137,7 +138,7 @@ public class WiseCXFConsumerImpl extends WSContractConsumer {
             args.add("-frontend");
             args.add("jaxws21");
         } else if (target != null && !target.equals("2.2")) {
-            stream.println("Unsupported target, using default value '2.2'");
+            stream.println( Messages.MESSAGES.unsupportedTarget());
         }
 
         if (bindingFiles != null) {
@@ -166,7 +167,7 @@ public class WiseCXFConsumerImpl extends WSContractConsumer {
 
         if (sourceDir != null && generateSource) {
             if (!sourceDir.exists() && !sourceDir.mkdirs())
-                throw new IllegalStateException("Could not make directory: " + sourceDir.getName());
+                throw new IllegalStateException(Messages.MESSAGES.couldNotMakeDirectory(sourceDir.getName()));
 
             args.add("-d");
             args.add(sourceDir.getAbsolutePath());
@@ -187,11 +188,11 @@ public class WiseCXFConsumerImpl extends WSContractConsumer {
         }
 
         if (extension) {
-            stream.println("TODO! Cheek SOAP 1.2 extension");
+            stream.println(Messages.MESSAGES.checkSoap12Extension());
         }
 
         if (!outputDir.exists() && !outputDir.mkdirs())
-            throw new IllegalStateException("Could not make directory: " + outputDir.getName());
+            throw new IllegalStateException(Messages.MESSAGES.couldNotMakeDirectory(outputDir.getName()));
 
         // Always add the output directory and the wsdl location
         if (!nocompile) {
@@ -224,10 +225,10 @@ public class WiseCXFConsumerImpl extends WSContractConsumer {
         } catch (Throwable t) {
             try {
                 if (messageStream != null) {
-                    messageStream.println("Failed to invoke WSDLToJava");
+                    messageStream.println(Messages.MESSAGES.failedToInvokeWSDLToJava());
                     t.printStackTrace(messageStream);
                 } else {
-                    Logger.getLogger(this.getClass()).error("Error Description", t);
+                    Logger.getLogger(this.getClass()).error(Messages.MESSAGES.errorDescription(), t);
                 }
             } catch (IndexOutOfBoundsException iobe) {
                 // ignore, caused by CXF-4833
