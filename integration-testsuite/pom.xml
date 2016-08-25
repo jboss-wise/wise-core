@@ -32,6 +32,10 @@
 			<module>common</module>
     </modules>
 
+	<properties>
+		<version.wise.core>${project.version}</version.wise.core>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -51,7 +55,7 @@
 		<dependency>
 			<groupId>org.jboss.wise</groupId>
 			<artifactId>wise-core</artifactId>
-			<version>${project.version}</version>
+			<version>${version.wise.core}</version>
 		</dependency>
 
 		<dependency>
@@ -220,7 +224,7 @@
 				<dependency>
 					<groupId>org.jboss.wise</groupId>
 					<artifactId>wise-core-cxf</artifactId>
-					<version>${project.version}</version>
+					<version>${version.wise.core}</version>
 					<scope>runtime</scope> <!-- runtime scope to avoid having the dependency while compiling -->
 				</dependency>
 			</dependencies>
