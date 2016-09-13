@@ -21,17 +21,9 @@
  */
 package org.jboss.wise.core.test;
 
-import java.io.File;
 import java.net.Inet6Address;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.Map;
-
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.deployer.Deployer;
 
 /**
  * Wise test base class. Subclass can use the methods in this class to deploy and undeploy a web service war in JBossAS
@@ -41,82 +33,23 @@ import org.jboss.wsf.spi.deployer.Deployer;
  *
  */
 public class WiseTest {
+
     private static final String TEST_WS_ARCHIVE_DIR = "test-ws-archive";
 
     private static final String SYSPROP_JBOSS_BIND_ADDRESS = "jboss.bind.address";
 
     private static final String SYSPROP_JBOSS_HTTP_PORT = "jboss.http.port";
 
-    private static Deployer DEPLOYER;
-
     private static final String SYSPROP_TEST_RESOURCES_DIRECTORY = "test.resources.directory";
 
     private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
-
-    private static synchronized Deployer getDeployer() {
-        // lazy loading of deployer
-        if (DEPLOYER == null) {
-            SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-            DEPLOYER = spiProvider.getSPI(Deployer.class);
-        }
-        return DEPLOYER;
-    }
-
-    /**
-     * Deploy the webservice war in JBoss server
-     *
-     * @param url url for webservice war
-     * @throws Exception if the deployment is failed
-     */
-    public static void deployWS(URL url) throws Exception {
-        getDeployer().deploy(url);
-    }
-
-    /**
-     * Undeploy a webservice
-     *
-     * @param url url of webservice war
-     * @throws Exception if undeployment is failed
-     */
-    public static void undeployWS(URL url) throws Exception {
-        getDeployer().undeploy(url);
-    }
-
-    public static void addSecurityDomain(String domainName, Map<String, String> authenticationOptions) throws Exception {
-        getDeployer().addSecurityDomain(domainName, authenticationOptions);
-    }
-
-    public static void removeSecurityDomain(String domainName) throws Exception {
-        getDeployer().removeSecurityDomain(domainName);
-    }
-
-    /**
-     * Get the URL path for a given webservice archive. It will find this war file under ${baseDir}/build/test-ws-archive
-     *
-     * @param archiveName the webservice archive name
-     * @return webservice war url
-     */
-    public URL getArchiveUrl(String archiveName) {
-        URL warUrl = null;
-        final URL dirURL = this.getClass().getClassLoader().getResource(".");
-        final File parent = new File(dirURL.getFile()).getParentFile();
-        final File file = new File(parent, TEST_WS_ARCHIVE_DIR + File.separator + archiveName);
-        if (file.exists()) {
-            try {
-                warUrl = file.getAbsoluteFile().toURI().toURL();
-            } catch (MalformedURLException e) {
-                return null;
-            }
-        }
-        return warUrl;
-
-    }
 
     /**
      * Get the jboss webservice server side hostname and port
      *
      * @return http://server-hostname:port
      */
+
     public static String getServerHostAndPort() {
         final String host = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
         final String port = System.getProperty(SYSPROP_JBOSS_HTTP_PORT, "8080");

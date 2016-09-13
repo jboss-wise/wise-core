@@ -56,7 +56,7 @@ import org.milyn.cdr.SmooksResourceConfigurationList;
 import org.milyn.cdr.XMLConfigDigester;
 import org.milyn.container.ExecutionContext;
 import org.milyn.event.report.HtmlReportGenerator;
-import org.milyn.javabean.repository.BeanRepository;
+import org.milyn.javabean.context.BeanContext;
 import org.milyn.profile.DefaultProfileSet;
 import org.milyn.profile.ProfileStore;
 import org.milyn.profile.UnknownProfileMemberException;
@@ -181,8 +181,8 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
         try {
             ExecutionContext executionContext = initExecutionContext(smooksReport);
             StringWriter transResult = new StringWriter();
-
-            BeanRepository.getInstance(executionContext).getBeanMap().putAll(this.beansMap);
+            BeanContext beanContext =  executionContext.getBeanContext();
+            beanContext.getBeanMap().putAll(this.beansMap);
             outStream = new ByteArrayOutputStream();
             message.writeTo(outStream);
             outStream.flush();

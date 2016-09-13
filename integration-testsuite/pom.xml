@@ -38,6 +38,14 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>woodstox-core-asl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>stax2-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
@@ -592,7 +600,7 @@
 				<dependency>
 					<groupId>org.jboss.naming</groupId>
 					<artifactId>jnpserver</artifactId>
-					<version>5.0.3.GA</version>
+					<version>5.0.6.CR1</version>
 				</dependency>
 				<!-- Arquillian container integration -->
 				<dependency>

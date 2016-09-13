@@ -21,7 +21,7 @@
  */
 package org.jboss.wise.core.client.impl.reflection;
 
-import static org.hamcrest.collection.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import java.util.Map;

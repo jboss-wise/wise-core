@@ -44,6 +44,7 @@ import org.jboss.wise.core.i18n.Messages;
 public class WiseCXFConsumerImpl extends WSContractConsumer {
     private List<File> bindingFiles = null;
     private File catalog = null;
+    private File clientJar = null;
     private boolean extension;
     private boolean generateSource = false;
     private File outputDir = new File("output");
@@ -55,6 +56,7 @@ public class WiseCXFConsumerImpl extends WSContractConsumer {
     private boolean additionalHeaders = false;
     private String target;
     private boolean nocompile = false;
+    private String encoding;
 
     @Override
     public void setBindingFiles(List<File> bindingFiles) {
@@ -116,9 +118,16 @@ public class WiseCXFConsumerImpl extends WSContractConsumer {
         this.target = target;
     }
 
-    @Override
     public void setNoCompile(boolean nocompile) {
         this.nocompile = nocompile;
+    }
+
+    public void setClientJar(File var1) {
+        this.clientJar = clientJar;
+    }
+
+    public void setEncoding(String s) {
+       this.encoding = s;
     }
 
     @Override

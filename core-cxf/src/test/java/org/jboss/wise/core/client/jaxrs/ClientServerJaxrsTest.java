@@ -17,7 +17,7 @@ public class ClientServerJaxrsTest extends AbstractClientServerTestBase {
 
     @BeforeClass
     public static void startServers() throws Exception {
-        assertTrue("server did not launch correctly", launchServer(JaxrsServer.class));
+        assertTrue("server did not launch correctly", launchServer(JaxrsServer.class, false));
     }
 
     @Test

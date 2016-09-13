@@ -26,6 +26,9 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.hamcrest.Matcher;
+import org.hamcrest.core.IsInstanceOf;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.impl.reflection.WSEndpointImpl;
@@ -54,7 +57,9 @@ public class MTOMEnablerTest {
     @Test
     public void shouldFindVisitorImpl() {
         WSExtensionEnabler enabler = new MTOMEnabler(client);
-        assertThat(enabler.getDelegate(), is(DefaultEnablerDelegate.class));
+        //workaround for "Java 8 compilation error with generic types" and upgrade to junit:4.12
+        Matcher<? super EnablerDelegate> typeMatcher = IsInstanceOf.instanceOf(DefaultEnablerDelegate.class);
+        assertThat("", enabler.getDelegate(), is(typeMatcher));
     }
 
     @Test
