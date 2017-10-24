@@ -89,7 +89,7 @@ public abstract class WSConsumer {
             }
         };
         File scanDir = new File(new StringBuilder(outputDir.getAbsolutePath()).append(File.separator)
-                .append(targetPackage.replaceAll("\\.", File.separator)).append(File.separator).toString());
+                .append(targetPackage.replace(".", File.separator)).append(File.separator).toString());
         String[] children = scanDir.list(filter);
         if (children != null) {
             for (int i = 0; i < children.length; i++) {
