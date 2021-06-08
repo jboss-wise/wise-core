@@ -108,6 +108,8 @@
 								<exclude>**/*$*.java</exclude>
 							</excludes>
 							<systemPropertyVariables>
+								<jboss.remoting.protocol>${jboss.remoting.protocol}</jboss.remoting.protocol>
+                                <java.naming.factory.initial>${java.naming.factory.initial}</java.naming.factory.initial>
 								<java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
 								<jboss.home>${jboss.home}</jboss.home>
 								<test.resources.directory>${test.resources.directory}</test.resources.directory>
@@ -131,6 +133,8 @@
 								<include>**/*Integration*Test.java</include>
 							</includes>
 							<systemPropertyVariables>
+								<jboss.remoting.protocol>${jboss.remoting.protocol}</jboss.remoting.protocol>
+                                <java.naming.factory.initial>${java.naming.factory.initial}</java.naming.factory.initial>
 								<java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
 								<jboss.home>${jboss.home}</jboss.home>
 								<test.resources.directory>${test.resources.directory}</test.resources.directory>
@@ -275,324 +279,26 @@
 		</profile>
 
 		<!--
-        Name:  wildfly800
-        Descr: WildFly-8.0.0 specific options
+        Name:  wildfly2302
+        Descr: WildFly-23.0.2 specific options
      -->
 		<profile>
-			<id>wildfly800</id>
+			<id>wildfly2302</id>
 			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly800.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly2302.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly800</jbossws.integration.target>
+				<jbossws.integration.target>wildfly2302</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly800.version}</jboss.version>
+				<jboss.version>${wildfly2302.version}</jboss.version>
 				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.ws</groupId>
-					<artifactId>jbossws-wildfly800-tests-integration</artifactId>
-					<version>${jbossws.wildfly800.version}</version>
-				</dependency>
-				<!-- Arquillian container integration -->
-				<dependency>
-					<groupId>org.wildfly.arquillian</groupId>
-					<artifactId>wildfly-arquillian-container-managed</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.protocol</groupId>
-					<artifactId>arquillian-protocol-servlet</artifactId>
-					<version>${arquillian.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-				<dependency>
-					<groupId>org.littleshoot</groupId>
-					<artifactId>littleproxy</artifactId>
-					<version>${org.littleshoot.littleproxy.version}</version>
-					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-log4j12</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>net.sf.ehcache</groupId>
-							<artifactId>ehcache-core</artifactId>
-						</exclusion>
-						<!-- Let the container messaging subsystem control the Netty dependency version  -->
-						<exclusion>
-							<groupId>io.netty</groupId>
-							<artifactId>netty-all</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<compilerArguments>
-								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-							</compilerArguments>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<!--
-			Name:  wildfly810
-			Descr: WildFly-8.1.0 specific options
-    	-->
-		<profile>
-			<id>wildfly810</id>
-			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly810.version}</server.home>
-				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly810</jbossws.integration.target>
-				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly810.version}</jboss.version>
-				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.ws</groupId>
-					<artifactId>jbossws-wildfly810-tests-integration</artifactId>
-					<version>${jbossws.wildfly810.version}</version>
-				</dependency>
-				<!-- Arquillian container integration -->
-				<dependency>
-					<groupId>org.wildfly.arquillian</groupId>
-					<artifactId>wildfly-arquillian-container-managed</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.protocol</groupId>
-					<artifactId>arquillian-protocol-servlet</artifactId>
-					<version>${arquillian.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-				<dependency>
-					<groupId>org.littleshoot</groupId>
-					<artifactId>littleproxy</artifactId>
-					<version>${org.littleshoot.littleproxy.version}</version>
-					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-log4j12</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>net.sf.ehcache</groupId>
-							<artifactId>ehcache-core</artifactId>
-						</exclusion>
-						<!-- Let the container messaging subsystem control the Netty dependency version  -->
-						<exclusion>
-							<groupId>io.netty</groupId>
-							<artifactId>netty-all</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<compilerArguments>
-								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-							</compilerArguments>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<!--
-			Name:  wildfly821
-			Descr: WildFly-8.2.1 specific options
-    	-->
-		<profile>
-			<id>wildfly821</id>
-			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly821.version}</server.home>
-				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly821</jbossws.integration.target>
-				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly821.version}</jboss.version>
-				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.ws</groupId>
-					<artifactId>jbossws-wildfly821-tests-integration</artifactId>
-					<version>${jbossws.wildfly821.version}</version>
-				</dependency>
-				<!-- Arquillian container integration -->
-				<dependency>
-					<groupId>org.wildfly.arquillian</groupId>
-					<artifactId>wildfly-arquillian-container-managed</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.protocol</groupId>
-					<artifactId>arquillian-protocol-servlet</artifactId>
-					<version>${arquillian.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-				<dependency>
-					<groupId>org.littleshoot</groupId>
-					<artifactId>littleproxy</artifactId>
-					<version>${org.littleshoot.littleproxy.version}</version>
-					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-log4j12</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>net.sf.ehcache</groupId>
-							<artifactId>ehcache-core</artifactId>
-						</exclusion>
-						<!-- Let the container messaging subsystem control the Netty dependency version  -->
-						<exclusion>
-							<groupId>io.netty</groupId>
-							<artifactId>netty-all</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<compilerArguments>
-								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-							</compilerArguments>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<!--
-			Name:  wildfly902
-			Descr: WildFly-9.0.2 specific options
-    	-->
-		<profile>
-			<id>wildfly902</id>
-			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly902.version}</server.home>
-				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly902</jbossws.integration.target>
-				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly902.version}</jboss.version>
-				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.ws</groupId>
-					<artifactId>jbossws-wildfly902-tests-integration</artifactId>
-					<version>${jbossws.wildfly902.version}</version>
-				</dependency>
-				<!-- Arquillian container integration -->
-				<dependency>
-					<groupId>org.wildfly.arquillian</groupId>
-					<artifactId>wildfly-arquillian-container-managed</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.protocol</groupId>
-					<artifactId>arquillian-protocol-servlet</artifactId>
-					<version>${arquillian.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-				<dependency>
-					<groupId>org.littleshoot</groupId>
-					<artifactId>littleproxy</artifactId>
-					<version>${org.littleshoot.littleproxy.version}</version>
-					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-log4j12</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>net.sf.ehcache</groupId>
-							<artifactId>ehcache-core</artifactId>
-						</exclusion>
-						<!-- Let the container messaging subsystem control the Netty dependency version  -->
-						<exclusion>
-							<groupId>io.netty</groupId>
-							<artifactId>netty-all</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<compilerArguments>
-								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-							</compilerArguments>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<!--
-			Name:  wildfly1000
-			Descr: WildFly-10.0.0 specific options
-    	-->
-		<profile>
-			<id>wildfly1000</id>
-			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly1000.version}</server.home>
-				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly1000</jbossws.integration.target>
-				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly1000.version}</jboss.version>
-				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
+				<jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
+				<java.naming.factory.initial>org.wildfly.naming.client.WildFlyInitialContextFactory</java.naming.factory.initial>
 			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-webservices-tests-integration</artifactId>
-					<version>${wildfly1000.version}</version>
-				</dependency>
-				<!-- Replace dep above with dep below when upgrading stack
-				<dependency>
-					<groupId>org.jboss.ws</groupId>
-					<artifactId>jbossws-wildfly1000-tests-integration</artifactId>
-					<version>${jbossws.wildfly1000.version}</version>
-				</dependency>
-				 -->
-				<dependency>
-					<groupId>org.jboss.naming</groupId>
-					<artifactId>jnpserver</artifactId>
-					<version>5.0.3.GA</version>
+					<version>${jboss.version}</version>
 				</dependency>
 				<!-- Arquillian container integration -->
 				<dependency>
@@ -647,24 +353,101 @@
 		</profile>
 
 		<!--
-			Name:  wildfly1010
-			Descr: WildFly-10.1.0 specific options
-    	-->
+        Name:  wildfly2201
+        Descr: WildFly-22.0.1 specific options
+     -->
 		<profile>
-			<id>wildfly1010</id>
+			<id>wildfly2201</id>
 			<properties>
-				<server.home>${project.basedir}/target/wildfly-${wildfly1010.version}</server.home>
+				<server.home>${project.basedir}/target/wildfly-${wildfly2201.version}</server.home>
 				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
-				<jbossws.integration.target>wildfly1010</jbossws.integration.target>
+				<jbossws.integration.target>wildfly2201</jbossws.integration.target>
 				<jboss.home>${server.home}</jboss.home>
-				<jboss.version>${wildfly1010.version}</jboss.version>
+				<jboss.version>${wildfly2201.version}</jboss.version>
 				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
+				<jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
+				<java.naming.factory.initial>org.wildfly.naming.client.WildFlyInitialContextFactory</java.naming.factory.initial>
 			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-webservices-tests-integration</artifactId>
-					<version>${wildfly1010.version}</version>
+					<version>${jboss.version}</version>
+				</dependency>
+				<!-- Arquillian container integration -->
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.protocol</groupId>
+					<artifactId>arquillian-protocol-servlet</artifactId>
+					<version>${arquillian.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+				<dependency>
+					<groupId>org.littleshoot</groupId>
+					<artifactId>littleproxy</artifactId>
+					<version>${org.littleshoot.littleproxy.version}</version>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-log4j12</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>net.sf.ehcache</groupId>
+							<artifactId>ehcache-core</artifactId>
+						</exclusion>
+						<!-- Let the container messaging subsystem control the Netty dependency version  -->
+						<exclusion>
+							<groupId>io.netty</groupId>
+							<artifactId>netty-all</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<compilerArguments>
+								<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+							</compilerArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+		
+	<!--
+        Name:  wildfly2102
+        Descr: WildFly-21.0.2 specific options
+     -->
+		<profile>
+			<id>wildfly2102</id>
+			<properties>
+				<server.home>${project.basedir}/target/wildfly-${wildfly2102.version}</server.home>
+				<test.resources.directory>${project.basedir}/src/test/resources</test.resources.directory>
+				<jbossws.integration.target>wildfly2102</jbossws.integration.target>
+				<jboss.home>${server.home}</jboss.home>
+				<jboss.version>${wildfly2102.version}</jboss.version>
+				<additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
+				<jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
+				<java.naming.factory.initial>org.wildfly.naming.client.WildFlyInitialContextFactory</java.naming.factory.initial>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-webservices-tests-integration</artifactId>
+					<version>${jboss.version}</version>
 				</dependency>
 				<!-- Arquillian container integration -->
 				<dependency>

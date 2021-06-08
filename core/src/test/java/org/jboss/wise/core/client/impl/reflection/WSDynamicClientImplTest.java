@@ -23,7 +23,6 @@ package org.jboss.wise.core.client.impl.reflection;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.spy;
-import static org.hamcrest.collection.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNotNull;
@@ -41,6 +40,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.jcip.annotations.ThreadSafe;
+
+import org.hamcrest.core.IsCollectionContaining;
 import org.jboss.wise.core.client.WSMethod;
 import org.jboss.wise.core.client.WSService;
 import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
@@ -101,8 +102,8 @@ public class WSDynamicClientImplTest {
 
         Map<String, WSService> services = client.processServices();
         assertThat(services.size(), is(2));
-        assertThat(services.keySet(), hasItem("ServiceName1"));
-        assertThat(services.keySet(), hasItem("ServiceName2"));
+        assertThat(services.keySet(), IsCollectionContaining.hasItem("ServiceName1"));
+        assertThat(services.keySet(), IsCollectionContaining.hasItem("ServiceName2"));
     }
 
     @SuppressWarnings("unchecked")

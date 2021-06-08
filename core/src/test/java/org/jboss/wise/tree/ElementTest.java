@@ -21,7 +21,6 @@
  */
 package org.jboss.wise.tree;
 
-import static org.hamcrest.collection.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -47,6 +46,7 @@ import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 
+import org.hamcrest.core.IsCollectionContaining;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.impl.reflection.WSDynamicClientImpl;
 import org.jboss.wise.core.exception.WiseRuntimeException;
@@ -472,7 +472,7 @@ public class ElementTest {
         for (Iterator<String> it = el.getChildrenIDs(); it.hasNext();) {
             ids.add(it.next());
         }
-        assertThat(ids, hasItems(addedChild.getId(), addedChild2.getId()));
+        assertThat(ids, IsCollectionContaining.hasItems(addedChild.getId(), addedChild2.getId()));
         obj = el.toObject();
         assertEquals(2, ((Collection<?>) obj).size());
         el.removeChild(addedChild.getId());
@@ -507,7 +507,7 @@ public class ElementTest {
         for (MyTest mt : (Collection<MyTest>) res) {
             pars.add(mt.getPar());
         }
-        assertThat(pars, hasItems("p1", "p2"));
+        assertThat(pars, IsCollectionContaining.hasItems("p1", "p2"));
     }
 
     @Test
@@ -522,7 +522,7 @@ public class ElementTest {
         for (Iterator<? extends Element> it = el.getChildren(); it.hasNext();) {
             tmpList.add(it.next().getName());
         }
-        assertThat(tmpList, hasItems("par", "ref"));
+        assertThat(tmpList, IsCollectionContaining.hasItems("par", "ref"));
         Element refEl = el.getChildByName("ref");
         assertNotNull(refEl);
         assertElementProps(refEl, false, false, true, false, true, false, false, 1);
