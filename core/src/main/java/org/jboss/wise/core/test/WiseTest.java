@@ -27,11 +27,6 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.Map;
-
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.deployer.Deployer;
 
 /**
  * Wise test base class. Subclass can use the methods in this class to deploy and undeploy a web service war in JBossAS
@@ -47,48 +42,10 @@ public class WiseTest {
 
     private static final String SYSPROP_JBOSS_HTTP_PORT = "jboss.http.port";
 
-    private static Deployer DEPLOYER;
-
     private static final String SYSPROP_TEST_RESOURCES_DIRECTORY = "test.resources.directory";
 
     private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
 
-    private static synchronized Deployer getDeployer() {
-        // lazy loading of deployer
-        if (DEPLOYER == null) {
-            SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-            DEPLOYER = spiProvider.getSPI(Deployer.class);
-        }
-        return DEPLOYER;
-    }
-
-    /**
-     * Deploy the webservice war in JBoss server
-     *
-     * @param url url for webservice war
-     * @throws Exception if the deployment is failed
-     */
-    public static void deployWS(URL url) throws Exception {
-        getDeployer().deploy(url);
-    }
-
-    /**
-     * Undeploy a webservice
-     *
-     * @param url url of webservice war
-     * @throws Exception if undeployment is failed
-     */
-    public static void undeployWS(URL url) throws Exception {
-        getDeployer().undeploy(url);
-    }
-
-    public static void addSecurityDomain(String domainName, Map<String, String> authenticationOptions) throws Exception {
-        getDeployer().addSecurityDomain(domainName, authenticationOptions);
-    }
-
-    public static void removeSecurityDomain(String domainName) throws Exception {
-        getDeployer().removeSecurityDomain(domainName);
-    }
 
     /**
      * Get the URL path for a given webservice archive. It will find this war file under ${baseDir}/build/test-ws-archive

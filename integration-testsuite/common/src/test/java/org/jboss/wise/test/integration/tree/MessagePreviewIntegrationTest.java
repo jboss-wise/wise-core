@@ -57,7 +57,6 @@ public class MessagePreviewIntegrationTest extends WiseTest {
     private static WSDynamicClient client;
     private final String registerOpRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
-            + "  <soap:Header/>\n"
             + "  <soap:Body>\n"
             + "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\">\n"
             + "      <Customer>\n"
