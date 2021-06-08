@@ -5,11 +5,7 @@ script:
 
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk8
 cache:
  directories:
   - $HOME/.m2
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
