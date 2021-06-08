@@ -21,17 +21,18 @@
  */
 package org.jboss.wise.core.wsextensions.impl;
 
-import static org.hamcrest.core.Is.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsInstanceOf;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.impl.reflection.WSEndpointImpl;
 import org.jboss.wise.core.wsextensions.DefaultEnablerDelegate;
 import org.jboss.wise.core.wsextensions.EnablerDelegate;
 import org.jboss.wise.core.wsextensions.WSExtensionEnabler;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,7 +55,7 @@ public class MTOMEnablerTest {
     @Test
     public void shouldFindVisitorImpl() {
         WSExtensionEnabler enabler = new MTOMEnabler(client);
-        Assert.assertThat(enabler.getDelegate(), isA(EnablerDelegate.class));
+        MatcherAssert.assertThat("", enabler.getDelegate(), IsInstanceOf.instanceOf(DefaultEnablerDelegate.class));
     }
 
     @Test
