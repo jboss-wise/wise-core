@@ -66,7 +66,7 @@
     <cxf.version>3.3.10</cxf.version>
     <jaxb.impl.version>2.2.5</jaxb.impl.version>
     <compiler.fork>false</compiler.fork>
-    <commons-httpclient.version>4.5</commons-httpclient.version>
+    <commons-httpclient.version>4.5.13</commons-httpclient.version>
 
     <version.shrinkwrap.resolvers>2.2.0</version.shrinkwrap.resolvers>
     <org.littleshoot.littleproxy.version>1.0.0-beta2</org.littleshoot.littleproxy.version>
