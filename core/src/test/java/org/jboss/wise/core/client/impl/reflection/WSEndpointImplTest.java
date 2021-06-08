@@ -21,11 +21,12 @@
  */
 package org.jboss.wise.core.client.impl.reflection;
 
-import static org.hamcrest.collection.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import java.util.Map;
 import javax.jws.WebMethod;
+
+import org.hamcrest.core.IsCollectionContaining;
 import org.jboss.wise.core.client.WSMethod;
 import org.junit.Test;
 
@@ -50,8 +51,8 @@ public class WSEndpointImplTest {
         endpoint.setUnderlyingObjectClass(this.getClass());
         Map<String, WSMethod> wsMethods = endpoint.getWSMethods();
         assertThat(wsMethods.size(), is(2));
-        assertThat(wsMethods.keySet(), hasItem("method1"));
-        assertThat(wsMethods.keySet(), hasItem("method2"));
+        assertThat(wsMethods.keySet(), IsCollectionContaining.hasItems("method1"));
+        assertThat(wsMethods.keySet(), IsCollectionContaining.hasItems("method2"));
     }
 
 }

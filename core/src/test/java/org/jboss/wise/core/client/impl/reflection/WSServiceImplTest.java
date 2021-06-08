@@ -21,7 +21,6 @@
  */
 package org.jboss.wise.core.client.impl.reflection;
 
-import static org.hamcrest.collection.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -30,6 +29,8 @@ import java.net.URLClassLoader;
 import java.util.Map;
 import javax.xml.ws.WebEndpoint;
 import net.jcip.annotations.Immutable;
+
+import org.hamcrest.core.IsCollectionContaining;
 import org.jboss.wise.core.client.WSEndpoint;
 import org.jboss.wise.core.client.WSService;
 import org.junit.Test;
@@ -55,8 +56,8 @@ public class WSServiceImplTest {
         URLClassLoader loader = new URLClassLoader(new URL[] {}, Thread.currentThread().getContextClassLoader());
         WSService service = new WSServiceImpl(WSServiceImplTest.class, loader, this, null, null, null, 10);
         Map<String, WSEndpoint> endpoints = service.processEndpoints();
-        assertThat(endpoints.keySet(), hasItem("EndPoint1"));
-        assertThat(endpoints.keySet(), hasItem("EndPoint2"));
+        assertThat(endpoints.keySet(), IsCollectionContaining.hasItem("EndPoint1"));
+        assertThat(endpoints.keySet(), IsCollectionContaining.hasItem("EndPoint2"));
 
         WSEndpoint endPoint1 = endpoints.get("EndPoint1");
         assertThat((URLClassLoader) endPoint1.getClassLoader(), is(loader));

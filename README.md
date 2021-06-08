@@ -10,11 +10,9 @@ The build follows the usual Maven flow; a wilflyXYZ profile has to be specified 
 
 To run the full integration testsuite against the currently supported target containers use:
 
-- mvn -Pwildfly800 clean integration-test
-- mvn -Pwildfly810 clean integration-test
-- mvn -Pwildfly821 clean integration-test
-- mvn -Pwildfly902 clean integration-test
-- mvn -Pwildfly1000 clean integration-test
+- mvn -Pwildfly2300 clean integration-test
+- mvn -Pwildfly2201 clean integration-test
+- mvn -Pwildfly2102 clean integration-test
 
 Checkstyle
 -------------------

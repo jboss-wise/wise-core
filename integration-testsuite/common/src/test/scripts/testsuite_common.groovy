@@ -15,7 +15,19 @@ def root = new XmlParser().parse(project.properties['inputFile'])
  * </security-domain>
  *
  */
-def securityDomains = root.profile.subsystem.'security-domains'[0]
+ 
+def subsystems = root.profile.subsystem
+def securityDomains = null
+for (item in subsystems) {
+    if (item.name().getNamespaceURI().contains("urn:jboss:domain:security:")) {
+       for (element in item) {
+           if (element.name().getLocalPart() == 'security-domains') {
+              securityDomains = element
+           }
+       }
+       break
+    }
+}
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','cache-type':'default'])
 def authentication = securityDomain.appendNode('authentication')
 def loginModule = authentication.appendNode('login-module', ['code':'UsersRoles','flag':'required'])

@@ -21,7 +21,6 @@
  */
 package org.jboss.wise.test.integration.mtom;
 
-import junit.framework.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -34,6 +33,7 @@ import org.jboss.wise.core.client.builder.WSDynamicClientBuilder;
 import org.jboss.wise.core.client.factories.WSDynamicClientFactory;
 import org.jboss.wise.core.test.WiseTest;
 import org.jboss.wise.core.wsextensions.impl.MTOMEnabler;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,8 +47,6 @@ import java.util.Map;
  */
 @RunWith(Arquillian.class)
 public class MTOMIntegrationTest extends WiseTest {
-
-    private URL warUrl = null;
 
     @Deployment
     public static JavaArchive createDeployment() {
