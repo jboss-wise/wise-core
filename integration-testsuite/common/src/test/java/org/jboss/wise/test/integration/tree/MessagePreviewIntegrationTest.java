@@ -55,57 +55,60 @@ import org.junit.runner.RunWith;
 public class MessagePreviewIntegrationTest extends WiseTest {
 
     private static WSDynamicClient client;
+    private final static String LS = System.lineSeparator();
     private final String registerOpRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-            + "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
-            + "  <soap:Body>\n"
-            + "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\">\n"
-            + "      <Customer>\n"
-            + "        <address>\n"
-            + "          <city>?</city>\n"
-            + "          <state>?</state>\n"
-            + "          <street>?</street>\n"
-            + "          <zip>?</zip>\n"
-            + "        </address>\n"
-            + "        <contactNumbers>\n"
-            + "          <areaCode>?</areaCode>\n"
-            + "          <exchange>?</exchange>\n"
-            + "          <line>?</line>\n"
-            + "        </contactNumbers>\n"
-            + "        <id>0</id>\n"
-            + "        <name>\n"
-            + "          <firstName>?</firstName>\n"
-            + "          <lastName>?</lastName>\n"
-            + "          <middleName>?</middleName>\n"
-            + "        </name>\n"
-            + "        <referredCustomers>\n"
-            + "          <address>\n"
-            + "            <city>?</city>\n"
-            + "            <state>?</state>\n"
-            + "            <street>?</street>\n"
-            + "            <zip>?</zip>\n"
-            + "          </address>\n"
-            + "          <contactNumbers>\n"
-            + "            <areaCode>?</areaCode>\n"
-            + "            <exchange>?</exchange>\n"
-            + "            <line>?</line>\n"
-            + "          </contactNumbers>\n"
-            + "          <contactNumbers>\n"
-            + "            <areaCode>?</areaCode>\n"
-            + "            <exchange>?</exchange>\n"
-            + "            <line>?</line>\n"
-            + "          </contactNumbers>\n"
-            + "          <id>0</id>\n"
-            + "          <name>\n"
-            + "            <firstName>?</firstName>\n"
-            + "            <lastName>?</lastName>\n"
-            + "            <middleName>?</middleName>\n"
-            + "          </name>\n"
-            + "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n"
-            + "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>\n"
-            + "        </referredCustomers>\n"
-            + "      </Customer>\n"
-            + "      <When xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\"/>\n"
-            + "    </ns2:Register>\n" + "  </soap:Body>\n" + "</soap:Envelope>\n";
+            + "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" + LS
+            + "  <soap:Body>" + LS
+            + "    <ns2:Register xmlns:ns2=\"http://types.complex.jaxws.ws.test.jboss.org/\">" + LS
+            + "      <Customer>" + LS
+            + "        <address>" + LS
+            + "          <city>?</city>" + LS
+            + "          <state>?</state>" + LS
+            + "          <street>?</street>" + LS
+            + "          <zip>?</zip>" + LS
+            + "        </address>" + LS
+            + "        <contactNumbers>" + LS
+            + "          <areaCode>?</areaCode>" + LS
+            + "          <exchange>?</exchange>" + LS
+            + "          <line>?</line>" + LS
+            + "        </contactNumbers>" + LS
+            + "        <id>0</id>" + LS
+            + "        <name>" + LS
+            + "          <firstName>?</firstName>" + LS
+            + "          <lastName>?</lastName>" + LS
+            + "          <middleName>?</middleName>" + LS
+            + "        </name>" + LS
+            + "        <referredCustomers>" + LS
+            + "          <address>" + LS
+            + "            <city>?</city>" + LS
+            + "            <state>?</state>" + LS
+            + "            <street>?</street>" + LS
+            + "            <zip>?</zip>" + LS
+            + "          </address>" + LS
+            + "          <contactNumbers>" + LS
+            + "            <areaCode>?</areaCode>" + LS
+            + "            <exchange>?</exchange>" + LS
+            + "            <line>?</line>" + LS
+            + "          </contactNumbers>" + LS
+            + "          <contactNumbers>" + LS
+            + "            <areaCode>?</areaCode>" + LS
+            + "            <exchange>?</exchange>" + LS
+            + "            <line>?</line>" + LS
+            + "          </contactNumbers>" + LS
+            + "          <id>0</id>" + LS
+            + "          <name>" + LS
+            + "            <firstName>?</firstName>" + LS
+            + "            <lastName>?</lastName>" + LS
+            + "            <middleName>?</middleName>" + LS
+            + "          </name>" + LS
+            + "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>" + LS
+            + "          <referredCustomers xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>" + LS
+            + "        </referredCustomers>" + LS
+            + "      </Customer>" + LS
+            + "      <When xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\"/>" + LS
+            + "    </ns2:Register>" + LS
+            + "  </soap:Body>" + LS
+            + "</soap:Envelope>" + LS;
 
     @Deployment
     public static WebArchive createDeployment() {
