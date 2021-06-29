@@ -30,7 +30,8 @@ import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wise.core.wsextensions.EnablerDelegate;
 import org.jboss.wise.core.wsextensions.EnablerDelegateProvider;
-import org.milyn.Smooks;
+import org.smooks.Smooks;
+
 
 /**
  * This is the Wise core, i.e. the JAX-WS client that handles wsdl retrieval &amp; parsing, invocations, etc.

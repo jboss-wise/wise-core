@@ -43,8 +43,8 @@ import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.mapper.mappingObject.ExternalObject;
 import org.jboss.wise.core.mapper.mappingObject.InternalObject;
 import org.junit.Test;
-import org.milyn.Smooks;
-import org.milyn.container.ExecutionContext;
+import org.smooks.Smooks;
+import org.smooks.api.ExecutionContext;
 
 /**
  * @author stefano.maestri@javalinux.it
@@ -132,9 +132,9 @@ public class SmooksMapperTest {
         ExecutionContext context2 = mapper2.initExecutionContext(null);
         ExecutionContext context3 = mapper3.initExecutionContext(null);
 
-        assertThat(context.getDeliveryConfig(), not(is(context2.getDeliveryConfig())));
-        assertThat(context.getDeliveryConfig(), not(is(context3.getDeliveryConfig())));
-        assertThat(context2.getDeliveryConfig(), not(is(context3.getDeliveryConfig())));
+        assertThat(context.getContentDeliveryRuntime(), not(is(context2.getContentDeliveryRuntime())));
+        assertThat(context.getContentDeliveryRuntime(), not(is(context3.getContentDeliveryRuntime())));
+        assertThat(context2.getContentDeliveryRuntime(), not(is(context3.getContentDeliveryRuntime())));
 
     }
 }

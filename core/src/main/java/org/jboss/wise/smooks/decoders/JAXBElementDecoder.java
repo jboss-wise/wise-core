@@ -21,13 +21,15 @@
  */
 package org.jboss.wise.smooks.decoders;
 
+import java.util.Properties;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
-import org.milyn.cdr.SmooksConfigurationException;
-import org.milyn.cdr.SmooksResourceConfiguration;
-import org.milyn.javabean.DataDecodeException;
-import org.milyn.javabean.DataDecoder;
-import org.milyn.javabean.DecodeType;
+
+import org.smooks.api.SmooksConfigException;
+import org.smooks.api.converter.TypeConverter;
+import org.smooks.api.converter.TypeConverterException;
+import org.smooks.api.resource.config.Configurable;
 
 /**
  * {@link javax.xml.datatype.Duration} data decoder.
@@ -36,21 +38,28 @@ import org.milyn.javabean.DecodeType;
  * IOW what it does under the wood is: new JAXBElement&lt;String&gt;(new QName(nameSpaceURI, localPart), String.class, String
  * data);
  */
-@DecodeType(JAXBElement.class)
-public class JAXBElementDecoder implements DataDecoder {
+
+public class JAXBElementDecoder implements TypeConverter <String, JAXBElement>, Configurable {
     String nameSpaceURI = null;
 
     String localPart = null;
 
-    public void setConfiguration(SmooksResourceConfiguration resourceConfig) throws SmooksConfigurationException {
-        nameSpaceURI = resourceConfig.getStringParameter("namespaceURI");
-        localPart = resourceConfig.getStringParameter("localPart");
+    Properties properties;
+    
+    public void setConfiguration(Properties properties) throws SmooksConfigException {
+        this.properties = properties;
+        nameSpaceURI = properties.getProperty("namespaceURI");
+        localPart = properties.getProperty("localPart");
         if (nameSpaceURI == null || localPart == null) {
-            throw new SmooksConfigurationException("Decoder must specify a  QName namespaceURI and a localPart parameter.");
+            throw new SmooksConfigException("Decoder must specify a  QName namespaceURI and a localPart parameter.");
         }
     }
 
-    public Object decode(String data) throws DataDecodeException {
+    public Properties getConfiguration() {
+        return properties;
+    }
+
+    public JAXBElement convert(String data) throws TypeConverterException {
         return new JAXBElement<String>(new QName(nameSpaceURI, localPart), String.class, data);
     }
 }

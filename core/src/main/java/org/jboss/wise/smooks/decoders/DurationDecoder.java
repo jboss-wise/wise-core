@@ -24,10 +24,9 @@ package org.jboss.wise.smooks.decoders;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
-import org.milyn.javabean.DataDecodeException;
-import org.milyn.javabean.DataDecoder;
-import org.milyn.javabean.DecodeType;
-import org.milyn.javabean.decoders.DateDecoder;
+import org.smooks.api.bean.repository.*;
+import org.smooks.api.converter.TypeConverter;
+import org.smooks.api.converter.TypeConverterException;
 
 /**
  * {@link javax.xml.datatype.Duration} data decoder.
@@ -35,18 +34,17 @@ import org.milyn.javabean.decoders.DateDecoder;
  * Decodes the supplied string into a {@link javax.xml.datatype.Duration} String value is supposed to be milliseconds
  * representing this Duration
  */
-@DecodeType(Duration.class)
-public class DurationDecoder extends DateDecoder implements DataDecoder {
+public class DurationDecoder implements TypeConverter <String, Duration> {
 
     @Override
-    public Object decode(String data) throws DataDecodeException {
-        Object result = null;
+    public Duration convert(String data) throws TypeConverterException {
+        Duration result = null;
         try {
             result = DatatypeFactory.newInstance().newDuration(Long.parseLong(data));
         } catch (DatatypeConfigurationException e) {
-            throw new DataDecodeException("Error decoding Duration data value '" + data, e);
+            throw new TypeConverterException("Error decoding Duration data value '" + data, e);
         } catch (NumberFormatException e) {
-            throw new DataDecodeException("Error decoding Duration data value '" + data, e);
+            throw new TypeConverterException("Error decoding Duration data value '" + data, e);
         }
 
         return result;

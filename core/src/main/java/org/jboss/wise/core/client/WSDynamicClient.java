@@ -24,7 +24,8 @@ package org.jboss.wise.core.client;
 import net.jcip.annotations.ThreadSafe;
 
 import org.jboss.wise.core.wsextensions.EnablerDelegate;
-import org.milyn.Smooks;
+import org.smooks.Smooks;
+
 
 /**
  * This is the Wise core class responsible to invoke the JAX-WS tools that handles wsdl retrieval &amp; parsing. It is used to

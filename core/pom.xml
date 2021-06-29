@@ -79,8 +79,11 @@
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 		</dependency>
-
 		<dependency>
+			<groupId>org.smooks</groupId>
+			<artifactId>smooks-core</artifactId>
+		  </dependency>
+		<!--<dependency>
 			<groupId>org.milyn</groupId>
 			<artifactId>milyn-smooks-core</artifactId>
 		</dependency>
@@ -98,7 +101,7 @@
 		<dependency>
 			<groupId>org.milyn</groupId>
 			<artifactId>milyn-smooks-validation</artifactId>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>net.jcip</groupId>

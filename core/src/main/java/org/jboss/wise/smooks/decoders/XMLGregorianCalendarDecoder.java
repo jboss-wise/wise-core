@@ -27,10 +27,9 @@ import java.util.GregorianCalendar;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import org.milyn.javabean.DataDecodeException;
-import org.milyn.javabean.DataDecoder;
-import org.milyn.javabean.DecodeType;
-import org.milyn.javabean.decoders.DateDecoder;
+import org.smooks.api.converter.TypeConverter;
+import org.smooks.api.converter.TypeConverterException;
+import org.smooks.engine.converter.StringToDateConverterFactory.StringToDateConverter;
 
 /**
  * {@link javax.xml.datatype.XMLGregorianCalendar} data decoder.
@@ -46,21 +45,19 @@ import org.milyn.javabean.decoders.DateDecoder;
  *
  * @author <a href="mailto:stefano.maestri@javalinux.it">stefano.maestri@javalinux.it</a>
  */
-@DecodeType(XMLGregorianCalendar.class)
-public class XMLGregorianCalendarDecoder extends DateDecoder implements DataDecoder {
+public class XMLGregorianCalendarDecoder implements TypeConverter<String, XMLGregorianCalendar> {
 
     @Override
-    public Object decode(String data) throws DataDecodeException {
-        Date date = (Date) super.decode(data);
+    public XMLGregorianCalendar convert(String data) throws TypeConverterException {
+        Date date = (Date) new StringToDateConverter().convert(data);
 
-        Object result = null;
+        XMLGregorianCalendar result = null;
         try {
             GregorianCalendar gregCal = new GregorianCalendar();
             gregCal.setTime(date);
             result = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregCal);
         } catch (DatatypeConfigurationException e) {
-            throw new DataDecodeException("Error decoding XMLGregorianCalendar data value '" + data + "' with decode format '"
-                    + format + "'.", e);
+            throw new TypeConverterException("Error decoding XMLGregorianCalendar data value '" + data, e);
         }
         return result;
     }

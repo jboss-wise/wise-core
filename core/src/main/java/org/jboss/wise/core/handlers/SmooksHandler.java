@@ -49,18 +49,18 @@ import org.jboss.logging.Logger;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wise.core.mapper.SmooksMapper;
-import org.milyn.Smooks;
-import org.milyn.SmooksUtil;
-import org.milyn.cdr.SmooksResourceConfiguration;
-import org.milyn.cdr.SmooksResourceConfigurationList;
-import org.milyn.cdr.XMLConfigDigester;
-import org.milyn.container.ExecutionContext;
-import org.milyn.event.report.HtmlReportGenerator;
-import org.milyn.javabean.context.BeanContext;
-import org.milyn.profile.DefaultProfileSet;
-import org.milyn.profile.ProfileStore;
-import org.milyn.profile.UnknownProfileMemberException;
-import org.milyn.resource.URIResourceLocator;
+import org.smooks.Smooks;
+import org.smooks.api.ExecutionContext;
+import org.smooks.api.bean.context.BeanContext;
+import org.smooks.api.profile.ProfileStore;
+import org.smooks.api.profile.UnknownProfileMemberException;
+import org.smooks.api.resource.config.ResourceConfig;
+import org.smooks.api.resource.config.ResourceConfigSeq;
+import org.smooks.engine.profile.DefaultProfileSet;
+import org.smooks.engine.report.HtmlReportGenerator;
+import org.smooks.engine.resource.config.XMLConfigDigester;
+import org.smooks.resource.URIResourceLocator;
+import org.smooks.support.SmooksUtil;
 import org.jboss.wise.core.i18n.Messages;
 
 /**
@@ -108,15 +108,15 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
 
                 synchronized (SmooksMapper.class) {
                     // Register the message flow within the Smooks context....
-                    SmooksUtil.registerProfileSet(DefaultProfileSet.create(Integer.toString(this.hashCode()), new String[] {}),
+                    SmooksUtil.registerProfileSet(new DefaultProfileSet(Integer.toString(this.hashCode()), new String[] {}),
                             smooks);
                 }
             }
-            SmooksResourceConfigurationList list = XMLConfigDigester.digestConfig(smooksResourceStream, "wise");
+            ResourceConfigSeq list = XMLConfigDigester.digestConfig(smooksResourceStream, "wise");
             for (int i = 0; i < list.size(); i++) {
-                SmooksResourceConfiguration smookResourceElement = list.get(i);
+                ResourceConfig smookResourceElement = list.get(i);
                 smookResourceElement.setTargetProfile(Integer.toString(this.hashCode()));
-                SmooksUtil.registerResource(smookResourceElement, smooks);
+                smooks.addConfiguration(smookResourceElement);
             }
 
             this.smooksReport = smooksReport;
@@ -162,7 +162,7 @@ public class SmooksHandler implements SOAPHandler<SOAPMessageContext> {
         ExecutionContext executionContext = smooks.createExecutionContext(Integer.toString(this.hashCode()));
         if (smooksReport != null) {
             try {
-                executionContext.setEventListener(new HtmlReportGenerator(smooksReport));
+                executionContext.getContentDeliveryRuntime().addExecutionEventListener(new HtmlReportGenerator(smooksReport));
             } catch (IOException e) {
                 if (log.isDebugEnabled()) {
                     log.debug(Messages.MESSAGES.errorDuringLoading(smooksReport, e.getMessage()));
