@@ -50,7 +50,8 @@ import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.ResourceNotAvailableException;
 import org.junit.Before;
 import org.junit.Test;
-import org.milyn.Smooks;
+import org.smooks.Smooks;
+
 
 /**
  * This is the Wise core, i.e. the JAX-WS client that handles wsdl retrieval & parsing, invocations, etc.
