@@ -273,6 +273,17 @@
         </exclusions>
       </dependency>
 
+      <dependency>
+        <groupId>org.smooks.cartridges</groupId>
+        <artifactId>smooks-javabean-cartridge</artifactId>
+        <version>${milyn.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
       <!--<dependency>
         <groupId>org.milyn</groupId>
         <artifactId>milyn-smooks-validation</artifactId>

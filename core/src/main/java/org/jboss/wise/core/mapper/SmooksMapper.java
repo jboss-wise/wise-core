@@ -141,7 +141,6 @@ public class SmooksMapper implements WiseMapper {
         JavaResult result = new JavaResult();
 
         smooks.filterSource(executionContext, source, result);
-
         Map<String, Object> returnMap = result.getResultMap();
 
         // workaround when we should use smooks to extract a single value

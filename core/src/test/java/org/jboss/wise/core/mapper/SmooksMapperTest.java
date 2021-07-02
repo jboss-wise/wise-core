@@ -45,6 +45,7 @@ import org.jboss.wise.core.mapper.mappingObject.InternalObject;
 import org.junit.Test;
 import org.smooks.Smooks;
 import org.smooks.api.ExecutionContext;
+import org.smooks.io.payload.JavaSource;
 
 /**
  * @author stefano.maestri@javalinux.it
@@ -60,15 +61,14 @@ public class SmooksMapperTest {
         when(client.getClassLoader()).thenReturn(
                 new URLClassLoader(new URL[] {}, Thread.currentThread().getContextClassLoader()));
         WiseMapper mapper = new SmooksMapper("./smooks/smooks-config.xml", "target/smooks-report/report.html", client);
-        Map<String, Object> originalObjects = new HashMap<String, Object>();
+        
         ExternalObject external = new ExternalObject();
         InternalObject internal = new InternalObject();
         internal.setNumber(Integer.valueOf(1));
         internal.setText("fooText");
         external.setInternal(internal);
-        originalObjects.put("external", external);
         Map<String, Object> results;
-        results = mapper.applyMapping(originalObjects);
+        results = mapper.applyMapping(external);
         Integer integerResult = (Integer) results.get("complexObject").getClass().getMethod("getNumberField")
                 .invoke(results.get("complexObject"));
         String stringResult = (String) results.get("complexObject").getClass().getMethod("getTextField")
@@ -85,14 +85,13 @@ public class SmooksMapperTest {
         when(client.getClassLoader()).thenReturn(
                 new URLClassLoader(new URL[] {}, Thread.currentThread().getContextClassLoader()));
         WiseMapper mapper = new SmooksMapper("./smooks/smooks-config-XMLGregorianCalendar.xml", client);
-        Map<String, Object> originalObjects = new HashMap<String, Object>();
         ExternalObject external = new ExternalObject();
         String dateString = "2007-03-07T04:27:00";
         Date date = (new SimpleDateFormat(DEFAULT_DATE_FORMAT)).parse(dateString);
         external.setDate(date);
-        originalObjects.put("external", external);
         Map<String, Object> results;
-        results = mapper.applyMapping(originalObjects);
+        results = mapper.applyMapping(external);
+        System.err.println(results);
         long returnedTime = ((XMLGregorianCalendar) results.get("complexObject").getClass().getMethod("getDateField")
                 .invoke(results.get("complexObject"))).toGregorianCalendar().getTimeInMillis();
 
