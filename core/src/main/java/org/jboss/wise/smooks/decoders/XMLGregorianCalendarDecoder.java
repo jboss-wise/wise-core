@@ -27,9 +27,8 @@ import java.util.GregorianCalendar;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import org.smooks.api.converter.TypeConverter;
 import org.smooks.api.converter.TypeConverterException;
-import org.smooks.engine.converter.StringToDateConverterFactory.StringToDateConverter;
+import org.smooks.engine.converter.StringToDateLocaleAwareConverter;
 
 /**
  * {@link javax.xml.datatype.XMLGregorianCalendar} data decoder.
@@ -45,19 +44,21 @@ import org.smooks.engine.converter.StringToDateConverterFactory.StringToDateConv
  *
  * @author <a href="mailto:stefano.maestri@javalinux.it">stefano.maestri@javalinux.it</a>
  */
-public class XMLGregorianCalendarDecoder implements TypeConverter<String, XMLGregorianCalendar> {
+public class XMLGregorianCalendarDecoder extends StringToDateLocaleAwareConverter<XMLGregorianCalendar> {
+
+    public static final String FORMAT = "format";
+
 
     @Override
-    public XMLGregorianCalendar convert(String data) throws TypeConverterException {
-        Date date = (Date) new StringToDateConverter().convert(data);
-
+    public XMLGregorianCalendar doConvert(Date date) throws TypeConverterException {
+       
         XMLGregorianCalendar result = null;
         try {
             GregorianCalendar gregCal = new GregorianCalendar();
             gregCal.setTime(date);
             result = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregCal);
         } catch (DatatypeConfigurationException e) {
-            throw new TypeConverterException("Error decoding XMLGregorianCalendar data value '" + data, e);
+            throw new TypeConverterException("Error decoding XMLGregorianCalendar data value '" + date, e);
         }
         return result;
     }
