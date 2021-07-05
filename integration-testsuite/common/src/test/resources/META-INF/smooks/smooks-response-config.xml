@@ -6,29 +6,12 @@
         <param name="stream.filter.type">SAX</param>
     </params> -->
 
-    <jb:bean beanId="ExternalObject" createOnElement="$document" class="org.jboss.wise.test.integration.smooks.pojo.clientside.ExternalObject">
-        <jb:expression property="date">
-            decoder = java.util.Calendar.getInstance();
-            decoder.set(messageDate.year, messageDate.month, messageDate.day, 0, 0, 0);
-            return decoder.getTime();
-        </jb:expression>
+    <jb:bean beanId="internalObject"
+    class="org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject"
+    createOnElement="wise.samples.complexws.ComplexObject">
+    <jb:value property="number" data="integerField" />
+    <jb:value property="text" data="stringField" />
+</jb:bean>
 
-        <jb:wiring property="internal" beanIdRef="InternalObject" />
-    </jb:bean>
-
-    <!-- Wired onto the 'internal' property of 'ExternalObject' (above) -->
-    <jb:bean beanId="InternalObject" createOnElement="$document" class="org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject">
-        <jb:value property="number" data="integerField" decoder="Integer" />
-        <jb:value property="text" data="stringField" />
-    </jb:bean>
-
-    <!-- Capture the date fields in a Map.  Used in 'date' expression binding on 'ExternalObject' (above) -->
-
-    <jb:bean beanId="messageDate" createOnElement="calendarField" class="java.util.HashMap">
-        <jb:value property="day" data="day" default="0" />
-        <jb:value property="month" data="month" default="0" />
-        <jb:value property="year" data="year" default="0" />
-    </jb:bean>
 
 </smooks-resource-list>
-
