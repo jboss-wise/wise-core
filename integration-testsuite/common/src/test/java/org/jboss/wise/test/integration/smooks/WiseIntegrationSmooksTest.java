@@ -93,11 +93,12 @@ public class WiseIntegrationSmooksTest extends WiseTest {
                 "/home/maeste/outputRep.html", client);
         InvocationResult result = method.invoke(external, mapper1);
         JavaSource source = new JavaSource(external);
-        Map<String, Object> resultMap = result.getMapRequestAndResult(mapper2, source.getBeans() );
+        Map<String, Object> resultMap = result.getMappedResult(mapper2);
         client.close();
         System.err.println(resultMap);
-        assertThat(((ExternalObject) resultMap.get("externalObject")).getInternal(), equalTo(internal));
+        assertThat(((InternalObject) resultMap.get("internalObject")).getNumber(), equalTo(internal.getNumber()));
         // just verifying not null, ignoring all annoyance of java TZ
-        assertThat(((ExternalObject) resultMap.get("externalObject")).getDate(), notNullValue());
+        assertThat(((InternalObject) resultMap.get("internalObject")).getText(), equalTo(internal.getText()));
+        
     }
 }
