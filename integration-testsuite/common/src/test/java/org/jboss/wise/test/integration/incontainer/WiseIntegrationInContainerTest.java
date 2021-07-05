@@ -59,19 +59,16 @@ public class WiseIntegrationInContainerTest extends WiseTest {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, SERVLET_WAR + ".war");
         archive.addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("org.milyn:milyn-smooks-validation").withoutTransitivity().asSingleFile())
+                                .resolve("org.smooks:smooks-core").withoutTransitivity().asSingleFile())
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("org.milyn:milyn-smooks-javabean").withoutTransitivity().asSingleFile())
+                                .resolve("org.smooks:smooks-api").withoutTransitivity().asSingleFile())
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("org.milyn:milyn-smooks-rules").withoutTransitivity().asSingleFile())
+                                .resolve("org.smooks:smooks-commons").withoutTransitivity().asSingleFile())
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("org.milyn:milyn-smooks-core").withoutTransitivity().asSingleFile())
-                .addAsLibrary(
-                        resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
-                                .resolve("org.milyn:milyn-commons").withoutTransitivity().asSingleFile())
+                                .resolve("org.smooks.cartridges:smooks-javabean-cartridge").withoutTransitivity().asSingleFile())
                 .addAsLibrary(
                         resolver.loadPomFromFile(getTestResourcesDir() + "/../../../pom.xml")
                                 .resolve("org.jboss.wise:wise-core-cxf").withoutTransitivity().asSingleFile())

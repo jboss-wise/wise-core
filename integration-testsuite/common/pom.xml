@@ -42,25 +42,20 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-rules</artifactId>
-			<version>${milyn.version}</version>
+			<groupId>org.smooks</groupId>
+			<artifactId>smooks-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-validation</artifactId>
+			<groupId>org.smooks</groupId>
+			<artifactId>smooks-commons</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-javabean</artifactId>
+			<groupId>org.smooks</groupId>
+			<artifactId>smooks-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-commons</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-core</artifactId>
+		  <groupId>org.smooks.cartridges</groupId>
+		  <artifactId>smooks-javabean-cartridge</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

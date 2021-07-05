@@ -87,25 +87,6 @@
 		  <groupId>org.smooks.cartridges</groupId>
 		  <artifactId>smooks-javabean-cartridge</artifactId>
 		</dependency>
-		<!--<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-commons</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-javabean</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-validation</artifactId>
-		</dependency>-->
 
 		<dependency>
 			<groupId>net.jcip</groupId>

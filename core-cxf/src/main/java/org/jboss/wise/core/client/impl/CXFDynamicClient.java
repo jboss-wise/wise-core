@@ -32,7 +32,7 @@ import org.jboss.wise.core.client.impl.reflection.WSDynamicClientImpl;
 import org.jboss.wise.core.consumer.WSConsumer;
 import org.jboss.wise.core.exception.WiseRuntimeException;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.milyn.Smooks;
+import org.smooks.Smooks;
 
 /**
  * A cxf specific version of the wise-core WSDynamicClient
