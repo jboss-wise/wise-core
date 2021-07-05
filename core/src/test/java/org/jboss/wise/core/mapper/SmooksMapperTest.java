@@ -26,7 +26,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.collection.IsMapContaining.hasEntry;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,16 +42,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.mapper.mappingObject.ExternalObject;
 import org.jboss.wise.core.mapper.mappingObject.InternalObject;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.smooks.Smooks;
 import org.smooks.api.ExecutionContext;
-import org.smooks.io.payload.JavaSource;
 
 /**
  * @author stefano.maestri@javalinux.it
  */
-@Ignore
 public class SmooksMapperTest {
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
@@ -93,7 +90,7 @@ public class SmooksMapperTest {
         external.setDate(date);
         Map<String, Object> results;
         results = mapper.applyMapping(external);
-        System.err.println(results);
+//        System.err.println(results);
         long returnedTime = ((XMLGregorianCalendar) results.get("complexObject").getClass().getMethod("getDateField")
                 .invoke(results.get("complexObject"))).toGregorianCalendar().getTimeInMillis();
 
