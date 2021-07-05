@@ -49,7 +49,7 @@ import java.util.Map;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(Arquillian.class)
 @Ignore
@@ -86,10 +86,10 @@ public class WiseIntegrationSmooksTest extends WiseTest {
         external.setDate(new Date(0));
         external.setInternal(internal);
         // without smooks debug infos
-        InvocationResult result = method.invoke(external, new SmooksMapper(
-                "META-INF/smooks/smooks-config-XMLGregorianCalendar.xml", "/home/oracle/inputRep.html", client));
-        Map<String, Object> resultMap = result.getMappedResult(new SmooksMapper("META-INF/smooks/smooks-response-config.xml",
-                "/home/oracle/outputRep.html", client));
+        SmooksMapper mapper1 = new SmooksMapper("META-INF/smooks/smooks-config-XMLGregorianCalendar.xml", "/home/oracle/inputRep.html", client);
+        SmooksMapper mapper2 = new SmooksMapper("META-INF/smooks/smooks-response-config.xml", "/home/oracle/outputRep.html", client);
+        InvocationResult result = method.invoke(external, mapper1);
+        Map<String, Object> resultMap = result.getMappedResult(mapper2);
         client.close();
         assertThat(((ExternalObject) resultMap.get("ExternalObject")).getInternal(), equalTo(internal));
         // just verifying not null, ignoring all annoyance of java TZ
