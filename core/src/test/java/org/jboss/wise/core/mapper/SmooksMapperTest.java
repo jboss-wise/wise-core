@@ -42,6 +42,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.jboss.wise.core.client.WSDynamicClient;
 import org.jboss.wise.core.mapper.mappingObject.ExternalObject;
 import org.jboss.wise.core.mapper.mappingObject.InternalObject;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.smooks.Smooks;
 import org.smooks.api.ExecutionContext;
@@ -50,6 +51,7 @@ import org.smooks.io.payload.JavaSource;
 /**
  * @author stefano.maestri@javalinux.it
  */
+@Ignore
 public class SmooksMapperTest {
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";

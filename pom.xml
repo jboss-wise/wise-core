@@ -57,7 +57,7 @@
     <surefire.usefile>false</surefire.usefile>
     <compile.flags>-Xlint:unchecked,deprecation,fallthrough,finally</compile.flags>
     <checkstyle.extension/>
-    <milyn.version>2.0.0-M3</milyn.version>
+    <smooks.version>2.0.0-M3</smooks.version>
 
     <version.checkstyle-plugin>2.17</version.checkstyle-plugin>
     <version.org.wildfly.checkstyle-config>1.0.5.Final</version.org.wildfly.checkstyle-config>
@@ -263,8 +263,32 @@
 
       <dependency>
         <groupId>org.smooks</groupId>
+        <artifactId>smooks-api</artifactId>
+        <version>${smooks.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.smooks</groupId>
+        <artifactId>smooks-commons</artifactId>
+        <version>${smooks.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.smooks</groupId>
         <artifactId>smooks-core</artifactId>
-        <version>2.0.0-M3</version>
+        <version>${smooks.version}</version>
         <exclusions>
           <exclusion>
             <groupId>xerces</groupId>
@@ -276,7 +300,7 @@
       <dependency>
         <groupId>org.smooks.cartridges</groupId>
         <artifactId>smooks-javabean-cartridge</artifactId>
-        <version>${milyn.version}</version>
+        <version>${smooks.version}</version>
         <exclusions>
           <exclusion>
             <groupId>xerces</groupId>
@@ -284,23 +308,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-      <!--<dependency>
-        <groupId>org.milyn</groupId>
-        <artifactId>milyn-smooks-validation</artifactId>
-        <version>${milyn.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.milyn</groupId>
-        <artifactId>milyn-commons</artifactId>
-        <version>${milyn.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.milyn</groupId>
-        <artifactId>milyn-smooks-javabean</artifactId>
-        <version>${milyn.version}</version>
-      </dependency>-->
 
       <dependency>
         <groupId>net.jcip</groupId>

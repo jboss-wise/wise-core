@@ -7,6 +7,8 @@
 	      <module name="org.apache.cxf"/>
 	      <module name="org.apache.cxf.impl" optional="true" /> <!-- impl submodule is available since AS 7.2 -->
 	      <module name="org.jaxen"/>
+   	      <module name="com.fasterxml.classmate"/>
+   	      <module name="org.apache.xerces"/>
 	    </dependencies>
     </deployment>
 </jboss-deployment-structure>

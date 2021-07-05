@@ -38,6 +38,7 @@ import org.jboss.wise.core.mapper.SmooksMapper;
 import org.jboss.wise.core.test.WiseTest;
 import org.jboss.wise.test.integration.smooks.pojo.clientside.ExternalObject;
 import org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,6 +52,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
+@Ignore
 public class WiseIntegrationSmooksTest extends WiseTest {
 
     private static final String WAR = "smooks";
