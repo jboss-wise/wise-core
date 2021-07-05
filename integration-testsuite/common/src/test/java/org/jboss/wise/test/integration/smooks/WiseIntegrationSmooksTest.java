@@ -41,6 +41,7 @@ import org.jboss.wise.test.integration.smooks.pojo.clientside.InternalObject;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.smooks.io.payload.JavaSource;
 
 import java.io.File;
 import java.net.URL;
@@ -52,7 +53,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(Arquillian.class)
-@Ignore
+
 public class WiseIntegrationSmooksTest extends WiseTest {
 
     private static final String WAR = "smooks";
@@ -86,13 +87,17 @@ public class WiseIntegrationSmooksTest extends WiseTest {
         external.setDate(new Date(0));
         external.setInternal(internal);
         // without smooks debug infos
-        SmooksMapper mapper1 = new SmooksMapper("META-INF/smooks/smooks-config-XMLGregorianCalendar.xml", "/home/oracle/inputRep.html", client);
-        SmooksMapper mapper2 = new SmooksMapper("META-INF/smooks/smooks-response-config.xml", "/home/oracle/outputRep.html", client);
+        SmooksMapper mapper1 = new SmooksMapper("META-INF/smooks/smooks-config-XMLGregorianCalendar.xml",
+                "/home/maeste/inputRep.html", client);
+        SmooksMapper mapper2 = new SmooksMapper("META-INF/smooks/smooks-response-config.xml",
+                "/home/maeste/outputRep.html", client);
         InvocationResult result = method.invoke(external, mapper1);
-        Map<String, Object> resultMap = result.getMappedResult(mapper2);
+        JavaSource source = new JavaSource(external);
+        Map<String, Object> resultMap = result.getMapRequestAndResult(mapper2, source.getBeans() );
         client.close();
-        assertThat(((ExternalObject) resultMap.get("ExternalObject")).getInternal(), equalTo(internal));
+        System.err.println(resultMap);
+        assertThat(((ExternalObject) resultMap.get("externalObject")).getInternal(), equalTo(internal));
         // just verifying not null, ignoring all annoyance of java TZ
-        assertThat(((ExternalObject) resultMap.get("ExternalObject")).getDate(), notNullValue());
+        assertThat(((ExternalObject) resultMap.get("externalObject")).getDate(), notNullValue());
     }
 }
